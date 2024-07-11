@@ -53,12 +53,15 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             'general' => array(
                 'toggles' => array(
                     'story_content' => esc_html('Story Content', 'timeline-module-for-divi'),
+                    'story_media' => esc_html('Story Media', 'timeline-module-for-divi'),
+                    'story_icon' => esc_html('Story Icon', 'timeline-module-for-divi'),
+                    'story_label' => esc_html('Story Label', 'timeline-module-for-divi'),
                 ),
             ),
             'advanced' => array(
                 'toggles' => array(
                     'story' => array(
-                        'title' => esc_html__('Story', 'timeline-module-for-divi'),
+                        'title' => esc_html__('Style', 'timeline-module-for-divi'),
                     ),
                     'texts' => array(
                         'title' => esc_html__('Texts', 'timeline-module-for-divi'),
@@ -98,7 +101,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                     'off' => esc_html__('Hide', 'timeline-module-for-divi'),
                 ),
                 'description' => esc_html__('Enter Label / Year.', 'timeline-module-for-divi'),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_label',
                 'tab_slug' => 'general',
             ),
             'label_text' => array(
@@ -108,7 +111,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'show_if' => array(
                     'show_label' => 'on',
                 ),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_label',
                 'tab_slug' => 'general',
             ),
             'label_date' => array(
@@ -116,7 +119,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'type' => 'text',
                 'option_category' => 'basic_option',
                 'description' => esc_html__('Enter Label / Date.', 'timeline-module-for-divi'),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_label',
                 'tab_slug' => 'general',
             ),
             'sub_label' => array(
@@ -124,7 +127,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'type' => 'text',
                 'option_category' => 'basic_option',
                 'description' => esc_html__('Sub Label.', 'timeline-module-for-divi'),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_label',
                 'tab_slug' => 'general',
             ),
             'show_story_icon' => array(
@@ -136,7 +139,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 ),
                 'default' => 'off',
                 'description' => esc_html__('Show custom milestone icon with story.', 'timeline-module-for-divi'),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_icon',
                 'tab_slug' => 'general',
             ),
             'story_icons' => array(
@@ -147,7 +150,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'show_if' => array(
                     'show_story_icon' => 'on',
                 ),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_icon',
                 'tab_slug' => 'general',
             ),
             'story_title' => array(
@@ -164,7 +167,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'upload_button_text' => esc_attr__('Upload an image', 'timeline-module-for-divi'),
                 'choose_text' => esc_attr__('Choose an Image', 'timeline-module-for-divi'),
                 'update_text' => esc_attr__('Set As Image', 'timeline-module-for-divi'),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_media',
                 'tab_slug' => 'general',
             ),
             'media_alt_tag' => array(
@@ -172,7 +175,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'type' => 'text',
                 'option_category' => 'basic_option',
                 'description' => esc_html__('Image Alt Text.', 'timeline-module-for-divi'),
-                'toggle_slug' => 'story_content',
+                'toggle_slug' => 'story_media',
                 'tab_slug' => 'general',
             ),
             'content' => array(
@@ -183,13 +186,6 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'toggle_slug' => 'story_content',
                 'tab_slug' => 'general',
             ),
-            'child_story_border_color' => array(
-                'label' => esc_html__('Story Border Color', 'timeline-module-for-divi'),
-                'type' => 'color-alpha',
-                'option_category' => 'basic_option',
-                'toggle_slug' => 'borders',
-                'tab_slug' => 'advanced',
-            ),
             'child_story_background_color' => array(
                 'label' => esc_html__('Story Background Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
@@ -198,7 +194,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'tab_slug' => 'advanced',
             ),
             'child_story_heading_color' => array(
-                'label' => esc_html__('Story Heading Color', 'timeline-module-for-divi'),
+                'label' => esc_html__('Story Title Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
                 'option_category' => 'basic_option',
                 'toggle_slug' => 'story',
@@ -206,6 +202,27 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             ),
             'child_story_description_color' => array(
                 'label' => esc_html__('Story Description Color', 'timeline-module-for-divi'),
+                'type' => 'color-alpha',
+                'option_category' => 'basic_option',
+                'toggle_slug' => 'story',
+                'tab_slug' => 'advanced',
+            ),
+            'child_story_border_color' => array(
+                'label' => esc_html__('Story Border Color', 'timeline-module-for-divi'),
+                'type' => 'color-alpha',
+                'option_category' => 'basic_option',
+                'toggle_slug' => 'story',
+                'tab_slug' => 'advanced',
+            ),
+            'child_story_label_color' => array(
+                'label' => esc_html__('Story Label Color', 'timeline-module-for-divi'),
+                'type' => 'color-alpha',
+                'option_category' => 'basic_option',
+                'toggle_slug' => 'story',
+                'tab_slug' => 'advanced',
+            ),
+            'child_story_sub_label_color' => array(
+                'label' => esc_html__('Story Sub Label Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
                 'option_category' => 'basic_option',
                 'toggle_slug' => 'story',

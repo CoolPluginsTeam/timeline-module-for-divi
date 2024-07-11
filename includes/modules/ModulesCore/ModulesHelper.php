@@ -687,6 +687,8 @@ class ModulesHelper extends TMDIVI_Builder_Module{
         $child_story_background_color = $props['child_story_background_color'];
         $child_story_heading_color = $props['child_story_heading_color'];
         $child_story_description_color = $props['child_story_description_color'];
+        $child_story_label_color = $props['child_story_label_color'];
+        $child_story_sub_label_color = $props['child_story_sub_label_color'];
 
 
         if ($child_story_border_color != '') {
@@ -739,6 +741,26 @@ class ModulesHelper extends TMDIVI_Builder_Module{
                 [
                     'selector' => "%%order_class%% .tmdivi-story .tmdivi-content .tmdivi-description",
                     'declaration' => sprintf('--tw-cbx-des-color: %1$s;', $child_story_description_color),
+                ]
+            );
+        }
+
+        if ($child_story_label_color != '') {
+            ET_Builder_Element::set_style(
+                $render_slug,
+                [
+                    'selector' => "%%order_class%% .tmdivi-story div.tmdivi-label-big",
+                    'declaration' => sprintf('--tw-lbl-big-color: %1$s;', $child_story_label_color),
+                ]
+            );
+        }
+
+        if ($child_story_sub_label_color != '') {
+            ET_Builder_Element::set_style(
+                $render_slug,
+                [
+                    'selector' => "%%order_class%% .tmdivi-story div.tmdivi-label-small",
+                    'declaration' => sprintf('--tw-lbl-small-color: %1$s;', $child_story_sub_label_color),
                 ]
             );
         }

@@ -8,7 +8,7 @@ class TMDIVI_Timeline extends React.Component {
     render() {
 
         return (
-            <Timeline timeline_title={this.props.title} timeline_fill_setting={this.props.timeline_fill_setting} timeline_layout={this.props.timeline_layout}>
+            <Timeline timeline_fill_setting={this.props.timeline_fill_setting} timeline_layout={this.props.timeline_layout}>
                 {this.props.content}
             </Timeline>
         );
@@ -582,36 +582,18 @@ class TMDIVI_Timeline extends React.Component {
 
 
 }
-function stripHtmlTags(str) {
-    return str.replace(/<\/?[^>]+(>|$)/g, "");
-}
-
-function escapeHtml(str) {
-    return str.replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#039;");
-}
-
-function sanitizeTitle(title) {
-    if(title !== undefined){
-        return escapeHtml(stripHtmlTags(title));
-    }
-}
-
 /**
  * @returns ReactJS Custom component for timeline
  */
-function Timeline({ timeline_title, children ,timeline_fill_setting, timeline_layout}) {
+function Timeline({children ,timeline_fill_setting, timeline_layout}) {
 
     let timelineLayout;
     switch(timeline_layout){
         case "one-side-left":
-            timelineLayout = "tmdivi-vertical-left";
+            timelineLayout = "tmdivi-vertical-right";
             break;
         case "one-side-right":
-            timelineLayout = "tmdivi-vertical-right";
+            timelineLayout = "tmdivi-vertical-left";
             break;
         case "both-side":
             timelineLayout = "both-side";
@@ -628,7 +610,6 @@ function Timeline({ timeline_title, children ,timeline_fill_setting, timeline_la
     }
     return (
         <div id="tmdivi-wrapper" className={`tmdivi-vertical tmdivi-wrapper ${timelineLayout} style-1 tmdivi-bg-simple`}>
-            {(timeline_title !== "") ? <h1 style={{ textAlign: 'center' }}>{sanitizeTitle(timeline_title)}</h1> : ""}
             <div className="tmdivi-start"></div>
             <div className="tmdivi-line tmdivi-timeline">
                 <TimelineStories> {children} </TimelineStories>

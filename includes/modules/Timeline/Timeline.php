@@ -49,9 +49,9 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
             ),
             'advanced' => [
                 'toggles' => [
-                    // 'timeline_title' => [
-                    //     'title' => esc_html__('Timeline Title Settings', 'timeline-module-for-divi'),
-                    // ],
+                    'layout_setting' => [
+                        'title' => esc_html__('Timeline Layout', 'timeline-module-for-divi'),
+                    ],
                     'label_settings' => [
                         'title' => esc_html__('Labels Settings', 'timeline-module-for-divi'),
                     ],
@@ -88,13 +88,6 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
      */
     public function get_fields(){
         return array(
-            'title' => array(
-                'label' => esc_html__('Timeline Title', 'timeline-module-for-divi'),
-                'type' => 'text',
-                'option_category' => 'basic_option',
-                'description' => esc_html__('Text entered here will appear as timeline title.', 'timeline-module-for-divi'),
-                'toggle_slug' => 'main_content',
-            ),
             'timeline_layout' => array(
                 'label' => esc_html__('Timeline Layout', 'timeline-module-for-divi'),
                 'type' => 'select',
@@ -106,7 +99,8 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
                     'one-side-right'        => esc_html__('One Side (right)', 'timeline-module-for-divi'),
                     // 'horizontal'        => esc_html__('Horizontal', 'timeline-module-for-divi'),
                 ),
-                'toggle_slug' => 'main_content'
+                'toggle_slug' => 'layout_setting',
+                'tab_slug' => 'advanced',
                 ),
             'background_main' => array(
                 'label' => esc_html__('Background', 'timeline-module-for-divi'),
@@ -324,19 +318,19 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
                 'tab_slug' => 'advanced',
             ),
             'heading_font_color' => array(
-                'label' => esc_html__('Heading Font Color', 'timeline-module-for-divi'),
+                'label' => esc_html__('Title Font Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
                 'tab_slug' => 'advanced',
                 'toggle_slug' => 'heading_settings',
             ),
             'heading_background_color' => array(
-                'label' => esc_html__('Heading Background Color', 'timeline-module-for-divi'),
+                'label' => esc_html__('Title Background Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
                 'tab_slug' => 'advanced',
                 'toggle_slug' => 'heading_settings',
             ),
             'heading_text_align' => array(
-                'label' => esc_html__('Heading Align', 'timeline-module-for-divi'),
+                'label' => esc_html__('Title Align', 'timeline-module-for-divi'),
                 'type' => 'text_align',
                 'option_category' => 'layout',
                 'options'         => et_builder_get_text_orientation_options(array('justified')),
@@ -345,7 +339,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
                 'toggle_slug' => 'heading_settings',
             ),
             'heading_text_size' => array(
-                'label' => esc_html__('Heading Text Size', 'timeline-module-for-divi'),
+                'label' => esc_html__('Title Text Size', 'timeline-module-for-divi'),
                 'type' => 'range',
                 'default' => '24px',
                 'range_settings' => array(
@@ -357,7 +351,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
                 'toggle_slug' => 'heading_settings',
             ),
             'heading_line_height' => array(
-                'label' => esc_html__('Heading Line Height', 'timeline-module-for-divi'),
+                'label' => esc_html__('Title Line Height', 'timeline-module-for-divi'),
                 'type' => 'range',
                 'default' => '24px',
                 'range_settings' => array(
@@ -369,7 +363,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
                 'toggle_slug' => 'heading_settings',
             ),
             'heading_custom_padding' => array(
-                'label' => esc_html__('Heading Custom Padding', 'timeline-module-for-divi'),
+                'label' => esc_html__('Title Custom Padding', 'timeline-module-for-divi'),
                 'type' => 'custom_padding',
                 'tab_slug' => 'advanced',
                 'toggle_slug' => 'heading_settings',
@@ -484,20 +478,6 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
 			'hide_text_color' => true,
 		);
 
-        // $advanced_fields['fonts']['timeline_title'] = array(
-		// 	'label_prefix' => esc_html__('Timeline Title Font', 'timeline-module-for-divi'),
-		// 	'css'          => array(
-        //         'main'      => '%%order_class%% .tmdivi-wrapper h1',
-		// 	),
-		// 	'tab_slug'     => 'advanced',
-        //     'toggle_slug' => 'timeline_title',
-		// 	'hide_text_align' => true,
-		// 	'hide_line_height' => false,
-		// 	'hide_letter_spacing' => false,
-		// 	'hide_font_size' => false,
-		// 	'hide_text_color' => false,
-		// );
-
 		return $advanced_fields;
     }
     /**
@@ -520,15 +500,14 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         wp_enqueue_script('tm-divi-vertical');
         
         $timeline_layout = $props['timeline_layout'];
-        $title = $props['title'] != '' ? '<h1 style="text-align:center"> ' . esc_html(wp_strip_all_tags($props['title']))  . ' </h1>' : '';
         $timeline_fill_setting = $props['timeline_fill_setting'];
 
     switch($timeline_layout){
         case "one-side-left":
-            $timelineLayout = "tmdivi-vertical-left";
+            $timelineLayout = "tmdivi-vertical-right";
             break;
         case "one-side-right":
-            $timelineLayout = "tmdivi-vertical-right";
+            $timelineLayout = "tmdivi-vertical-left";
             break;
         case "both-side":
             $timelineLayout = "both-side";
@@ -538,15 +517,13 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
     }
         // Render module content
         $output = sprintf(
-            ' <div id="tmdivi-wrapper" class="tmdivi-vertical tmdivi-wrapper %4$s style-1 tmdivi-bg-simple" data-line-filling="%3$s">
-            %1$s
+            ' <div id="tmdivi-wrapper" class="tmdivi-vertical tmdivi-wrapper %3$s style-1 tmdivi-bg-simple" data-line-filling="%2$s">
             <div class="tmdivi-start"></div>
-            <div class="tmdivi-line tmdivi-timeline"> %2$s
-            <div class="tmdivi-inner-line" style="height:0px" data-line-fill="%3$s"></div>
+            <div class="tmdivi-line tmdivi-timeline"> %1$s
+            <div class="tmdivi-inner-line" style="height:0px" data-line-fill="%2$s"></div>
             </div>
             <div class="tmdivi-end"></div>
             </div>',
-            $title,
             et_core_sanitized_previously($this->content),
             ($timeline_fill_setting === "on")? 'true':'false',
             esc_html($timelineLayout)

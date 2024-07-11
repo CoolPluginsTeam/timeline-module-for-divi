@@ -80,6 +80,8 @@ class TMDIVI_TimelineChild extends React.Component {
         const child_story_background_color = props.child_story_background_color 
         const child_story_heading_color = props.child_story_heading_color 
         const child_story_description_color = props.child_story_description_color 
+        const child_story_label_color = props.child_story_label_color 
+        const child_story_sub_label_color = props.child_story_sub_label_color 
 
         if (child_story_border_color !== undefined) {
             ChildTimelineCss.push(
@@ -128,6 +130,25 @@ class TMDIVI_TimelineChild extends React.Component {
                 }]
             )
         }
+
+        if (child_story_label_color !== undefined) { 
+            ChildTimelineCss.push(
+                [{
+                    selector: "%%order_class%% .tmdivi-story div.tmdivi-label-big",
+                    declaration: `--tw-lbl-big-color: ${child_story_label_color};`,
+                }]
+            )
+        }
+
+        if (child_story_sub_label_color !== undefined) { 
+            ChildTimelineCss.push(
+                [{
+                    selector: "%%order_class%% .tmdivi-story div.tmdivi-label-small",
+                    declaration: `--tw-lbl-small-color: ${child_story_sub_label_color};`,
+                }]
+            )
+        }
+
         return ChildTimelineCss;
     }
 
