@@ -181,10 +181,9 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
                 'default' => '4px',
                 'range_settings' => array(
                     'min' => '1',
-                    'max' => '25px',
-                    'step' => '1px',
+                    'max' => '10',
+                    'step' => '1',
                 ),
-                'description' => esc_html__('Timeline color.', 'timeline-module-for-divi'),
                 'toggle_slug' => 'line_settings',
                 'tab_slug' => 'advanced',
             ),
@@ -514,8 +513,8 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
 
         wp_enqueue_script('tm-divi-vertical');
         
-        $timeline_layout = $props['timeline_layout'];
-        $timeline_fill_setting = $props['timeline_fill_setting'];
+        $timeline_layout = sanitize_text_field($props['timeline_layout']);
+        $timeline_fill_setting = sanitize_text_field($props['timeline_fill_setting']);
 
     switch($timeline_layout){
         case "one-side-left":

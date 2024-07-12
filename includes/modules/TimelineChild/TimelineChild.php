@@ -235,34 +235,36 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
      *
      * @return string module's rendered output
      */
-    public function render($attrs, $content = null, $render_slug = ""){
-
+    public function render($attrs, $content = null, $render_slug = "") {
         self::$story_order++;
 
+        // Sanitize all attributes
         $parent_module = self::get_parent_modules('page')['tmdivi_timeline'];
-        $timeline_layout = $parent_module->shortcode_atts['timeline_layout'];
+        $timeline_layout = sanitize_text_field($parent_module->shortcode_atts['timeline_layout']);
 
         $props = $this->props;
-        
+
         $this->generate_styles(
             array(
-                'utility_arg'    => 'icon_font_family',
-                'render_slug'    => $render_slug,
+                'utility_arg' => 'icon_font_family',
+                'render_slug' => $render_slug,
                 'base_attr_name' => 'story_icons',
-                'important'      => true,
-                'selector'       => '%%order_class%% .tmdivi-story .tmdivi-icon .et-tmdivi-icon',
-                'processor'      => array(
+                'important' => true,
+                'selector' => '%%order_class%% .tmdivi-story .tmdivi-icon .et-tmdivi-icon',
+                'processor' => array(
                     'ET_Builder_Module_Helper_Style_Processor',
                     'process_extended_icon',
                 ),
             )
         );
-        
+
         ModulesHelper::ChildStaticCssLoader($props, $render_slug);
-        $title = $props['label_date'];
-        $subtitle = $props['sub_label'];
-        $story_title = $props['story_title'];
-        $story_icon = $this->render_icons($props['story_icons']);
+
+        // Escape and sanitize
+        $title = sanitize_text_field($props['label_date']);
+        $subtitle = sanitize_text_field($props['sub_label']);
+        $story_title = sanitize_text_field($props['story_title']);
+        $story_icon = $this->render_icons(sanitize_text_field($props['story_icons']));
         $image = $props['media'] != '' ? '<img decoding="async" src="' . esc_url($props['media']) . '" alt="'. esc_attr($props['media_alt_tag']) .'" />' : '';
         $icon_class = $story_icon == '' ? 'tmdivi-icondot' : 'tmdivi-icon';
 
@@ -270,76 +272,65 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
         if($timeline_layout === "both-side"){
             $container_class = self::$story_order % 2 ? "tmdivi-story-right" : "tmdivi-story-left";
         }
-        // else if($timeline_layout === "one-side-right"){
-        //     $container_class = "tmdivi-story-right";
-        // }else if($timeline_layout === "one-side-left"){
-        //     $container_class = "tmdivi-story-left";
-        // }
 
         $year_label = $this->year_label(
-            $props['show_label'],
-            $props['label_text']
+            sanitize_text_field($props['show_label']),
+            sanitize_text_field($props['label_text'])
         );
 
         // Render module content
         return sprintf(
             '%1$s',
             $this->render_story_container(
-            
-            $year_label,
-            $this->render_story_labels($title,$subtitle,$icon_class,$story_icon),$this->render_story_content($story_title,$image,et_core_sanitized_previously($this->content),$title,$subtitle),
-            esc_attr($container_class)
-
+                $year_label,
+                $this->render_story_labels($title, $subtitle, $icon_class, $story_icon), 
+                $this->render_story_content($story_title, $image, et_core_sanitized_previously($this->content), $title, $subtitle),
+                esc_attr($container_class)
             )
         );
     }
 
-    public function render_story_container($year_label,$story_labels, $story_content, $container_class) {
-        if($story_content !== ""){
-            $html = $year_label . '<div class="tmdivi-story tmdivi-story-icon '. esc_attr($container_class). '">
-                        '. $story_labels. '
-                        '. $story_content. '
+    public function render_story_container($year_label, $story_labels, $story_content, $container_class) {
+        if ($story_content !== "") {
+            $html = $year_label . '<div class="tmdivi-story tmdivi-story-icon ' . esc_attr($container_class) . '">
+                        ' . $story_labels . '
+                        ' . $story_content . '
                     </div>';
-        }else{
+        } else {
             $html = "";
-        }    
+        }
         return $html;
     }
 
     public function render_story_labels($label_big, $label_small, $icon_class, $story_icon) {
-
-        $big_label_html = ($label_big !== "") ? '<div class="tmdivi-label-big">' . $label_big . '</div>' : "";
-        $small_label_html = ($label_small !== "") ? '<div class="tmdivi-label-small">' . $label_small . '</div>' : "";
+        $big_label_html = ($label_big !== "") ? '<div class="tmdivi-label-big">' . esc_html($label_big) . '</div>' : "";
+        $small_label_html = ($label_small !== "") ? '<div class="tmdivi-label-small">' . esc_html($label_small) . '</div>' : "";
         $story_icon_html = '<div class="' . esc_attr($icon_class) . '">' . $story_icon . '</div>';
-        
+
         $content_html =  '<div class="tmdivi-labels">' . $big_label_html . $small_label_html . '</div>' . $story_icon_html;
 
         return $content_html;
     }
-    
 
-    public function render_story_content($story_title, $image, $content,$title,$subtitle) {
-
-        if($story_title === "" && $image === "" && $content === "" && $title === "" && $subtitle === ""){
+    public function render_story_content($story_title, $image, $content, $title, $subtitle) {
+        if ($story_title === "" && $image === "" && $content === "" && $title === "" && $subtitle === "") {
             $content_html = "";
-        }else{
-            $title_html = ($story_title !== "") ? '<div class="tmdivi-title">' . $story_title . '</div>' : "";
+        } else {
+            $title_html = ($story_title !== "") ? '<div class="tmdivi-title">' . esc_html($story_title) . '</div>' : "";
             $image_html = ($image !== "") ? '<div class="tmdivi-media full">' . $image . '</div>' : "";
             $description_html = ($content !== "") ? '<div class="tmdivi-description">' . $content . '</div>' : "";
             $content_html = '<div class="tmdivi-arrow"></div>
                             <div class="tmdivi-content">
-                                ' . $title_html . $image_html . $description_html . 
-                            '</div>';
+                                ' . $title_html . $image_html . $description_html . '
+                            </div>';
         }
-
         return $content_html;
     }
 
-    public function render_icons($icon = ''){
-        if($this->props['show_story_icon'] === 'on' && $icon === ""){
+    public function render_icons($icon = '') {
+        if ($this->props['show_story_icon'] === 'on' && $icon === "") {
             $icon = "}||divi||400";
         }
-        //story_icons
         if ($icon == '') {
             $render_html = '';
         } else {
@@ -348,21 +339,14 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
         return $render_html;
     }
 
-    /**
-     * This function check if year label is available
-     */
-    protected function year_label($enabled, $label){
-
+    protected function year_label($enabled, $label) {
         if ($label == '' || $enabled != 'on') {
             return '';
         }
-
         $html = '<div class="tmdivi-year tmdivi-year-container">
-        <div class="tmdivi-year-label tmdivi-year-text">' . esc_html($label) . '</div>
-        </div>';
-
+                    <div class="tmdivi-year-label tmdivi-year-text">' . esc_html($label) . '</div>
+                </div>';
         return $html;
-
     }
 
     // protected function _render_module_wrapper( $output = '', $render_slug = '' ) {
