@@ -47,6 +47,8 @@ class ModulesHelper extends TMDIVI_Builder_Module{
         $story_spacing_top = $props['story_spacing_top'];
         $story_spacing_bottom = $props['story_spacing_bottom'];
         $background_main = $props['background_main'];
+        $timeline_line_width = $props['timeline_line_width'];
+        $heading_settings_font = $props['heading_settings_font'];
 
         if ($timeline_color != '') {
             ET_Builder_Element::set_style(
@@ -466,6 +468,19 @@ class ModulesHelper extends TMDIVI_Builder_Module{
             );
         }
 
+        if ($heading_settings_font != '') {
+            $Font_properties = parent::extractFontProperties($year_label_font);
+            $font_weight = $Font_properties['fontWeight'] === null ? 'normal' : $Font_properties['fontWeight'];
+
+            ET_Builder_Element::set_style(
+                $render_slug,
+                [
+                    'selector' => "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    'declaration' => sprintf('--tw-cbx-title-font-weight: %1$s;',$font_weight),
+                ],
+            );
+        }
+
 
         if ($description_text_size != '') { 
             ET_Builder_Element::set_style(
@@ -588,7 +603,7 @@ class ModulesHelper extends TMDIVI_Builder_Module{
         if (!empty($props['border_style_all_story_settings'])) {
             $border_style_all = $props['border_style_all_story_settings'];
         
-            $screen_width_condition = '@media (min-width: 769px)';
+            $screen_width_condition = '@media (min-width: 768px)';
             $border_color_declaration = sprintf('border-style: %1$s %2$s hidden hidden;', $border_style_all, $border_style_all);
         
             ET_Builder_Element::set_style(
@@ -617,7 +632,7 @@ class ModulesHelper extends TMDIVI_Builder_Module{
         } else  {
             if((!empty($props['border_width_all_story_settings']))){
 
-                $screen_width_condition = '@media (min-width: 769px)';
+                $screen_width_condition = '@media (min-width: 768px)';
                 $border_color_declaration = sprintf('border-style: solid solid hidden hidden;');
 
                 ET_Builder_Element::set_style(
@@ -644,13 +659,29 @@ class ModulesHelper extends TMDIVI_Builder_Module{
                         'declaration' => $screen_width_condition . '{' . $border_color_declaration . '}',
                     ]
                 );
+
+                ET_Builder_Element::set_style(
+                    $render_slug,
+                    [
+                        'selector' => "%%order_class%% .tmdivi-wrapper .tmdivi-story .tmdivi-arrow",
+                        'declaration' => sprintf('border-width: %1$s;',$props['border_width_all_story_settings']),
+                    ]
+                );
+
+                ET_Builder_Element::set_style(
+                    $render_slug,
+                    [
+                        'selector' => "%%order_class%% .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow",
+                        'declaration' => sprintf('border-width: %1$s;',$props['border_width_all_story_settings']),
+                    ]
+                );
             }
         }
 
         if ($props['border_color_all_story_settings'] != '') { 
             $border_color_all = $props['border_color_all_story_settings'];
 
-            $screen_width_condition = '@media (min-width: 769px)';
+            $screen_width_condition = '@media (min-width: 768px)';
             $border_color_declaration = sprintf('border-color: %1$s %2$s transparent transparent;',  $border_color_all, $border_color_all);
 
             ET_Builder_Element::set_style(
@@ -677,13 +708,23 @@ class ModulesHelper extends TMDIVI_Builder_Module{
                     'declaration' => $screen_width_condition . '{' . $border_color_declaration . '}',
                 ],
             );
+
+        }
+        if ($props['timeline_line_width'] != '') { 
+           
+            ET_Builder_Element::set_style(
+                $render_slug,
+                [
+                    'selector' => "%%order_class%% .tmdivi-wrapper",
+                    'declaration' => sprintf('--tw-line-width : %1$s;', $timeline_line_width),
+                ],
+            );
         }
 
 }
 
     public static function ChildStaticCssLoader($props, $render_slug){
 
-        $child_story_border_color = $props['child_story_border_color'];
         $child_story_background_color = $props['child_story_background_color'];
         $child_story_heading_color = $props['child_story_heading_color'];
         $child_story_description_color = $props['child_story_description_color'];
@@ -691,22 +732,6 @@ class ModulesHelper extends TMDIVI_Builder_Module{
         $child_story_sub_label_color = $props['child_story_sub_label_color'];
 
 
-        if ($child_story_border_color != '') {
-            ET_Builder_Element::set_style(
-                $render_slug,
-                [
-                    'selector' => "%%order_class%% .tmdivi-story .tmdivi-content",
-                    'declaration' => sprintf('border-color: %1$s !important;', $child_story_border_color),
-                ],
-            );
-            ET_Builder_Element::set_style(
-                $render_slug,
-                [
-                    'selector' => "%%order_class%% .tmdivi-story .tmdivi-arrow",
-                    'declaration' => sprintf('border-color: %1$s !important;', $child_story_border_color),
-                ]
-            );
-        }
 
         if ($child_story_background_color != '') {
             ET_Builder_Element::set_style(

@@ -33,7 +33,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         // Module Icon
         // Load customized svg icon and use it on builder as module icon. If you don't have svg icon, you can use
         // $this->icon for using etbuilder font-icon. (See CustomCta / DICM_CTA class)
-        $this->icon_path = plugin_dir_path(__FILE__) . 'icon.svg';
+        // $this->icon_path = TM_DIVI_URL . 'assets/image/Timeline-logo.svg';
 
         // Toggle settings
         $this->settings_modal_toggles = array(
@@ -50,7 +50,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
             'advanced' => [
                 'toggles' => [
                     'layout_setting' => [
-                        'title' => esc_html__('Timeline Layout', 'timeline-module-for-divi'),
+                        'title' => esc_html__('Timeline Layouts', 'timeline-module-for-divi'),
                     ],
                     'label_settings' => [
                         'title' => esc_html__('Labels Settings', 'timeline-module-for-divi'),
@@ -171,6 +171,19 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
             'timeline_color' => array(
                 'label' => esc_html__('Line Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
+                'description' => esc_html__('Timeline color.', 'timeline-module-for-divi'),
+                'toggle_slug' => 'line_settings',
+                'tab_slug' => 'advanced',
+            ),
+            'timeline_line_width' => array(
+                'label' => esc_html__('Line Width', 'timeline-module-for-divi'),
+                'type' => 'range',
+                'default' => '4px',
+                'range_settings' => array(
+                    'min' => '1',
+                    'max' => '25px',
+                    'step' => '1px',
+                ),
                 'description' => esc_html__('Timeline color.', 'timeline-module-for-divi'),
                 'toggle_slug' => 'line_settings',
                 'tab_slug' => 'advanced',
@@ -462,6 +475,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
 			'hide_letter_spacing' => true,
 			'hide_font_size' => true,
 			'hide_text_color' => true,
+			'hide_text_shadow' => true,
 		);
 
         $advanced_fields['fonts']['description_settings'] = array(
@@ -476,6 +490,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
 			'hide_letter_spacing' => true,
 			'hide_font_size' => true,
 			'hide_text_color' => true,
+			'hide_text_shadow' => true,
 		);
 
 		return $advanced_fields;

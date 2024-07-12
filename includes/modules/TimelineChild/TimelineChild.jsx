@@ -76,27 +76,34 @@ class TMDIVI_TimelineChild extends React.Component {
     static css(props) {
         const ChildTimelineCss = [];
 
-        const child_story_border_color = props.child_story_border_color 
+        const renderIconClass=(selector)=>{
+            const showIcon = props.show_story_icon
+            const iconSetting= (showIcon === "on" && props.story_icons !== undefined) ? props.story_icons : '&#x7d;||divi||400';
+                if (iconSetting) {
+                    let fontFamily = {
+                            divi: "ETmodules !important",
+                            fa: "FontAwesome!important"
+                        },
+                        icon = iconSetting ? iconSetting.split("|") : [],
+                        additionalCss = [];
+                    additionalCss.push([
+                        {
+                            selector,
+                            declaration: `
+                            font-family: ${fontFamily[icon[2]]};
+                            font-weight: ${icon[4]}!important;`
+                        }
+                    ]);
+                    return additionalCss;
+                }
+                return [];
+        };
+
         const child_story_background_color = props.child_story_background_color 
         const child_story_heading_color = props.child_story_heading_color 
         const child_story_description_color = props.child_story_description_color 
         const child_story_label_color = props.child_story_label_color 
         const child_story_sub_label_color = props.child_story_sub_label_color 
-
-        if (child_story_border_color !== undefined) {
-            ChildTimelineCss.push(
-                [
-                    {
-                        selector: "%%order_class%% .tmdivi-story .tmdivi-content",
-                        declaration: `border-color: ${child_story_border_color} !important;`,
-                    },
-                    {
-                        selector: "%%order_class%% .tmdivi-story .tmdivi-arrow",
-                        declaration: `border-color: ${child_story_border_color} !important;`,
-                    },
-                ]
-            )
-        }
 
         if (child_story_background_color !== undefined) {
             ChildTimelineCss.push(
@@ -148,6 +155,10 @@ class TMDIVI_TimelineChild extends React.Component {
                 }]
             )
         }
+
+        const iconStyle = renderIconClass("%%order_class%% .tmdivi-story .tmdivi-icon .et-tmdivi-icon");
+
+        ChildTimelineCss.push(iconStyle[0]);
 
         return ChildTimelineCss;
     }

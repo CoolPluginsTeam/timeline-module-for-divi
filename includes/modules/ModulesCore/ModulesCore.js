@@ -18,7 +18,7 @@ export function _renderProp(value, fieldType) {
   switch (fieldType) {
     case "select_icons":
       output = (
-        <i style={{ fontFamily: '"ETmodules"', fontStyle: "normal" }}>
+        <i className="et-tmdivi-icon">
           {utils.processFontIcon(value)}
         </i>
       );

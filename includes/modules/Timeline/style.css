@@ -302,6 +302,7 @@
 /*----------- Label end --------*/
 /*----------- Icon / Dot Box --------*/
 .tmdivi-wrapper .tmdivi-icon {
+  font-family: ETmodules;
   position: absolute;
   width: var(--tw-ibx-size);
   height: var(--tw-ibx-size);
@@ -324,6 +325,10 @@
   -o-border-radius: calc(var(--tw-ibx-radius) * 1%);
 /*   
   padding:calc(var(--tw-ibx-size)*0.05); */
+}
+
+.tmdivi-wrapper .tmdivi-icon .et-tmdivi-icon{
+  font-style: normal;
 }
 
 .tmdivi-wrapper .tmdivi-icon img {
@@ -893,6 +898,33 @@ img.attachment-thumbnail.size-thumbnail.wp-post-image {
   border-color: var(--tw-line-bd-color);
 }
 
+.tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text {
+  position: relative;
+  overflow: visible;
+}
+
+.tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::before {
+  content: "";
+  position: absolute;
+  height: var(--tw-line-width);
+  width: calc(var(--tw-ibx-size) + var(--tw-line-bd-width) * 1px);
+  background-color: var(--tw-line-bg);
+  opacity: 1;
+}
+
+.tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::after {
+  width: var(--tw-ybx-bd-width);
+  height: var(--tw-line-width);
+}
+
+.tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::after,
+.tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::before {
+  top: calc(50% - var(--tw-line-width) / 2) !important;
+  border-width: calc(var(--tw-line-bd-width) * 1px) 0 calc(var(--tw-line-bd-width) * 1px) 0;
+  border-style: var(--tw-line-bd-style);
+  border-color: var(--tw-line-bd-color);
+}
+
 @media screen and (min-width: 768px) {
   .tmdivi-vertical-right.tmdivi-wrapper .tmdivi-year {
     padding-left: 0 !important;
@@ -910,6 +942,19 @@ img.attachment-thumbnail.size-thumbnail.wp-post-image {
   .tmdivi-vertical-right.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::after {
     right: auto;
     left: 100%;
+  }
+
+  .tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year {
+    padding-left:calc(66.66% - var(--tw-line-width) / 2 + var(--tw-ibx-size) + var(--tw-line-bd-width) * 1px) !important;
+  }
+
+  .tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year{
+    justify-content:start !important;
+  }
+  
+  .tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::before {
+    left: auto;
+    right: calc(100% + var(--tw-ybx-bd-width)) !important;
   }
 }
 
@@ -941,4 +986,21 @@ img.attachment-thumbnail.size-thumbnail.wp-post-image {
   .tmdivi-wrapper.tmdivi-vertical-left .tmdivi-title {
     justify-content: start !important;
   }
+}
+
+.et-fb-all-modules .tmdivi_timeline:before {
+  content: '\00A0'; 
+  visibility: hidden;   
+}
+
+.et-fb-all-modules .tmdivi_timeline:after {
+  content: "";
+  background-size:25px;
+  background-image: url('../../../assets/image/timeline-icon.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 4px;
+  left: 70px;
+  width: 40px;
+  height: 40px;
 }

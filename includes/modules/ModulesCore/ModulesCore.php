@@ -18,11 +18,11 @@ class TMDIVI_Builder_Module extends ET_Builder_Module{
         if ('' === $value) {
             return $output;
         }
-
+   
         switch ($field_type) {
             case 'select_icons':
                 $output = sprintf(
-                    '<i style="font-family: ETmodules; font-style: normal;">%1$s</i>',
+                    '<i class="et-tmdivi-icon">%1$s</i>',
                     esc_attr(et_pb_process_font_icon($value))
                 );
                 break;

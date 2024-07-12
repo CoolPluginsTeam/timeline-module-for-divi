@@ -1210,9 +1210,7 @@
       }
     
       .tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year {
-        justify-content: left;
         padding-left: calc(66.66% - var(--tw-ybx-size)/ 2);
-        /* padding-left: calc(66.66% + var(--tw-line-width) / 2 - var(--tw-line-width) / 2 - (var(--tw-ibx-size) / 2)); */
       }
     
       .tmdivi-vertical-left.tmdivi-wrapper .tmdivi-year-text:before,

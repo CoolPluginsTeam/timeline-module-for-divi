@@ -58,6 +58,8 @@ class TMDIVI_Timeline extends React.Component {
         const story_spacing_top = props.story_spacing_top;
         const story_spacing_bottom = props.story_spacing_bottom;
         const background_main = props.background_main;
+        const timeline_line_width = props.timeline_line_width;
+        const heading_settings_font = props.heading_settings_font
 
         function extractFontProperties(fontString) {
             const fontParts = fontString.split('|');
@@ -365,6 +367,17 @@ class TMDIVI_Timeline extends React.Component {
                 }]
             )
         }
+        if (heading_settings_font !== undefined) { 
+            const FontProperties = extractFontProperties(heading_settings_font); 
+            const fontWeight = FontProperties['fontWeight'] === "" ? 'normal' : FontProperties['fontWeight'];
+
+            TimelineCSS.push(
+                [{
+                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    declaration: `--tw-cbx-title-font-weight:${fontWeight};`,
+                }]
+            )
+        }
         if (description_text_size !== undefined) { 
             TimelineCSS.push(
                 [{
@@ -539,6 +552,14 @@ class TMDIVI_Timeline extends React.Component {
                     {
                         selector: "%%order_class%% .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow",
                         declaration: `border-style: solid solid hidden hidden;`,
+                    },
+                    {
+                        selector: "%%order_class%% .tmdivi-wrapper .tmdivi-story .tmdivi-arrow",
+                        declaration: `border-width: ${props.border_width_all_story_settings};`,
+                    },
+                    {
+                        selector: "%%order_class%% .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow",
+                        declaration: `border-width: ${props.border_width_all_story_settings};`,
                     }
                     ]
                 )
@@ -563,6 +584,18 @@ class TMDIVI_Timeline extends React.Component {
                 ]
             )
         }
+
+        if (props.timeline_line_width !== undefined) {
+            TimelineCSS.push(
+                [
+                {
+                    selector: "%%order_class%% .tmdivi-wrapper",
+                    declaration: `--tw-line-width:${timeline_line_width};`,
+                },
+                ]
+            )
+        }
+
         TimelineCSS.push(
             [{
                 selector: "%%order_class%% .tmdivi-wrapper .tmdivi-story-right .tmdivi-labels",

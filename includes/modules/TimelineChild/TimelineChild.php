@@ -53,9 +53,9 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             'general' => array(
                 'toggles' => array(
                     'story_content' => esc_html('Story Content', 'timeline-module-for-divi'),
+                    'story_label' => esc_html('Story Label', 'timeline-module-for-divi'),
                     'story_media' => esc_html('Story Media', 'timeline-module-for-divi'),
                     'story_icon' => esc_html('Story Icon', 'timeline-module-for-divi'),
-                    'story_label' => esc_html('Story Label', 'timeline-module-for-divi'),
                 ),
             ),
             'advanced' => array(
@@ -207,13 +207,6 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'toggle_slug' => 'story',
                 'tab_slug' => 'advanced',
             ),
-            'child_story_border_color' => array(
-                'label' => esc_html__('Story Border Color', 'timeline-module-for-divi'),
-                'type' => 'color-alpha',
-                'option_category' => 'basic_option',
-                'toggle_slug' => 'story',
-                'tab_slug' => 'advanced',
-            ),
             'child_story_label_color' => array(
                 'label' => esc_html__('Story Label Color', 'timeline-module-for-divi'),
                 'type' => 'color-alpha',
@@ -250,6 +243,20 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
         $timeline_layout = $parent_module->shortcode_atts['timeline_layout'];
 
         $props = $this->props;
+        
+        $this->generate_styles(
+            array(
+                'utility_arg'    => 'icon_font_family',
+                'render_slug'    => $render_slug,
+                'base_attr_name' => 'story_icons',
+                'important'      => true,
+                'selector'       => '%%order_class%% .tmdivi-story .tmdivi-icon .et-tmdivi-icon',
+                'processor'      => array(
+                    'ET_Builder_Module_Helper_Style_Processor',
+                    'process_extended_icon',
+                ),
+            )
+        );
         
         ModulesHelper::ChildStaticCssLoader($props, $render_slug);
         $title = $props['label_date'];
