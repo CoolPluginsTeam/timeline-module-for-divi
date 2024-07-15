@@ -4,9 +4,6 @@ if (!class_exists('ET_Builder_Element')) {
     return;
 }
 
-require_once plugin_dir_path(__FILE__) . 'modules/ModulesCore/ModulesCore.php';
-require_once plugin_dir_path(__FILE__) . 'modules/ModulesCore/ModulesHelper.php';
-
 $module_files = glob(__DIR__ . '/modules/*/*.php');
 
 // Load custom Divi Builder modules
@@ -15,3 +12,5 @@ foreach ((array) $module_files as $module_file) {
         require_once $module_file;
     }
 }
+
+require_once plugin_dir_path(__FILE__) . 'modules/ModulesCore/ModulesHelper.php';

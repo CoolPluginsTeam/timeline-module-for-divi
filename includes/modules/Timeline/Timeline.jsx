@@ -628,12 +628,6 @@ function Timeline({children ,timeline_fill_setting, timeline_layout}) {
         case "one-side-right":
             timelineLayout = "tmdivi-vertical-left";
             break;
-        case "both-side":
-            timelineLayout = "both-side";
-            break;
-        case "horizontal":
-            timelineLayout = "horizontal";
-            break;
         default:
             timelineLayout = "both-side";
     }

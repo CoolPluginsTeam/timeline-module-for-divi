@@ -49,7 +49,7 @@ class TMDIVI_TimelineModuleForDivi extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.0';
+	public $version = TM_DIVI_V;
 
 	/**
 	 * TMDIVI_TimelineModuleForDivi constructor.

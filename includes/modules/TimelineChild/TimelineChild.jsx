@@ -6,14 +6,6 @@ class TMDIVI_TimelineChild extends React.Component {
 
     static slug = "tmdivi_timeline_story";
 
-    returnStoryLayout(){
-        const timelineStory = document.querySelectorAll('.tmdivi-vertical');
-        let timelineLayout;
-        for (let i = 0; i < timelineStory.length; i++) {
-            timelineLayout = timelineStory[i].getAttribute('data-layout'); 
-        }
-        return timelineLayout;
-    }
     render() {
 
         let sided_css = '';
@@ -24,11 +16,6 @@ class TMDIVI_TimelineChild extends React.Component {
             if (timelineLayout === "both-side") {
                 sided_css = this.props.moduleInfo.order % 2 ? "tmdivi-story-left" : "tmdivi-story-right";
             } 
-            // else if (timelineLayout === "one-side-right") {
-            //     story_css = "tmdivi-story-right";
-            // } else if (timelineLayout === "one-side-left") {
-            //     story_css = "tmdivi-story-left";
-            // }
 
             story_css += ' ' + sided_css;
 

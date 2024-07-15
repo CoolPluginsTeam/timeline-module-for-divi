@@ -126,7 +126,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
                 'label' => esc_html__('Sub Label', 'timeline-module-for-divi'),
                 'type' => 'text',
                 'option_category' => 'basic_option',
-                'description' => esc_html__('Sub Label.', 'timeline-module-for-divi'),
+                'description' => esc_html__('Enter Sub Label.', 'timeline-module-for-divi'),
                 'toggle_slug' => 'story_label',
                 'tab_slug' => 'general',
             ),
@@ -164,9 +164,9 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             'media' => array(
                 'label' => esc_html__('Upload', 'timeline-module-for-divi'),
                 'type' => 'upload',
-                'upload_button_text' => esc_attr__('Upload an image', 'timeline-module-for-divi'),
-                'choose_text' => esc_attr__('Choose an Image', 'timeline-module-for-divi'),
-                'update_text' => esc_attr__('Set As Image', 'timeline-module-for-divi'),
+                'upload_button_text' => esc_html__('Upload an image', 'timeline-module-for-divi'),
+                'choose_text' => esc_html__('Choose an Image', 'timeline-module-for-divi'),
+                'update_text' => esc_html__('Set As Image', 'timeline-module-for-divi'),
                 'toggle_slug' => 'story_media',
                 'tab_slug' => 'general',
             ),
@@ -277,22 +277,20 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             sanitize_text_field($props['show_label']),
             sanitize_text_field($props['label_text'])
         );
-
+   
         // Render module content
-        return sprintf(
-            '%1$s',
-            $this->render_story_container(
-                $year_label,
-                $this->render_story_labels($title, $subtitle, $icon_class, $story_icon), 
-                $this->render_story_content($story_title, $image, et_core_sanitized_previously($this->content), $title, $subtitle),
-                esc_attr($container_class)
-            )
-        );
+    $story_container = $this->render_story_container(
+        $this->render_story_labels($title, $subtitle, $icon_class, $story_icon), 
+        $this->render_story_content($story_title, $image, et_core_sanitized_previously($this->content), $title, $subtitle),
+        $container_class
+    );
+        
+    return $year_label . $story_container;
     }
-
-    public function render_story_container($year_label, $story_labels, $story_content, $container_class) {
+        
+    public function render_story_container($story_labels, $story_content, $container_class) {
         if ($story_content !== "") {
-            $html = $year_label . '<div class="tmdivi-story tmdivi-story-icon ' . esc_attr($container_class) . '">
+            $html = '<div class="tmdivi-story tmdivi-story-icon ' . esc_attr($container_class) . '">
                         ' . $story_labels . '
                         ' . $story_content . '
                     </div>';
@@ -300,7 +298,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             $html = "";
         }
         return $html;
-    }
+    }    
 
     public function render_story_labels($label_big, $label_small, $icon_class, $story_icon) {
         $big_label_html = ($label_big !== "") ? '<div class="tmdivi-label-big">' . esc_html($label_big) . '</div>' : "";
@@ -313,9 +311,8 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
     }
 
     public function render_story_content($story_title, $image, $content, $title, $subtitle) {
-        if ($story_title === "" && $image === "" && $content === "" && $title === "" && $subtitle === "") {
-            $content_html = "";
-        } else {
+        $content_html = "";
+        if (!($story_title === "" && $image === "" && $content === "" && $title === "" && $subtitle === "")) {
             $title_html = ($story_title !== "") ? '<div class="tmdivi-title">' . esc_html($story_title) . '</div>' : "";
             $image_html = ($image !== "") ? '<div class="tmdivi-media full">' . $image . '</div>' : "";
             $description_html = ($content !== "") ? '<div class="tmdivi-description">' . $content . '</div>' : "";

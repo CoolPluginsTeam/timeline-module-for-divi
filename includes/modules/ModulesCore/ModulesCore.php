@@ -53,53 +53,6 @@ class TMDIVI_Builder_Module extends ET_Builder_Module{
         );
     }
 
-    public static function enqueue_google_font($font_family) {
-        $font_parts = explode('|', $font_family);
-        $font_family_name = $font_parts[0];
-        if ($font_family_name) {
-            wp_enqueue_style('tmdivi-gfonts-' . $font_family_name, "https://fonts.googleapis.com/css2?family=$font_family_name&display=swap", array(),TM_DIVI_V, null);
-        }
-    }
-
-    public static function extractFontProperties($fontString) {
-        $fontParts = explode('|', $fontString);
-        $fontFamily = $fontParts[0];
-        $fontWeight = $fontParts[1];
-        $fontStyle = !empty($fontParts[2]) ? "italic" : 'normal'; 
-    
-        // Determine text transform
-        if (!empty($fontParts[3])) {
-            $textTransform = "uppercase";
-        } elseif (!empty($fontParts[5])) {
-            $textTransform = "capitalize";
-        } else {
-            $textTransform = "none";
-        }
-    
-        // Determine text decoration
-        if (!empty($fontParts[4]) && !empty($fontParts[6])) {
-            $textDecoration = "line-through";
-        } elseif (!empty($fontParts[4])) {
-            $textDecoration = "underline";
-        } elseif (!empty($fontParts[6])) {
-            $textDecoration = "line-through";
-        } else {
-            $textDecoration = "none";
-        }
-    
-        $textDecorationLineColor = (!empty($fontParts[7])) ? $fontParts[7] : ''; 
-        $textDecorationStyle = (!empty($fontParts[8])) ? $fontParts[8] : ''; 
-
-        return array(
-            'fontFamily' => $fontFamily,
-            'fontWeight' => $fontWeight,
-            'fontStyle' => $fontStyle,
-            'textTransform' => $textTransform,
-            'textDecoration' => $textDecoration,
-            'textDecorationLineColor' => $textDecorationLineColor,
-            'textDecorationStyle' => $textDecorationStyle,
-        );
-    }
     /**
      *  Credit information for divi module
      */

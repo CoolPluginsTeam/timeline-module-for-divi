@@ -523,9 +523,6 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         case "one-side-right":
             $timelineLayout = "tmdivi-vertical-left";
             break;
-        case "both-side":
-            $timelineLayout = "both-side";
-            break;
         default:
             $timelineLayout = "both-side";
     }
@@ -540,7 +537,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
             </div>',
             et_core_sanitized_previously($this->content),
             ($timeline_fill_setting === "on")? 'true':'false',
-            esc_html($timelineLayout)
+            esc_attr($timelineLayout)
         );
 
         if($props['content'] !== ""){

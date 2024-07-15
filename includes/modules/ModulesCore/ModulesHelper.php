@@ -4,12 +4,59 @@ if( !defined('ABSPATH') ){
     exit;
 }
 
-class ModulesHelper extends TMDIVI_Builder_Module{
+class ModulesHelper{
     public function __construct(){
 
     }
 
+    public static function enqueue_google_font($font_family) {
+        $font_parts = explode('|', $font_family);
+        $font_family_name = $font_parts[0];
+        if ($font_family_name) {
+            wp_enqueue_style('tmdivi-gfonts-' . $font_family_name, "https://fonts.googleapis.com/css2?family=$font_family_name&display=swap", array(),TM_DIVI_V, null);
+        }
+    }
+
+    public static function extractFontProperties($fontString) {
+        $fontParts = explode('|', $fontString);
+        $fontFamily = $fontParts[0];
+        $fontWeight = $fontParts[1];
+        $fontStyle = !empty($fontParts[2]) ? "italic" : 'normal'; 
     
+        // Determine text transform
+        if (!empty($fontParts[3])) {
+            $textTransform = "uppercase";
+        } elseif (!empty($fontParts[5])) {
+            $textTransform = "capitalize";
+        } else {
+            $textTransform = "none";
+        }
+    
+        // Determine text decoration
+        if (!empty($fontParts[4]) && !empty($fontParts[6])) {
+            $textDecoration = "line-through";
+        } elseif (!empty($fontParts[4])) {
+            $textDecoration = "underline";
+        } elseif (!empty($fontParts[6])) {
+            $textDecoration = "line-through";
+        } else {
+            $textDecoration = "none";
+        }
+    
+        $textDecorationLineColor = (!empty($fontParts[7])) ? $fontParts[7] : ''; 
+        $textDecorationStyle = (!empty($fontParts[8])) ? $fontParts[8] : ''; 
+
+        return array(
+            'fontFamily' => $fontFamily,
+            'fontWeight' => $fontWeight,
+            'fontStyle' => $fontStyle,
+            'textTransform' => $textTransform,
+            'textDecoration' => $textDecoration,
+            'textDecorationLineColor' => $textDecorationLineColor,
+            'textDecorationStyle' => $textDecorationStyle,
+        );
+    }
+
     public static function StaticCssLoader($props, $render_slug){
         // Module specific props added on $this->get_fields()
         $story_padding = $props['story_padding'];
@@ -108,8 +155,8 @@ class ModulesHelper extends TMDIVI_Builder_Module{
 
         if ($label_font != '') {
 
-            parent::enqueue_google_font($label_font);
-            $Font_properties = parent::extractFontProperties($label_font);
+            self::enqueue_google_font($label_font);
+            $Font_properties = self::extractFontProperties($label_font);
             ET_Builder_Element::set_style(
                 $render_slug,
                 [
@@ -182,8 +229,8 @@ class ModulesHelper extends TMDIVI_Builder_Module{
 
         if ($sub_label_font != '') {
 
-            parent::enqueue_google_font($sub_label_font);
-            $Font_properties = parent::extractFontProperties($sub_label_font);
+            self::enqueue_google_font($sub_label_font);
+            $Font_properties = self::extractFontProperties($sub_label_font);
             ET_Builder_Element::set_style(
                 $render_slug,
                 [
@@ -257,8 +304,8 @@ class ModulesHelper extends TMDIVI_Builder_Module{
 
         if ($year_label_font) {
             
-            parent::enqueue_google_font($year_label_font);
-            $Font_properties = parent::extractFontProperties($year_label_font);
+            self::enqueue_google_font($year_label_font);
+            $Font_properties = self::extractFontProperties($year_label_font);
             ET_Builder_Element::set_style(
                 $render_slug,
                 [
@@ -469,7 +516,7 @@ class ModulesHelper extends TMDIVI_Builder_Module{
         }
 
         if ($heading_settings_font != '') {
-            $Font_properties = parent::extractFontProperties($year_label_font);
+            $Font_properties = self::extractFontProperties($year_label_font);
             $font_weight = $Font_properties['fontWeight'] === null ? 'normal' : $Font_properties['fontWeight'];
 
             ET_Builder_Element::set_style(

@@ -70,18 +70,14 @@ class Timeline_Module_For_Divi {
     }
 
     public function admin_notice_missing_divi_theme(){
-        $message = sprintf(
-            /* translators: 1: Plugin name, 2: Theme name */
-            esc_html__(
-                '%1$s requires %2$s to be installed and activated.',
-                'timeline-module-for-divi'
-            ),
-            esc_html__( 'Timeline Module For Divi', 'timeline-module-for-divi' ),
-            esc_html__( 'Divi (Theme)', 'timeline-module-for-divi' )
+        $message = esc_html__(
+            'Timeline Module For Divi requires Divi (Theme) to be installed and activated.',
+            'timeline-module-for-divi'
         );
         printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', esc_html( $message ) );
         deactivate_plugins(__FILE__);
-    }
+    }    
+
 }
 
 new Timeline_Module_For_Divi();
