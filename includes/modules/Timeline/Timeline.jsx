@@ -110,31 +110,31 @@ class TMDIVI_Timeline extends React.Component {
             TimelineCSS.push(
                 [
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-font: ${FontProperties['fontFamily']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-weight: ${FontProperties['fontWeight']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-text-transform: ${FontProperties['textTransform']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-text-decoration: ${FontProperties['textDecoration']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-style: ${FontProperties['fontStyle']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-text-decoration-color: ${FontProperties['textDecorationLineColor']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-text-decoration-style: ${FontProperties['textDecorationStyle']};`
                 },
                 ]
@@ -143,7 +143,7 @@ class TMDIVI_Timeline extends React.Component {
         if (label_fcolor !== undefined) {
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-color: ${label_fcolor};`
                 }]
             )
@@ -151,7 +151,7 @@ class TMDIVI_Timeline extends React.Component {
         if (label_fsize !== undefined) {
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-big",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-big-size: ${label_fsize};`
                 }]
             )
@@ -162,31 +162,31 @@ class TMDIVI_Timeline extends React.Component {
             TimelineCSS.push(
                 [
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-font: ${FontProperties['fontFamily']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-weight: ${FontProperties['fontWeight']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-text-transform: ${FontProperties['textTransform']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-text-decoration: ${FontProperties['textDecoration']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-style: ${FontProperties['fontStyle']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-text-decoration-color: ${FontProperties['textDecorationLineColor']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-text-decoration-style: ${FontProperties['textDecorationStyle']};`
                 },
                 ]
@@ -195,7 +195,7 @@ class TMDIVI_Timeline extends React.Component {
         if (sub_label_fcolor !== undefined) {
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-color: ${sub_label_fcolor};`
                 }]
             )
@@ -203,7 +203,7 @@ class TMDIVI_Timeline extends React.Component {
         if (sub_label_fsize !== undefined) {
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-label-small",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-lbl-small-size: ${sub_label_fsize};`
                 }]
             )
@@ -214,31 +214,31 @@ class TMDIVI_Timeline extends React.Component {
             TimelineCSS.push(
                 [
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-font: ${FontProperties['fontFamily']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-weight: ${FontProperties['fontWeight']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-text-transform: ${FontProperties['textTransform']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-text-decoration: ${FontProperties['textDecoration']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-style: ${FontProperties['fontStyle']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-text-decoration-color: ${FontProperties['textDecorationLineColor']};`
                 },
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-text-decoration-style: ${FontProperties['textDecorationStyle']};`
                 },
                 ]
@@ -247,7 +247,7 @@ class TMDIVI_Timeline extends React.Component {
         if (year_label_fcolor !== undefined) {
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-text-color: ${year_label_fcolor};`
                 }]
             )
@@ -273,7 +273,7 @@ class TMDIVI_Timeline extends React.Component {
         if (year_label_bgcolor !== undefined) {
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-year-text",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-ybx-bg: ${year_label_bgcolor};`
                 }]
             )
@@ -315,7 +315,7 @@ class TMDIVI_Timeline extends React.Component {
         if (heading_text_size !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-title-font-size: ${heading_text_size};`,
                 }]
             )
@@ -331,7 +331,7 @@ class TMDIVI_Timeline extends React.Component {
         if (heading_font_color !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-title-color: ${heading_font_color};`,
                 }]
             )
@@ -339,7 +339,7 @@ class TMDIVI_Timeline extends React.Component {
         if (heading_background_color !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-title-background-color: ${heading_background_color};`,
                 }]
             )
@@ -347,7 +347,7 @@ class TMDIVI_Timeline extends React.Component {
         if (heading_text_align !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-text-align: ${heading_text_align};`,
                 }]
             )
@@ -362,7 +362,7 @@ class TMDIVI_Timeline extends React.Component {
 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-title-padding: ${padding_top} ${padding_right} ${padding_bottom} ${padding_left};`,
                 }]
             )
@@ -373,7 +373,7 @@ class TMDIVI_Timeline extends React.Component {
 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-title",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-title-font-weight:${fontWeight};`,
                 }]
             )
@@ -381,7 +381,7 @@ class TMDIVI_Timeline extends React.Component {
         if (description_text_size !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-description",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-des-text-size: ${description_text_size};`,
                 }]
             )
@@ -397,7 +397,7 @@ class TMDIVI_Timeline extends React.Component {
         if (description_font_color !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-description",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-des-color: ${description_font_color};`,
                 }]
             )
@@ -405,7 +405,7 @@ class TMDIVI_Timeline extends React.Component {
         if (description_background_color !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-description",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-des-background: ${description_background_color};`,
                 }]
             )
@@ -413,7 +413,7 @@ class TMDIVI_Timeline extends React.Component {
         if (description_text_align !== undefined) { 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-description",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-des-text-align: ${description_text_align};`,
                 }
                 ]
@@ -429,7 +429,7 @@ class TMDIVI_Timeline extends React.Component {
 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-description",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-des-padding: ${padding_top} ${padding_right} ${padding_bottom} ${padding_left};`,
                 }
                 ]
@@ -445,7 +445,7 @@ class TMDIVI_Timeline extends React.Component {
 
             TimelineCSS.push(
                 [{
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-content",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-padding: ${padding_top} ${padding_right} ${padding_bottom} ${padding_left};`,
                 }
                 ]
@@ -455,7 +455,7 @@ class TMDIVI_Timeline extends React.Component {
             TimelineCSS.push(
                 [
                 {
-                    selector: "%%order_class%% .tmdivi-wrapper .tmdivi-content",
+                    selector: "%%order_class%% .tmdivi-wrapper",
                     declaration: `--tw-cbx-bgc: ${story_background_color};`,
                 },
                 {

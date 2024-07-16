@@ -37,6 +37,7 @@ class Timeline_Module_For_Divi {
         self::includes();
         add_action('divi_extensions_init', array($this, 'initialize_extension'));
         add_action( 'admin_init', array( $this, 'is_divi_theme_exist' ) );
+        add_action('wp_loaded', array($this, 'load_child_items'));
     }
 
 
@@ -76,7 +77,30 @@ class Timeline_Module_For_Divi {
         );
         printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', esc_html( $message ) );
         deactivate_plugins(__FILE__);
-    }    
+    }  
+    
+    public function load_child_items()
+    {
+        require_once TM_DIVI_MODULE_DIR . '/default-data-helper.php';
+        if (!function_exists('et_fb_process_shortcode') || !class_exists(defaultDataHelper::class)) {
+            return;
+        }
+        $data_helpers = new defaultDataHelper();
+        $this->registerFiltersAndActions($data_helpers);
+    }
+
+    private function registerFiltersAndActions(defaultDataHelper $data_helpers)
+    {
+        add_filter('et_fb_backend_helpers', [$data_helpers, 'default_items_helpers'], 11);
+        add_filter('et_fb_get_asset_helpers', [$data_helpers, 'asset_helpers'], 11);
+
+        $enqueueScriptsCallback = function () use ($data_helpers) {
+            wp_localize_script('et-frontend-builder', 'DCLBuilderBackend', $data_helpers->default_items_helpers());
+        };
+
+        add_action('wp_enqueue_scripts', $enqueueScriptsCallback);
+        add_action('admin_enqueue_scripts', $enqueueScriptsCallback);
+    }
 
 }
 
