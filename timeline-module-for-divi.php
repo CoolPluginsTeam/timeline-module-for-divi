@@ -31,6 +31,7 @@ define('TM_DIVI_URL', plugin_dir_url(__FILE__));
 define('TM_DIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
 define('TM_DIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
 
+register_activation_hook( __FILE__, array( 'Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
 class Timeline_Module_For_Divi {
 
     public function __construct() {
@@ -101,6 +102,13 @@ class Timeline_Module_For_Divi {
         add_action('wp_enqueue_scripts', $enqueueScriptsCallback);
         add_action('admin_enqueue_scripts', $enqueueScriptsCallback);
     }
+
+    public static function tmdivi_activate_plugin() {
+		update_option( 'tmdivi-v', TM_DIVI_V );
+		update_option( 'tmdivi-type', 'free' );
+		update_option( 'tmdivi-installDate', gmdate( 'Y-m-d h:i:s' ) );
+		update_option( 'tmdivi-defaultPlugin', true );
+	}
 
 }
 
