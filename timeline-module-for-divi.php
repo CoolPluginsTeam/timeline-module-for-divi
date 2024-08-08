@@ -3,7 +3,7 @@
 Plugin Name: Timeline Module For Divi
 Plugin URI:  https://cooltimeline.com
 Description: A timeline module for Divi
-Version:     1.0.0
+Version:     1.0.1
 Author:      CoolPlugins
 Author URI:  https://coolplugins.net
 License:     GPL2
@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with Timeline Module For Divi. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
  */
 
-define('TM_DIVI_V', '1.0.0');
+define('TM_DIVI_V', '1.0.1');
 define('TM_DIVI_DIR', plugin_dir_path(__FILE__));
 define('TM_DIVI_URL', plugin_dir_url(__FILE__));
 define('TM_DIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
@@ -77,7 +77,6 @@ class Timeline_Module_For_Divi {
             'timeline-module-for-divi'
         );
         printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', esc_html( $message ) );
-        deactivate_plugins(__FILE__);
     }  
     
     public function load_child_items()
