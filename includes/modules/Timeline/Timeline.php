@@ -2,6 +2,7 @@
 /**
  *  This is the primary divi module 'Timeline'.
  */
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 
 class TMDIVI_Timeline extends TMDIVI_Builder_Module{
     // Module slug (also used as shortcode tag)
@@ -25,7 +26,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
     public function init(){
 
         // Module name
-        $this->name = esc_html__('Cool Timeline', 'timeline-module-for-divi');
+        $this->name = esc_html__('Timeline', 'timeline-module-for-divi');
 
         // Replacing `Add New Item` to `Add New `Story`;
         $this->child_item_text = esc_html__('Story', 'timeline-module-for-divi');
@@ -33,7 +34,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         // Module Icon
         // Load customized svg icon and use it on builder as module icon. If you don't have svg icon, you can use
         // $this->icon for using etbuilder font-icon. (See CustomCta / DICM_CTA class)
-        // $this->icon_path = TM_DIVI_URL . 'assets/image/Timeline-logo.svg';
+        // $this->icon_path = TMDIVI_URL . 'assets/image/Timeline-logo.svg';
 
         // Toggle settings
         $this->settings_modal_toggles = array(
@@ -509,9 +510,9 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         self::$timeline_order++;
 
         $props = $this->props;
-        ModulesHelper::StaticCssLoader($props, $render_slug);
+        TMDIVI_ModulesHelper::StaticCssLoader($props, $render_slug);
 
-        wp_enqueue_script('tm-divi-vertical');
+        wp_enqueue_script('tmdivi-vertical');
         
         $timeline_layout = sanitize_text_field($props['timeline_layout']);
         $timeline_fill_setting = sanitize_text_field($props['timeline_fill_setting']);

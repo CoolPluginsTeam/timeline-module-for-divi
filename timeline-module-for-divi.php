@@ -3,7 +3,7 @@
 Plugin Name: Timeline Module For Divi
 Plugin URI:  https://cooltimeline.com
 Description: A timeline module for Divi
-Version:     1.0.1
+Version:     1.0.2
 Author:      CoolPlugins
 Author URI:  https://coolplugins.net
 License:     GPL2
@@ -25,14 +25,16 @@ You should have received a copy of the GNU General Public License
 along with Timeline Module For Divi. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
  */
 
-define('TM_DIVI_V', '1.0.1');
-define('TM_DIVI_DIR', plugin_dir_path(__FILE__));
-define('TM_DIVI_URL', plugin_dir_url(__FILE__));
-define('TM_DIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
-define('TM_DIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 
-register_activation_hook( __FILE__, array( 'Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
-class Timeline_Module_For_Divi {
+define('TMDIVI_V', '1.0.2');
+define('TMDIVI_DIR', plugin_dir_path(__FILE__));
+define('TMDIVI_URL', plugin_dir_url(__FILE__));
+define('TMDIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
+define('TMDIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
+
+register_activation_hook( __FILE__, array( 'TMDIVI_Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
+class TMDIVI_Timeline_Module_For_Divi {
 
     public function __construct() {
         self::includes();
@@ -47,17 +49,20 @@ class Timeline_Module_For_Divi {
             // Divi theme is not activated, display admin notice
             add_action('admin_notices', array($this, 'admin_notice_missing_divi_theme'));
         }   
+        if ( is_admin() ) {
+            require_once TMDIVI_DIR . 'admin/feedback/admin-feedback-form.php';
+        }
     }
     /**
      * Initializes the extension.
      */
     public function initialize_extension() {
-        require_once TM_DIVI_DIR . '/includes/TimelineModuleForDivi.php';
+        require_once TMDIVI_DIR . '/includes/TimelineModuleForDivi.php';
     }
     
     public static function includes(){
-        require_once TM_DIVI_MODULE_DIR . '/assets-loader.php';
-        new AssetsLoader();
+        require_once TMDIVI_MODULE_DIR . '/assets-loader.php';
+        new TMDIVI_AssetsLoader();
     }
 
     public static function is_theme_activate($target){
@@ -77,19 +82,20 @@ class Timeline_Module_For_Divi {
             'timeline-module-for-divi'
         );
         printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', esc_html( $message ) );
+        deactivate_plugins(__FILE__);
     }  
     
     public function load_child_items()
     {
-        require_once TM_DIVI_MODULE_DIR . '/default-data-helper.php';
-        if (!function_exists('et_fb_process_shortcode') || !class_exists(defaultDataHelper::class)) {
+        require_once TMDIVI_MODULE_DIR . '/default-data-helper.php';
+        if (!function_exists('et_fb_process_shortcode') || !class_exists(TMDIVI_DefaultDataHelper::class)) {
             return;
         }
-        $data_helpers = new defaultDataHelper();
+        $data_helpers = new TMDIVI_DefaultDataHelper();
         $this->registerFiltersAndActions($data_helpers);
     }
 
-    private function registerFiltersAndActions(defaultDataHelper $data_helpers)
+    private function registerFiltersAndActions(TMDIVI_DefaultDataHelper $data_helpers)
     {
         add_filter('et_fb_backend_helpers', [$data_helpers, 'default_items_helpers'], 11);
         add_filter('et_fb_get_asset_helpers', [$data_helpers, 'asset_helpers'], 11);
@@ -103,12 +109,16 @@ class Timeline_Module_For_Divi {
     }
 
     public static function tmdivi_activate_plugin() {
-		update_option( 'tmdivi-v', TM_DIVI_V );
+		update_option( 'tmdivi-v', TMDIVI_V );
 		update_option( 'tmdivi-type', 'free' );
 		update_option( 'tmdivi-installDate', gmdate( 'Y-m-d h:i:s' ) );
 		update_option( 'tmdivi-defaultPlugin', true );
+
+        if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
+            update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
+        }
 	}
 
 }
 
-new Timeline_Module_For_Divi();
+new TMDIVI_Timeline_Module_For_Divi();

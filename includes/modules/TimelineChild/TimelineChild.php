@@ -3,6 +3,7 @@
  *  This class contains the repeated child (Timeline story) for the module.
  *
  */
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 
 class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
     private static $story_order = 0;
@@ -258,7 +259,7 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
             )
         );
 
-        ModulesHelper::ChildStaticCssLoader($props, $render_slug);
+        TMDIVI_ModulesHelper::ChildStaticCssLoader($props, $render_slug);
 
         // Escape and sanitize
         $title = sanitize_text_field($props['label_date']);

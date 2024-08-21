@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
+
 class TMDIVI_TimelineModuleForDivi extends DiviExtension {
 
 	protected function _enqueue_bundles() {
@@ -49,7 +51,7 @@ class TMDIVI_TimelineModuleForDivi extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $version = TM_DIVI_V;
+	public $version = TMDIVI_V;
 
 	/**
 	 * TMDIVI_TimelineModuleForDivi constructor.

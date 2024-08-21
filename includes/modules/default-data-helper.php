@@ -4,28 +4,28 @@ if( !defined('ABSPATH') ){
     exit;
 }
 
-class defaultDataHelper{
+class TMDIVI_DefaultDataHelper{
 
     public function default_items_helpers($exists = array()){
         $timeline_child_default_data = $this->generate_module_shortcodes('tmdivi_timeline_story', [
             [
             'story_title' => 'Amazon is born',
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Erat enim res aperta. Ne discipulum abducam, times. Primum quid tu dicis breve? An haec ab eo non dicuntur?',
-            // 'media' => TM_DIVI_URL . 'assets/image/amazon1.jpg',
+            // 'media' => TMDIVI_URL . 'assets/image/amazon1.jpg',
             'label_date' => 'July 5',
             'sub_label' => 'Introduced'
             ],
             [
             'story_title' => 'Amazon Prime debuts',
             'content' => 'Aliter homines, aliter philosophos loqui putas oportere? Sin aliud quid voles, postea. Mihi enim satis est, ipsis non satis. Negat enim summo bono afferre incrementum diem. Quod ea non occurrentia fingunt, vincunt Aristonem.',
-            // 'media' => TM_DIVI_URL . 'assets/image/amazon2.jpg',
+            // 'media' => TMDIVI_URL . 'assets/image/amazon2.jpg',
             'label_date' => 'February 2',
             'sub_label' => 'Expanded'
             ],
             [
             'story_title' => 'Amazon acquires Audible',
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            // 'media' => TM_DIVI_URL . 'assets/image/amazon3.png',
+            // 'media' => TMDIVI_URL . 'assets/image/amazon3.png',
             'label_date' => 'January 31',
             'sub_label' => 'Expanded'
             ],

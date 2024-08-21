@@ -4,7 +4,7 @@ if( !defined('ABSPATH') ){
     exit;
 }
 
-class ModulesHelper{
+class TMDIVI_ModulesHelper{
     public function __construct(){
 
     }
@@ -13,7 +13,7 @@ class ModulesHelper{
         $font_parts = explode('|', $font_family);
         $font_family_name = $font_parts[0];
         if ($font_family_name) {
-            wp_enqueue_style('tmdivi-gfonts-' . $font_family_name, "https://fonts.googleapis.com/css2?family=$font_family_name&display=swap", array(),TM_DIVI_V, null);
+            wp_enqueue_style('tmdivi-gfonts-' . $font_family_name, "https://fonts.googleapis.com/css2?family=$font_family_name&display=swap", array(),TMDIVI_V, null);
         }
     }
 
@@ -839,5 +839,3 @@ class ModulesHelper{
     } 
 
 }
-
-// new ModulesHelper();

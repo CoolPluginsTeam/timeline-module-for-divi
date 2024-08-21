@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
+
 class TMDIVI_Builder_Module extends ET_Builder_Module{
 
     public function __construc(){
@@ -64,7 +66,7 @@ class TMDIVI_Builder_Module extends ET_Builder_Module{
 
     public function _enqueue_scripts()
     {
-        wp_enqueue_style('timeline-style', TM_DIVI_MODULE_URL . '/Timeline/style.css', array(''), TM_DIVI_V, true);
-        wp_enqueue_style('timelineChild-style', TM_DIVI_MODULE_URL . '/TimelineChild/style.css', array(''), TM_DIVI_V, true);
+        wp_enqueue_style('timeline-style', TMDIVI_MODULE_URL . '/Timeline/style.css', array(''), TMDIVI_V, true);
+        wp_enqueue_style('timelineChild-style', TMDIVI_MODULE_URL . '/TimelineChild/style.css', array(''), TMDIVI_V, true);
     }
 }
