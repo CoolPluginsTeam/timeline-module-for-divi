@@ -15,6 +15,23 @@ Highlight your company's history, milestones, and future plans with the advanced
 
 **Timeline Module for Divi** is a powerful and easy-to-use plugin that allows you to create stunning timelines on your Divi-powered website. Whether you want to showcase your company's history, tell a story, or highlight important events, this plugin makes it simple and visually appealing.
 
+### Check our Timeline plugins demos
+<ul>
+
+<li><strong>Cool Timeline [Free]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-free/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_free_demo" target="_blank">View Demo</a></li>
+
+<li><strong>Cool Timeline PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo" target="_blank">View Demo</a></li>
+<li><strong>Timeline Widget For Elementor [Free]</strong>-<a href="https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_free_demo">View Demo</a></li>
+<li><strong>Timeline Widget For Elementor PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_pro_demo">View Demo</a></li>
+<li><strong>Timeline Builder PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo">View Demo</a></li>
+<li><strong>Timeline Block For Gutenberg [Free]</strong>- <a href="https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo" target="_blank">View Demo</a>
+</li>
+<li><strong>Timeline Block For Gutenberg PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-block-pro/?utm_source=ctl_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo" target="_blank">View Demo</a>
+</li>
+<li><strong>Timeline Module For Divi [Free]</strong>- <a href="https://divi-modules.instawp.xyz/" target="_blank">View Demo</a>
+</li>
+</ul>
+
 **Features:**
 * Fully compatible with Divi Builder.
 * Create vertical both sided and single sided timelines.
@@ -50,7 +67,7 @@ Yes, the timelines created with this plugin are fully responsive and will look g
 
 == Changelog ==
 
-= 1.0.2 | 20 Aug 2024 =
+= 1.0.2 | 21 Aug 2024 =
 * Added : Review notice and feedback form.
 
 = 1.0.0 =
