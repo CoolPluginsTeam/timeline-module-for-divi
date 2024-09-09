@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Timeline Module For Divi
-Plugin URI:  https://cooltimeline.com
+Plugin URI:  https://cooltimeline.com/divi
 Description: A timeline module for Divi
 Version:     1.0.2
 Author:      CoolPlugins
