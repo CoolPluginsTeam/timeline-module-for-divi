@@ -1,7 +1,7 @@
 === Timeline Module for Divi ===
 Contributors:coolplugins,narinder-singh,satindersingh
 Donate link: https://paypal.me/CoolPlugins/10USD/
-Tags: divi, timeline, module, history, storytelling
+Tags: divi timeline, timeline, horizontal timeline, history, roadmap
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 7.2
@@ -15,7 +15,9 @@ Highlight your company's history, milestones, and future plans with the advanced
 
 **Timeline Module for Divi** is an easy-to-use plugin that helps you create beautiful timelines on your Divi website. Whether you want to show your  **company’s history**, important **milestones**, or **tell a story**, this plugin makes it simple and attractive.
 
-**[View Free Demos](https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=top_view_demo)**  |   **[Read More](https://coolplugins.net/how-to-add-a-timeline-in-divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=docs)**
+**[View Free Demos](https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=top_view_demo)**  | **[Buy Pro](https://www.elegantthemes.com/affiliates/idevaffiliate.php?id=79863&url=84937)**  |   **[Read More](https://coolplugins.net/how-to-add-a-timeline-in-divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=docs)**
+
+https://www.youtube.com/watch?v=V9dEoN0PvFI
 
 **Key Features:**
 
@@ -42,13 +44,85 @@ You can create timelines that are vertical, with events on one side or both side
 <li><strong>Timeline Block For Gutenberg PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-block-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo" target="_blank">View Demo</a>
 </ul>
 
+
+### Where can you use the Timeline Module for Divi
+
+1. **Company History Showcase**: Display the growth and key milestones of your business over the years.
+
+2. **Event Highlights**: Present a timeline of events for conferences, seminars, or special occasions.
+
+3. **Product Launch Timeline**: Showcase the development stages and launch timeline of a product or service.
+
+4. **Personal Journey**: Share your personal story or career progression in a timeline format.
+
+5. **Project Roadmap**: Create a visual representation of project phases, deadlines, and achievements.
+
+6. **Achievements and Awards**:Highlight significant achievements, recognitions, and awards over time.
+
+7. **Nonprofit or Charity Timeline**:Showcase the impact and key initiatives of your nonprofit organization.
+
+8. **Portfolio Showcase**: Present your work history or project portfolio in a chronological order.
+
+9. **Historical Events Documentation**: Create a timeline of significant historical events or milestones.
+
+10. **School or Educational Timeline**: Highlight important academic events, school history, or student progress.
+
+11. **Wedding or Family Timeline**: Document important life events such as wedding dates, anniversaries, and family milestones.
+
+12. **Event Planning**: Outline and share the timeline for upcoming events or project plans.
+
+13. **Real Estate Development**: Showcase the stages of a property’s development from start to finish.
+
+14. **Startup Journey**: Share your startup's journey, from idea conception to growth phases.
+
+15. **Sports Achievements**: Highlight significant moments in an athlete’s or team’s career.
+
+
 It is a **[Divi Theme](https://www.elegantthemes.com/gallery/divi/)** Addon. In order to use this Timeline Module you must have to install **[Divi Theme](https://www.elegantthemes.com/gallery/divi/)**.
 == Installation ==
 
-1. Upload the `timeline-module-for-divi` folder to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to Divi Builder and add the "Timeline" module to your page.
-4. Customize the timeline settings and start creating your timeline.
+#### 1. Install The Dependencies 
+
+Before getting started, ensure you have the **Divi Theme** by Elegant Themes installed and activated. This is essential, as our product is fully integrated with Divi.
+
+#### 2. Upload the Plugin:
+
+- Log in to your **WordPress admin dashboard**.
+- From the left-hand menu, go to **Plugins** > **Add New**.
+- Search "timeline module for divi by coolplugins"
+- Select Timeline Module For Divi created by Cool Plugins
+- After selecting the file, click **Install Now**.
+
+#### 3. Activate the Plugin:
+
+- Once the installation is complete, click the **Activate Plugin** button.
+- Alternatively, you can navigate to **Plugins** > **Installed Plugins**, find the **Timeline Module for Divi** plugin, and click **Activate**.
+
+### Set Up and Customize Your Timeline
+
+#### 1. Access the Divi Builder:
+
+- With the plugin active, go to the page or post where you'd like to add a timeline.
+- Click on the **Edit with Divi Builder** button to launch the Divi Builder.
+
+#### 2. Add the Timeline Module:
+
+- In the Divi Builder, click the **+** icon to add a new module.
+- From the list of modules, select the **Timeline** module.
+
+#### 3. Customize the Timeline:
+
+- Once the Timeline module is added to your page, you can personalize it to suit your needs.
+  - Choose between Vertical and Horizontal layouts.
+  - Adjust colors, fonts, and styles to match your website's design.
+  - Add images, videos, or icons to make your timeline more engaging.
+- Use the **live preview** in Divi Builder to see your changes in real-time.
+
+#### 4. Save and Publish:
+
+- After customizing your timeline, click **Save** in the Divi Builder.
+- Finally, click **Publish** or **Update** to make your timeline live on your website.
+
 
 == Frequently Asked Questions ==
 
