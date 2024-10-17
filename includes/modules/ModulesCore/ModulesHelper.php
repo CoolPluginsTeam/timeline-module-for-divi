@@ -20,7 +20,7 @@ class TMDIVI_ModulesHelper{
     public static function extractFontProperties($fontString) {
         $fontParts = explode('|', $fontString);
         $fontFamily = $fontParts[0];
-        $fontWeight = $fontParts[1];
+        $fontWeight = !empty($fontParts[1]) ? $fontParts[1] : '';
         $fontStyle = !empty($fontParts[2]) ? "italic" : 'normal'; 
     
         // Determine text transform

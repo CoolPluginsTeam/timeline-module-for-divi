@@ -5,7 +5,7 @@ Tags: divi timeline, timeline, horizontal timeline, history, roadmap
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 7.2
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ Yes, you can easily create horizontal timelines using the Timeline Module Pro fo
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 1.0.3 | 17 Oct 2024 =
+- Fixed: Undefined array key Warning.
 
 = 1.0.2 | 23 Aug 2024 =
 - Added: Admin Notice and feedback form.
