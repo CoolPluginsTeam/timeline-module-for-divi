@@ -237,7 +237,17 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
      * @return string module's rendered output
      */
     public function render($attrs, $content = null, $render_slug = "") {
-        self::$story_order++;
+
+        static $last_timeline_order = null;
+
+        if ($last_timeline_order !== TMDIVI_Timeline::$timeline_order) {
+            // New timeline detected, reset story order
+            self::$story_order = 1;
+            $last_timeline_order = TMDIVI_Timeline::$timeline_order;
+        } else {
+            // Increment the story order within the same timeline
+            self::$story_order++;
+        }    
 
         // Sanitize all attributes
         $parent_module = self::get_parent_modules('page')['tmdivi_timeline'];
