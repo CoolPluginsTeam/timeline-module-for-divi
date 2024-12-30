@@ -41,8 +41,20 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action('divi_extensions_init', array($this, 'initialize_extension'));
         add_action( 'admin_init', array( $this, 'is_divi_theme_exist' ) );
         add_action('wp_loaded', array($this, 'load_child_items'));
+        add_action( 'wp_enqueue_scripts', array($this,'d5_extension_example_module_enqueue_frontend_scripts') );
     }
 
+    public function d5_extension_example_module_enqueue_frontend_scripts() {
+        $plugin_dir_url = TMDIVI_URL;
+        wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), '1.0.0' );
+
+        wp_register_style( 'd5-timeline-swiper-css', "{$plugin_dir_url}assets/css/swiper-bundle.min.css", array(), '1.0.0' );
+        wp_register_script( 'd5-timeline-swiper', "{$plugin_dir_url}assets/js/swiper-bundle.min.js", array(), '1.0.0' );
+        wp_register_script( 'd5-timeline-horizontal', "{$plugin_dir_url}assets/js/tmdivi-horizontal.js", array(), '1.0.0' );
+
+        wp_enqueue_style( 'd5-timeline-style', "{$plugin_dir_url}styles/style.min.css", array(), '1.0.0' );
+        
+    }
 
     public function is_divi_theme_exist(){
         if (!self::is_theme_activate('Divi')) {
@@ -61,6 +73,8 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
     
     public static function includes(){
+        require_once TMDIVI_DIR . '/divi-5/divi-5.php';
+        new Divi5_Visual_Builder_Assets();
         require_once TMDIVI_MODULE_DIR . '/assets-loader.php';
         new TMDIVI_AssetsLoader();
     }

@@ -1,0 +1,9 @@
+{
+    "name": "divi/d5-tutorial-module-conversion",
+    "autoload": {
+      "psr-4": {
+        "DTMC\\Modules\\": "server/Modules/"
+      }
+    },
+    "require": {}
+  }

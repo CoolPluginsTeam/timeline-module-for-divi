@@ -8,7 +8,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
     // Module slug (also used as shortcode tag)
     public $slug = 'tmdivi_timeline';
 
-    protected $icon_path;
+    public $icon_path;
 
     public static $timeline_order = 1;
 

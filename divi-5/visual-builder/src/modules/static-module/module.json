@@ -1,0 +1,133 @@
+{
+    "name": "dtmc/static-module",
+    "d4Shortcode": "",
+    "title": "TestTimeline",
+    "titles": "TestTimelines",
+    "category": "module",
+    "attributes": {
+      "module": {
+        "type": "object",
+        "selector": "{{selector}}",
+        "default": {
+          "advanced": {
+            "text": {
+              "desktop": {
+                "value": {
+                  "color": "light"
+                }
+              }
+            }
+          }
+        },
+        "styleProps": {
+          "sizing": {
+            "propertySelectors": {
+              "desktop": {
+                "value": {
+                  "margin-left": "{{selector}}.et_pb_module",
+                  "margin-right": "{{selector}}.et_pb_module"
+                }
+              }
+            },
+            "important": {
+              "desktop": {
+                "value": {
+                  "margin-left": true,
+                  "margin-right": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "title": {
+        "type": "object",
+        "selector": "{{selector}} h2.dtmc_static_module_title, {{selector}} h1.dtmc_static_module_title, {{selector}} h3.dtmc_static_module_title, {{selector}} h4.dtmc_static_module_title, {{selector}} h5.dtmc_static_module_title, {{selector}} h6.dtmc_static_module_title",
+        "attributes": {
+          "class": "dtmc_static_module_title"
+        },
+        "tagName": "h2",
+        "elementType": "heading",
+        "childrenSanitizer": "et_core_esc_previously",
+        "default": {
+          "font": {
+            "font": {
+              "desktop": {
+                "value": {
+                  "headingLevel": "h2"
+                }
+              }
+            }
+          }
+        },
+        "styleProps": {
+          "font": {
+            "headingLevel": "h2",
+            "important": true
+          }
+        }
+      },
+      "test_title": {
+        "type": "object",
+        "selector": "{{selector}} h2.dtmc_static_module_test_title",
+        "attributes": {
+          "class": "dtmc_static_module_test_title"
+        },
+        "tagName": "h2",
+        "elementType": "heading",
+        "childrenSanitizer": "et_core_esc_previously",
+        "default": {
+          "font": {
+            "font": {
+              "desktop": {
+                "value": {
+                  "headingLevel": "h2"
+                }
+              }
+            }
+          }
+        },
+        "styleProps": {
+          "font": {
+            "headingLevel": "h2",
+            "important": true
+          }
+        }
+      },
+      "content": {
+        "type": "object",
+        "selector": "{{selector}} .dtmc_static_module_content",
+        "attributes": {
+          "class": "dtmc_static_module_content"
+        },
+        "tagName": "div",
+        "childrenSanitizer": "et_core_esc_previously",
+        "allowHtml": true,
+        "styleProps": {
+          "bodyFont": {
+            "important": {
+              "body": {
+                "font": {
+                  "desktop": {
+                    "value": {
+                      "color": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "customCssFields": {
+      "title": {
+        "subName": "title",
+        "selectorSuffix": " .dtmc_static_module_title"
+      },
+      "content": {
+        "subName": "content",
+        "selectorSuffix": " .dtmc_static_module_content"
+      }
+    }
+  }
