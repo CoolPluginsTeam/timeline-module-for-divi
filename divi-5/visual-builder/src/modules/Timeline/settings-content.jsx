@@ -5,16 +5,13 @@ const {
   AdminLabelGroup,
   BackgroundGroup,
   DraggableChildModuleListContainer,
-  FieldContainer,
   LinkGroup
 } = window?.divi?.module;
 
 const {
   DraggableListContainer,
-  IconPickerContainer,
 }  = window.divi.fieldLibrary;
 
-const { GroupContainer } = window.divi.modal;
 
 export const TimelineSettingsContent = () => (
   <React.Fragment>

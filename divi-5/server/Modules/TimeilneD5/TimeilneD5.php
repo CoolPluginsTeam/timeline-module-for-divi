@@ -2,10 +2,10 @@
 /**
  * Static Module class.
  *
- * @package DTMC\Modules\TimeilneD5;
+ * @package TMDIVI\Modules\TimeilneD5;
  */
 
-namespace DTMC\Modules\TimeilneD5;
+namespace TMDIVI\Modules\TimeilneD5;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Direct access forbidden.' );
@@ -13,12 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
 use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
-use DTMC\Modules\TimeilneD5\TimeilneD5Traits;
+use TMDIVI\Modules\TimeilneD5\TimeilneD5Traits;
 
 /**
  * Class TimeilneD5
  *
- * @package DTMC\Modules\TimeilneD5
+ * @package TMDIVI\Modules\TimeilneD5
  */
 class TimeilneD5 implements DependencyInterface {
 

@@ -1,5 +1,5 @@
 <?php
-namespace DTMC\Modules\TimeilneD5\TimeilneD5Traits;
+namespace TMDIVI\Modules\TimeilneD5\TimeilneD5Traits;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Direct access forbidden.' );

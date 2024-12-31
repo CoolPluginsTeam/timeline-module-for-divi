@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React from 'react';
 import TimelineStyles from './module-styles'
 import HorizontalLayoutComponent from './components/horizontal-layout'
 import {LineFillEffect} from './components/helper-components'

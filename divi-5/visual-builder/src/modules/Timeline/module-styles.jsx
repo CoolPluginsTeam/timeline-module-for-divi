@@ -1,7 +1,6 @@
 import React from 'react';
 const {
   StyleContainer,
-  StylesProps,
   CssStyle,
   CommonStyle
 } = window?.divi?.module;
@@ -40,13 +39,15 @@ const TimelineStyles = (props) => {
         }}
       />
 
-      <CommonStyle
+      {/* <CommonStyle
         selector={`${orderClass} .tmdivi-story .tmdivi-content`}
         attr={attrs?.story_border_settings?.advanced}
         declarationFunction={(attrs)=>{
           let css = '';
           const data = attrs?.attrValue
           const allCssStyles = attrs?.attrValue?.styles?.all
+          const TopCssStyles = attrs?.attrValue?.styles?.top
+          console.log(TopCssStyles)
 
           if(allCssStyles !== undefined){
             if(allCssStyles.width !== undefined){
@@ -62,7 +63,70 @@ const TimelineStyles = (props) => {
           }
           return css;
         }}
+      /> */}
+      <CommonStyle
+        selector={`${orderClass} .tmdivi-story .tmdivi-content`}
+        attr={attrs?.story_border_settings?.advanced}
+        declarationFunction={(attrs) => {
+          let css = '';
+          const data = attrs?.attrValue;
+          const allCssStyles = attrs?.attrValue?.styles?.all;
+          const topCssStyles = attrs?.attrValue?.styles?.top; // Top-specific styles
+          const rightCssStyles = attrs?.attrValue?.styles?.right;
+          const bottomCssStyles = attrs?.attrValue?.styles?.bottom;
+          const leftCssStyles = attrs?.attrValue?.styles?.left;
+
+          // Default border styles (apply to all sides)
+          if (allCssStyles !== undefined) {
+            if (allCssStyles.width !== undefined) {
+              if (Number(allCssStyles.width.replace('px', '')) > 0) {
+                css = `border-width:${allCssStyles.width};border-color:${allCssStyles.color};border-style:${allCssStyles.style};`;
+              } else {
+                css = `border-width:${allCssStyles.width};border-color:transparent;border-style:${allCssStyles.style};`;
+              }
+            }
+          }
+
+          // Check and override with side-specific styles if available
+          if (
+            topCssStyles !== undefined ||
+            rightCssStyles !== undefined ||
+            bottomCssStyles !== undefined ||
+            leftCssStyles !== undefined
+          ) {
+            const topWidth = topCssStyles?.width || allCssStyles?.width || '0px';
+            const rightWidth = rightCssStyles?.width || allCssStyles?.width || '0px';
+            const bottomWidth = bottomCssStyles?.width || allCssStyles?.width || '0px';
+            const leftWidth = leftCssStyles?.width || allCssStyles?.width || '0px';
+
+            const topColor = topCssStyles?.color || allCssStyles?.color || 'transparent';
+            const rightColor = rightCssStyles?.color || allCssStyles?.color || 'transparent';
+            const bottomColor = bottomCssStyles?.color || allCssStyles?.color || 'transparent';
+            const leftColor = leftCssStyles?.color || allCssStyles?.color || 'transparent';
+
+            const topStyle = topCssStyles?.style || allCssStyles?.style || 'solid';
+            const rightStyle = rightCssStyles?.style || allCssStyles?.style || 'solid';
+            const bottomStyle = bottomCssStyles?.style || allCssStyles?.style || 'solid';
+            const leftStyle = leftCssStyles?.style || allCssStyles?.style || 'solid';
+
+            // Override with individual border properties
+            css = `
+              border-top: ${topWidth} ${topStyle} ${topColor};
+              border-right: ${rightWidth} ${rightStyle} ${rightColor};
+              border-bottom: ${bottomWidth} ${bottomStyle} ${bottomColor};
+              border-left: ${leftWidth} ${leftStyle} ${leftColor};
+            `;
+          }
+
+          // Border-radius settings
+          if (data.radius !== undefined) {
+            css += `border-radius:${data.radius.topLeft} ${data.radius.topRight} ${data.radius.bottomRight} ${data.radius.bottomLeft};`;
+          }
+
+          return css;
+        }}
       />
+
 
       <CommonStyle
         selector={`${orderClass} .tmdivi-story.tmdivi-story-right > .tmdivi-arrow`}
@@ -71,7 +135,9 @@ const TimelineStyles = (props) => {
           let css = '';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
-            css = `border-width:0px 0px ${data.styles.all.width} ${data.styles.all.width};border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            if(data.styles.all !== undefined){
+              css = `border-width:0px 0px ${data.styles.all.width} ${data.styles.all.width};border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            }
           }
           return css;
         }}
@@ -84,7 +150,9 @@ const TimelineStyles = (props) => {
           let css = '';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
-            css = `border-width:${data.styles.all.width} ${data.styles.all.width} 0px 0px;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            if(data.styles.all !== undefined){
+              css = `border-width:${data.styles.all.width} ${data.styles.all.width} 0px 0px;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            }
           }
           return css;
         }}
@@ -97,7 +165,9 @@ const TimelineStyles = (props) => {
           let css = 'border:3px solid blue !important;';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
-            css = `border-width:${data.styles.all.width} 0px 0px ${data.styles.all.width} ;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            if(data.styles.all !== undefined){
+              css = `border-width:${data.styles.all.width} 0px 0px ${data.styles.all.width} ;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            }
           }
           return css;
         }}
@@ -110,7 +180,9 @@ const TimelineStyles = (props) => {
           let css = 'border:3px solid blue !important;';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
-            css = `border-width:0px 0px ${data.styles.all.width} ${data.styles.all.width} ;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            if(data.styles.all !== undefined){
+              css = `border-width:0px 0px ${data.styles.all.width} ${data.styles.all.width} ;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            }
           }
           return css;
         }}
@@ -123,7 +195,9 @@ const TimelineStyles = (props) => {
           let css = 'border:3px solid blue !important;';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
-            css = `border-width:${data.styles.all.width} ${data.styles.all.width} 0px 0px;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            if(data.styles.all !== undefined){
+              css = `border-width:${data.styles.all.width} ${data.styles.all.width} 0px 0px;border-style:${data.styles.all.style || 'solid'};border-color:${(data.styles.all.width !== '0px') ? data.styles.all.color : 'transparent'};`;
+            }
           }
           return css;
         }}
@@ -142,18 +216,6 @@ const TimelineStyles = (props) => {
         }}
       
       />
-      {/* <CommonStyle
-        selector={`${orderClass} .tmdivi-story .tmdivi-description,${orderClass} .tmdivi-story .tmdivi-description p`}
-        attr={attrs?.content?.decoration?.bodyFont}
-        declarationFunction={(attrs)=>{
-          let css = '';
-          const data = attrs?.attrValue
-          if(data.desktop.value.color !== undefined || data.desktop.value.color !== ''){
-            css = `color:${data.desktop.value.color};`
-          }
-          return css;
-        }}
-      /> */}
 
       <CommonStyle
         selector={`${orderClass} .tmdivi-wrapper`}

@@ -1,8 +1,8 @@
 {
-    "name": "divi/d5-tutorial-module-conversion",
+    "name": "tmdivi/timeline-module-for-divi",
     "autoload": {
       "psr-4": {
-        "DTMC\\Modules\\": "server/Modules/"
+        "TMDIVI\\Modules\\": "server/Modules/"
       }
     },
     "require": {}

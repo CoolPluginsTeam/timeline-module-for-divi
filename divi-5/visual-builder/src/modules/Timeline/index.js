@@ -1,5 +1,4 @@
 import TimelineEdit from './edit';
-import { TimelineStyles } from './module-styles';
 import { TimelineSettingsContent } from './settings-content';
 import { TimelineSettingsDesign }  from './settings-design';
 import { TimelineSettingsAdvanced } from './settings-advanced';

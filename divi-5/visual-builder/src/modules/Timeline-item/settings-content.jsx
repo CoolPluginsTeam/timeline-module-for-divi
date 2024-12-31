@@ -3,9 +3,7 @@ import React from 'react';
 import { __ } from '@wordpress/i18n';
 
 const {
-  BackgroundGroup,
   FieldContainer,
-  LinkGroup,
 } = window?.divi?.module;
 const { GroupContainer } = window.divi.modal;
 const {
@@ -14,7 +12,6 @@ const {
   TextContainer,
   ToggleContainer,
   UploadContainer,
-  SelectContainer
 } = window.divi.fieldLibrary;
 
 const TimelineItemSettingsContent = (props) => {
@@ -152,7 +149,6 @@ const TimelineItemSettingsContent = (props) => {
 
       </GroupContainer>
       
-      <LinkGroup />
     </React.Fragment>
   ) 
 };

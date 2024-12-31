@@ -1,5 +1,5 @@
 <?php
-namespace DTMC\Modules\TimeilneD5\TimeilneD5Traits;
+namespace TMDIVI\Modules\TimeilneD5\TimeilneD5Traits;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Direct access forbidden.' );
@@ -59,43 +59,111 @@ trait ModuleStylesTrait {
 						]
 					),
 					// Timeline Story Border Color
-					CommonStyle::style([
-							'selector'            => $order_class . ' .tmdivi-story .tmdivi-content',
-							'attr'                => $attrs['story_border_settings']['advanced'] ?? [],
-							'declarationFunction' => function ($declaration_function_args) {
-								$css = '';
-								$attr_value = $declaration_function_args['attrValue'] ?? [];
-								// Extract `styles.all`
-								$all_styles = $attr_value['styles']['all'] ?? [];
-								if (!empty($all_styles)) {
-									// Border width and color
-									if (isset($all_styles['width'])) {
-										$width = $all_styles['width'];
-										$color = $all_styles['color'] ?? 'transparent';
-										$style = $all_styles['style'] ?? 'none';
+					// CommonStyle::style([
+					// 		'selector'            => $order_class . ' .tmdivi-story .tmdivi-content',
+					// 		'attr'                => $attrs['story_border_settings']['advanced'] ?? [],
+					// 		'declarationFunction' => function ($declaration_function_args) {
+					// 			$css = '';
+					// 			$attr_value = $declaration_function_args['attrValue'] ?? [];
+					// 			// Extract `styles.all`
+					// 			$all_styles = $attr_value['styles']['all'] ?? [];
+					// 			if (!empty($all_styles)) {
+					// 				// Border width and color
+					// 				if (isset($all_styles['width'])) {
+					// 					$width = $all_styles['width'];
+					// 					$color = $all_styles['color'] ?? '#666666';
+					// 					$style = $all_styles['style'] ?? 'solid';
 										
-										if ((int) str_replace('px', '', $width) > 0) {
-											$css .= "border-width: {$width}; border-color: {$color}; border-style: {$style};";
-										} else {
-											$css .= "border-width: {$width}; border-color: transparent; border-style: {$style};";
-										}
-									}
-								}
-								// Border radius
-								$radius = $attr_value['radius'] ?? [];
-								if (!empty($radius)) {
-									$top_left = $radius['topLeft'] ?? '0';
-									$top_right = $radius['topRight'] ?? '0';
-									$bottom_right = $radius['bottomRight'] ?? '0';
-									$bottom_left = $radius['bottomLeft'] ?? '0';
+					// 					if ((int) str_replace('px', '', $width) > 0) {
+					// 						$css .= "border-width: {$width}; border-color: {$color}; border-style: {$style};";
+					// 					} else {
+					// 						$css .= "border-width: {$width}; border-color: transparent; border-style: {$style};";
+					// 					}
+					// 				}
+					// 			}
+					// 			// Border radius
+					// 			$radius = $attr_value['radius'] ?? [];
+					// 			if (!empty($radius)) {
+					// 				$top_left = $radius['topLeft'] ?? '0';
+					// 				$top_right = $radius['topRight'] ?? '0';
+					// 				$bottom_right = $radius['bottomRight'] ?? '0';
+					// 				$bottom_left = $radius['bottomLeft'] ?? '0';
 									
-									$css .= "border-radius: {$top_left} {$top_right} {$bottom_right} {$bottom_left};";
-								}
+					// 				$css .= "border-radius: {$top_left} {$top_right} {$bottom_right} {$bottom_left};";
+					// 			}
 								
-								return $css;
-							},
-						]
-					),
+					// 			return $css;
+					// 		},
+					// 	]
+					// ),
+					CommonStyle::style([
+						'selector'            => $order_class . ' .tmdivi-story .tmdivi-content',
+						'attr'                => $attrs['story_border_settings']['advanced'] ?? [],
+						'declarationFunction' => function ($declaration_function_args) {
+							$css = '';
+							$attr_value = $declaration_function_args['attrValue'] ?? [];
+							
+							// Extract `styles.all` and side-specific styles
+							$all_styles = $attr_value['styles']['all'] ?? [];
+							$top_styles = $attr_value['styles']['top'] ?? [];
+							$right_styles = $attr_value['styles']['right'] ?? [];
+							$bottom_styles = $attr_value['styles']['bottom'] ?? [];
+							$left_styles = $attr_value['styles']['left'] ?? [];
+							
+							// Default global border styles (styles.all)
+							if (!empty($all_styles)) {
+								$width = $all_styles['width'] ?? '0px';
+								$color = $all_styles['color'] ?? '#666666';
+								$style = $all_styles['style'] ?? 'solid';
+					
+								// Ensure a valid width before applying global styles
+								if ((int) str_replace('px', '', $width) > 0) {
+									$css .= "border-width: {$width}; border-color: {$color}; border-style: {$style};";
+								} else {
+									$css .= "border-width: {$width}; border-color: transparent; border-style: {$style};";
+								}
+							}
+					
+							// Override global styles with individual side-specific settings
+							if (!empty($top_styles) || !empty($right_styles) || !empty($bottom_styles) || !empty($left_styles)) {
+								$top_width = $top_styles['width'] ?? $all_styles['width'] ?? '0px';
+								$right_width = $right_styles['width'] ?? $all_styles['width'] ?? '0px';
+								$bottom_width = $bottom_styles['width'] ?? $all_styles['width'] ?? '0px';
+								$left_width = $left_styles['width'] ?? $all_styles['width'] ?? '0px';
+					
+								$top_color = $top_styles['color'] ?? $all_styles['color'] ?? 'transparent';
+								$right_color = $right_styles['color'] ?? $all_styles['color'] ?? 'transparent';
+								$bottom_color = $bottom_styles['color'] ?? $all_styles['color'] ?? 'transparent';
+								$left_color = $left_styles['color'] ?? $all_styles['color'] ?? 'transparent';
+					
+								$top_style = $top_styles['style'] ?? $all_styles['style'] ?? 'solid';
+								$right_style = $right_styles['style'] ?? $all_styles['style'] ?? 'solid';
+								$bottom_style = $bottom_styles['style'] ?? $all_styles['style'] ?? 'solid';
+								$left_style = $left_styles['style'] ?? $all_styles['style'] ?? 'solid';
+					
+								$css .= "
+									border-top: {$top_width} {$top_style} {$top_color};
+									border-right: {$right_width} {$right_style} {$right_color};
+									border-bottom: {$bottom_width} {$bottom_style} {$bottom_color};
+									border-left: {$left_width} {$left_style} {$left_color};
+								";
+							}
+					
+							// Border radius settings
+							$radius = $attr_value['radius'] ?? [];
+							if (!empty($radius)) {
+								$top_left = $radius['topLeft'] ?? '0';
+								$top_right = $radius['topRight'] ?? '0';
+								$bottom_right = $radius['bottomRight'] ?? '0';
+								$bottom_left = $radius['bottomLeft'] ?? '0';
+					
+								$css .= "border-radius: {$top_left} {$top_right} {$bottom_right} {$bottom_left};";
+							}
+					
+							return $css;
+						},
+					]),
+					
 					// Story Right arrow border
 					CommonStyle::style(
 						[
@@ -111,7 +179,7 @@ trait ModuleStylesTrait {
 								if (!empty($all_styles)) {
 									$width = $all_styles['width'] ?? '0px';
 									$style = $all_styles['style'] ?? 'solid';
-									$color = ($width !== '0px') ? ($all_styles['color'] ?? 'transparent') : 'transparent';
+									$color = ($width !== '0px') ? ($all_styles['color'] ?? '#666666') : 'transparent';
 					
 									$css .= "border-width: 0px 0px {$width} {$width}; border-style: {$style}; border-color: {$color};";
 								}
@@ -135,7 +203,7 @@ trait ModuleStylesTrait {
 								if (!empty($all_styles)) {
 									$width = $all_styles['width'] ?? '0px';
 									$style = $all_styles['style'] ?? 'solid';
-									$color = ($width !== '0px') ? ($all_styles['color'] ?? 'transparent') : 'transparent';
+									$color = ($width !== '0px') ? ($all_styles['color'] ?? '#666666') : 'transparent';
 					
 									$css .= "border-width: {$width} {$width} 0px 0px; border-style: {$style}; border-color: {$color};";
 								}
@@ -159,7 +227,7 @@ trait ModuleStylesTrait {
 								if (!empty($all_styles)) {
 									$width = $all_styles['width'] ?? '0px';
 									$style = $all_styles['style'] ?? 'solid';
-									$color = ($width !== '0px') ? ($all_styles['color'] ?? 'transparent') : 'transparent';
+									$color = ($width !== '0px') ? ($all_styles['color'] ?? '#666666') : 'transparent';
 					
 									$css .= "border-width: {$width} 0px 0px {$width}; border-style: {$style}; border-color: {$color};";
 								}
@@ -183,7 +251,7 @@ trait ModuleStylesTrait {
 								if (!empty($all_styles)) {
 									$width = $all_styles['width'] ?? '0px';
 									$style = $all_styles['style'] ?? 'solid';
-									$color = ($width !== '0px') ? ($all_styles['color'] ?? 'transparent') : 'transparent';
+									$color = ($width !== '0px') ? ($all_styles['color'] ?? '#666666') : 'transparent';
 					
 									$css .= "border-width: 0px 0px {$width} {$width}; border-style: {$style}; border-color: {$color};";
 								}
@@ -207,7 +275,7 @@ trait ModuleStylesTrait {
 								if (!empty($all_styles)) {
 									$width = $all_styles['width'] ?? '0px';
 									$style = $all_styles['style'] ?? 'solid';
-									$color = ($width !== '0px') ? ($all_styles['color'] ?? 'transparent') : 'transparent';
+									$color = ($width !== '0px') ? ($all_styles['color'] ?? '#666666') : 'transparent';
 					
 									$css .= "border-width:{$width} {$width} 0px 0px; border-style: {$style}; border-color: {$color};";
 								}
@@ -236,23 +304,6 @@ trait ModuleStylesTrait {
 							},
 						]
 					),	
-					// Timeline Story Description Color
-					// CommonStyle::style(
-					// 	[
-					// 		'selector'            => $order_class . ' .tmdivi-story .tmdivi-description,' . $order_class . ' .tmdivi-story .tmdivi-description p',
-					// 		'attr'                => $attrs['content']['decoration']['bodyFont'] ?? [],
-					// 		'declarationFunction' => function ($declaration_function_args) {
-					// 			$css = '';
-					// 			$data = $declaration_function_args['attrValue'] ?? [];
-					
-					// 			if (!empty($data['desktop']['value']['color'])) {
-					// 				$css = "color: {$data['desktop']['value']['color']};";
-					// 			}
-					
-					// 			return $css;
-					// 		},
-					// 	]
-					// ),
 					// Timeline Color
 					CommonStyle::style(
 						[

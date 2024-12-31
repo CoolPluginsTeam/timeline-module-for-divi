@@ -1,5 +1,4 @@
 const {processFontIcon} = window.divi.iconLibrary
-const {placeholderContent} = window?.divi?.module;
 
 function StoryYearLabel({ isEnabled, label }) {
 

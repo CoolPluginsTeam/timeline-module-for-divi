@@ -3,24 +3,12 @@ import React from 'react';
 import { __ } from '@wordpress/i18n';
 
 const {
-  AnimationGroup,
-  BorderGroup,
-  BoxShadowGroup,
   FieldContainer,
-  FiltersGroup,
-  FontGroup,
-  FontBodyGroup,
-  SizingGroup,
-  SpacingGroup,
-  TextGroup,
-  TransformGroup
 } = window?.divi?.module;
 
 const {GroupContainer} = window.divi.modal;
 const {
-  ColorPickerContainer,
-  RangeContainer,
-  ButtonOptions
+  ColorPickerContainer
 } = window.divi.fieldLibrary;
 
 const TimelineItemSettingsDesign = () => (

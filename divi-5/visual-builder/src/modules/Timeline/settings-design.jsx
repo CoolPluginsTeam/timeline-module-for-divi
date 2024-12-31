@@ -11,7 +11,6 @@ const {
   FontBodyGroup,
   SizingGroup,
   SpacingGroup,
-  TextGroup,
   TransformGroup,
 } = window?.divi?.module;
 

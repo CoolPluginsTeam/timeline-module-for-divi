@@ -1,11 +1,11 @@
 <?php
-namespace DTMC\Modules\TimelineD5item\TimelineD5itemTraits;
+namespace TMDIVI\Modules\TimelineD5item\TimelineD5itemTraits;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Direct access forbidden.' );
 }
 
-use DTMC\Modules\TimelineD5item\TimelineD5item;
+use TMDIVI\Modules\TimelineD5item\TimelineD5item;
 use ET\Builder\Packages\Module\Module;
 use ET\Builder\Framework\Utility\HTMLUtility;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;

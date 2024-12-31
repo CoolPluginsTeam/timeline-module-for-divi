@@ -1,5 +1,5 @@
 <?php
-namespace DTMC\Modules\TimeilneD5\TimeilneD5Traits;
+namespace TMDIVI\Modules\TimeilneD5\TimeilneD5Traits;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Direct access forbidden.' );
@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use ET\Builder\Packages\Module\Options\Element\ElementComponents;
 use ET\Builder\FrontEnd\BlockParser\BlockParserStore;
-use DTMC\Modules\TimeilneD5\TimeilneD5;
+use TMDIVI\Modules\TimeilneD5\TimeilneD5;
 use ET\Builder\Packages\Module\Module;
 
 trait RenderCallbackTrait {

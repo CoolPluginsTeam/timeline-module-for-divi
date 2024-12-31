@@ -91,7 +91,7 @@ module.exports = {
   // Determine where the created bundles will be outputted.
   // @see https://webpack.js.org/concepts/#output
   output: {
-    filename: 'd5-tutorial-module-conversion.js',
+    filename: 'tmdivi-timeline-module-for-divi-conversion.js',
     path: path.resolve(__dirname, 'build'),
   },
 };

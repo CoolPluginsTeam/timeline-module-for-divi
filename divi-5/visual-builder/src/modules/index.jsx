@@ -1,4 +1,3 @@
-// import { staticModule, staticModuleMetadata } from "./static-module";
 import {timeline,timelineMetadata} from "./Timeline";
 import {timelineChild,timelineChildMetadata} from "./Timeline-item";
 
@@ -9,8 +8,7 @@ const {
 } = window?.vendor?.wp?.hooks;
 
 
-addAction('divi.moduleLibrary.registerModuleLibraryStore.after', 'dtmc', () => {
-  // registerModule(staticModuleMetadata, staticModule);
+addAction('divi.moduleLibrary.registerModuleLibraryStore.after', 'tmdivi', () => {
   registerModule(timelineMetadata, timeline);
   registerModule(timelineChildMetadata, timelineChild);
 });

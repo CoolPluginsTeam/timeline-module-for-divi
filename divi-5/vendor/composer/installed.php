@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => 'divi/d5-tutorial-module-conversion',
+        'name' => 'tmdivi/timeline-module-for-divi',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '12d6382c30a39d4c515f4890352f883e1b0885b5',
+        'reference' => '56edd22e573bd6fea712d380a8d51d0c94c0b379',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'divi/d5-tutorial-module-conversion' => array(
+        'tmdivi/timeline-module-for-divi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '12d6382c30a39d4c515f4890352f883e1b0885b5',
+            'reference' => '56edd22e573bd6fea712d380a8d51d0c94c0b379',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

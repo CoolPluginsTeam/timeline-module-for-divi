@@ -1,5 +1,5 @@
 <?php
-namespace DTMC\Modules\TimelineD5item\TimelineD5itemTraits;
+namespace TMDIVI\Modules\TimelineD5item\TimelineD5itemTraits;
 
 if ( ! defined( 'ABSPATH' ) ) {
     die( 'Direct access forbidden.' );
