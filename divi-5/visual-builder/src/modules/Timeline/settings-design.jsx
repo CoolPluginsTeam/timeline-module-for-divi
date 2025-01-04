@@ -12,6 +12,7 @@ const {
   SizingGroup,
   SpacingGroup,
   TransformGroup,
+  CheckboxesContainer
 } = window?.divi?.module;
 
 

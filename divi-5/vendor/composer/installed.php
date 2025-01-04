@@ -3,7 +3,7 @@
         'name' => 'tmdivi/timeline-module-for-divi',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '56edd22e573bd6fea712d380a8d51d0c94c0b379',
+        'reference' => '865366919b3cd18c62c0f469862593614b105972',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'tmdivi/timeline-module-for-divi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '56edd22e573bd6fea712d380a8d51d0c94c0b379',
+            'reference' => '865366919b3cd18c62c0f469862593614b105972',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

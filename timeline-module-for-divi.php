@@ -48,10 +48,6 @@ class TMDIVI_Timeline_Module_For_Divi {
         $plugin_dir_url = TMDIVI_URL;
         wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), '1.0.0' );
 
-        wp_register_style( 'd5-timeline-swiper-css', "{$plugin_dir_url}assets/css/swiper-bundle.min.css", array(), '1.0.0' );
-        wp_register_script( 'd5-timeline-swiper', "{$plugin_dir_url}assets/js/swiper-bundle.min.js", array(), '1.0.0' );
-        wp_register_script( 'd5-timeline-horizontal', "{$plugin_dir_url}assets/js/tmdivi-horizontal.js", array(), '1.0.0' );
-
         wp_enqueue_style( 'd5-timeline-style', "{$plugin_dir_url}styles/style.min.css", array(), '1.0.0' );
         
     }

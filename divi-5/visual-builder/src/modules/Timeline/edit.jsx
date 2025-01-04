@@ -1,6 +1,5 @@
 import React from 'react';
 import TimelineStyles from './module-styles'
-import HorizontalLayoutComponent from './components/horizontal-layout'
 import {LineFillEffect} from './components/helper-components'
 
 const { ModuleContainer, ChildModulesContainer } = window?.divi?.module;
@@ -34,7 +33,6 @@ export const TimelineEdit = (props) => {
   const timeline_fill_setting = 'true'
 
   const verticalLayoutClass = `tmdivi-vertical tmdivi-wrapper ${timelineLayoutClass} style-1 tmdivi-bg-simple`;
-  const horizontalLayoutClass = `tmdivi-horizontal-timeline tmdivi-wrapper tmdivi-horizontal-wrapper style-1 tmdivi-bg-simple`;
   
   return(
   <ModuleContainer 
@@ -49,10 +47,7 @@ export const TimelineEdit = (props) => {
         attrName: 'module',
     })}
     
-    {timelineLayout === 'horizontal' ? (
-      <HorizontalLayoutComponent props={props} horizontalLayoutClass={horizontalLayoutClass}/>
-      ) : (
-        <div id="tmdivi-wrapper" className={verticalLayoutClass}>
+      <div id="tmdivi-wrapper" className={verticalLayoutClass}>
           <div className="tmdivi-start"></div>
           <div className="tmdivi-line tmdivi-timeline">
             {/* Render Timeline Stories */}
@@ -62,7 +57,6 @@ export const TimelineEdit = (props) => {
           </div>
           <div className="tmdivi-end"></div>
         </div>
-      )}
 
   </ModuleContainer>
 )

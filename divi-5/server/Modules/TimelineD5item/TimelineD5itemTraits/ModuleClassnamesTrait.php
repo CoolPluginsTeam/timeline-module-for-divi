@@ -12,7 +12,6 @@ trait ModuleClassnamesTrait {
 		$classnames_instance = $args['classnamesInstance'];
 		$attrs               = $args['attrs'];
 
-		$classnames_instance->add('swiper-slide');
 		$text_options_classnames = TextClassnames::text_options_classnames( $attrs['module']['advanced']['text'] ?? [] );
 
 		if ( $text_options_classnames ) {

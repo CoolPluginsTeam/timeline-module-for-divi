@@ -210,8 +210,7 @@ trait RenderCallbackTrait {
 
 		return "
 			{$story_year_container_html}
-			<div class='tmdivi-story {$story_wrapper_class} {$icon_classes['story_icon_class']} " . ( $timeline_layout === 'horizontal' ? 'swiper-slide' : '' ) . "'>
-				" . ( $timeline_layout === 'horizontal' ? '<div class="tmdivi-story-line"></div>' : '' ) . "
+			<div class='tmdivi-story {$story_wrapper_class} {$icon_classes['story_icon_class']}'>
 				{$story_labels_html}
 				{$story_icons_html}
 				<div class='{$arrow_css_class}'></div>
