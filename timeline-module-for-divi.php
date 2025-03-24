@@ -69,8 +69,10 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
     
     public static function includes(){
-        require_once TMDIVI_DIR . '/divi-5/divi-5.php';
-        new Divi5_Visual_Builder_Assets();
+        if(wp_get_theme()->get('Version') >= 5){
+            require_once TMDIVI_DIR . '/divi-5/divi-5.php';
+            new Divi5_Visual_Builder_Assets();
+        }        
         require_once TMDIVI_MODULE_DIR . '/assets-loader.php';
         new TMDIVI_AssetsLoader();
     }

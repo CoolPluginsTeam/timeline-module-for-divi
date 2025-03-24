@@ -1,5 +1,5 @@
 import React from 'react';
-import { __ } from '@wordpress/i18n';
+const { __ } = window?.vendor?.wp?.i18n;
 
 const {
   AdminLabelGroup,

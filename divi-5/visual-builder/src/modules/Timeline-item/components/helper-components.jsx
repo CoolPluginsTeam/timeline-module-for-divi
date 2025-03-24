@@ -42,6 +42,15 @@ function StoryYearLabel({ isEnabled, label }) {
           iconClass = "tmdivi-icondot"
       }
 
+      if (typeof icon !== 'object') {
+        const parts = icon.split('||');
+        const convertedIcon = {
+          unicode: parts[0] || '',
+          type: parts[1] || '',
+          weight: parts[2] || ''
+        };
+        icon = convertedIcon
+      }      
       return (
           <div className={iconClass}>
               {(isIcon === 'on' && icon.type === 'divi') ? <i class="et-tmdivi-icon">{renderIconContent()}</i> :(icon.type === 'fa') ? <i class="et-tmdivi-icon-fa">{renderIconContent()}</i> : renderIconContent()}

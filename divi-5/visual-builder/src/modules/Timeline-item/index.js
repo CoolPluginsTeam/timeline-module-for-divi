@@ -3,6 +3,7 @@ import metadata from './module.json';
 import TimelineItemSettingsContent from './settings-content';
 import TimelineItemSettingsDesign from './settings-design';
 import TimelineItemSettingsAdvaced from './settings-advanced';
+import {conversionOutline} from './conversion-outline'
 
 
 export const timelineChildMetadata = metadata
@@ -45,5 +46,6 @@ export const timelineChild = {
         }
       }
     }
-  }
+  },
+  conversionOutline
 };

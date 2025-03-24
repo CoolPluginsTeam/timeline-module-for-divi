@@ -55,6 +55,69 @@ trait ModuleStylesTrait {
                         'attr'     => $attrs['module']['advanced']['text'] ?? [],
                     ]
                 ),
+
+                // old module migration css start!
+
+                CommonStyle::style(
+                    [
+                        'selector' => $order_class . ' .tmdivi-story .tmdivi-content div.tmdivi-title',
+                        'attr'     => $parent_attrs['story_background_color']['advanced'] ?? [],
+                        'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {                            
+
+                            $data = $args['attrs']['unknownAttributes']['child_story_heading_color'] ?? '';
+                            return "color:{$data};";
+                        },
+                    ]
+                ),
+
+                CommonStyle::style(
+                    [
+                        'selector' => $order_class . ' .tmdivi-story .tmdivi-content .tmdivi-description,' .
+                                      $order_class . ' .tmdivi-story .tmdivi-content .tmdivi-description p',
+                        'attr'     => $parent_attrs['story_background_color']['advanced'] ?? [],
+                        'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+                            $data = $args['attrs']['unknownAttributes']['child_story_description_color'] ?? '';
+                            return "color:{$data};";
+                        },
+                    ]
+                ),
+
+                CommonStyle::style(
+                    [
+                        'selector' => $order_class . ' .tmdivi-story div.tmdivi-content, ' .
+                                      $order_class . ' .tmdivi-story > div.tmdivi-arrow',
+                        'attr'     => $parent_attrs['story_background_color']['advanced'] ?? [],
+                        'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+                            $data = $args['attrs']['unknownAttributes']['child_story_background_color'] ?? '';
+                            return "background:{$data};";
+                        },
+                    ]
+                ),
+
+                CommonStyle::style(
+                    [
+                        'selector' => $order_class . ' .tmdivi-story div.tmdivi-label-big',
+                        'attr'     => $parent_attrs['story_background_color']['advanced'] ?? [],
+                        'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+                            $data = $args['attrs']['unknownAttributes']['child_story_label_color'] ?? '';
+                            return "color:{$data};";
+                        },
+                    ]
+                ),
+
+                CommonStyle::style(
+                    [
+                        'selector' => $order_class . ' .tmdivi-story div.tmdivi-label-small',
+                        'attr'     => $parent_attrs['story_background_color']['advanced'] ?? [],
+                        'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+                            $data = $args['attrs']['unknownAttributes']['child_story_sub_label_color'] ?? '';
+                            return "color:{$data};";
+                        },
+                    ]
+                ),                
+                
+                // old module migration css end!
+                
                 CommonStyle::style(
                     [
                         'selector'            => $order_class . ' .tmdivi-story .tmdivi-content, '.$order_class . ' .tmdivi-story > .tmdivi-arrow',

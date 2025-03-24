@@ -29,7 +29,8 @@ class Divi5_Visual_Builder_Assets {
           'divi-rest',
         ],
         '1.0.0',
-        true
+        // true
+        false
       );
     }
   }

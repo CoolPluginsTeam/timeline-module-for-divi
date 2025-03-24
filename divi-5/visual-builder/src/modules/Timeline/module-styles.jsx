@@ -5,6 +5,7 @@ const {
   CommonStyle
 } = window?.divi?.module;
 
+import MigrationStyles from './migrationStyles';
 const TimelineStyles = (props) => {
   const { attrs,
     elements,
@@ -30,6 +31,10 @@ const TimelineStyles = (props) => {
         attr={attrs.css}
       />
 
+      {/* Migration Styles moved to separate file */}
+      <MigrationStyles orderClass={orderClass} attrs={attrs} props={props} />
+      {/* ❗ migration css code end! ❗ */}
+
       <CommonStyle
         selector={`${orderClass} .tmdivi-story .tmdivi-content, ${orderClass} .tmdivi-story > .tmdivi-arrow`}
         attr={attrs?.story_background_color?.advanced}
@@ -39,31 +44,6 @@ const TimelineStyles = (props) => {
         }}
       />
 
-      {/* <CommonStyle
-        selector={`${orderClass} .tmdivi-story .tmdivi-content`}
-        attr={attrs?.story_border_settings?.advanced}
-        declarationFunction={(attrs)=>{
-          let css = '';
-          const data = attrs?.attrValue
-          const allCssStyles = attrs?.attrValue?.styles?.all
-          const TopCssStyles = attrs?.attrValue?.styles?.top
-          console.log(TopCssStyles)
-
-          if(allCssStyles !== undefined){
-            if(allCssStyles.width !== undefined){
-              if(Number(allCssStyles.width.replace('px',"")) > 0){
-                css =  `border-width:${allCssStyles.width};border-color:${allCssStyles.color};border-style:${allCssStyles.style};`;
-              }else{
-                css =  `border-width:${allCssStyles.width};border-color:transparent;border-style:${allCssStyles.style};`            
-              }
-            }
-            if(data.radius !== undefined){
-             css += `border-radius:${data.radius.topLeft} ${data.radius.topRight} ${data.radius.bottomRight} ${data.radius.bottomLeft};`; 
-            }
-          }
-          return css;
-        }}
-      /> */}
       <CommonStyle
         selector={`${orderClass} .tmdivi-story .tmdivi-content`}
         attr={attrs?.story_border_settings?.advanced}

@@ -13,6 +13,53 @@ trait ModuleStylesTrait {
 
   use CustomCssTrait;
 
+	public static function enqueue_google_font($font_family) {
+		$font_parts = explode('|', $font_family);
+		$font_family_name = $font_parts[0];
+		if ($font_family_name) {
+			wp_enqueue_style('tmdivi-gfonts-' . $font_family_name, "https://fonts.googleapis.com/css2?family=$font_family_name&display=swap", array(),TMDIVI_V, null);
+		}
+	}
+  	public static function extractFontProperties($fontString) {
+		$fontParts = explode('|', $fontString);
+		$fontFamily = $fontParts[0];
+		$fontWeight = !empty($fontParts[1]) ? $fontParts[1] : '';
+		$fontStyle = !empty($fontParts[2]) ? "italic" : 'normal'; 
+
+		// Determine text transform
+		if (!empty($fontParts[3])) {
+			$textTransform = "uppercase";
+		} elseif (!empty($fontParts[5])) {
+			$textTransform = "capitalize";
+		} else {
+			$textTransform = "none";
+		}
+
+		// Determine text decoration
+		if (!empty($fontParts[4]) && !empty($fontParts[6])) {
+			$textDecoration = "line-through";
+		} elseif (!empty($fontParts[4])) {
+			$textDecoration = "underline";
+		} elseif (!empty($fontParts[6])) {
+			$textDecoration = "line-through";
+		} else {
+			$textDecoration = "none";
+		}
+
+		$textDecorationLineColor = (!empty($fontParts[7])) ? $fontParts[7] : ''; 
+		$textDecorationStyle = (!empty($fontParts[8])) ? $fontParts[8] : ''; 
+
+		return array(
+			'fontFamily' => $fontFamily,
+			'fontWeight' => $fontWeight,
+			'fontStyle' => $fontStyle,
+			'textTransform' => $textTransform,
+			'textDecoration' => $textDecoration,
+			'textDecorationLineColor' => $textDecorationLineColor,
+			'textDecorationStyle' => $textDecorationStyle,
+		);
+	}
+
   public static function module_styles( $args ) {
 		$attrs        = $args['attrs'] ?? [];
 		$parent_attrs = $args['parentAttrs'] ?? [];
@@ -47,6 +94,418 @@ trait ModuleStylesTrait {
 							'cssFields' => self::custom_css(),
 						]
 					),
+
+					// Old module css migration start
+
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['heading_font_color'];
+
+								return "color:{$data};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['heading_background_color'] ?? '';
+								return "background-color:{$data};";
+							},
+						]
+					),
+					
+					// Description Font Color
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['description_font_color'] ?? '';
+								return "--tw-cbx-des-color:{$data};";
+							},
+						]
+					),
+
+					// Description Background Color
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['description_background_color'] ?? '';
+								return "--tw-cbx-des-background:{$data};";
+							},
+						]
+					),
+
+					// Label Font Color
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['label_font_color'] ?? '';
+								return "--tw-lbl-big-color:{$data};";
+							},
+						]
+					),
+
+					// Sub Label Font Color
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['sub_label_font_color'] ?? '';
+								return "--tw-lbl-small-color:{$data};";
+							},
+						]
+					),
+
+					// Year Label Font Color
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['year_label_font_color'] ?? '';
+								return "--tw-ybx-text-color:{$data};";
+							},
+						]
+					),
+
+					// Year Label Background Color
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['year_label_bg_color'] ?? 'white';
+								return "--tw-ybx-bg:{$data};";
+							},
+						]
+					),
+
+					// Label Font Size
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['label_font_size'] ?? '24px';
+								return "--tw-lbl-big-size:{$data};";
+							},
+						]
+					),
+
+					// Sub Label Font Size
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['sub_label_font_size'] ?? '16px';
+								return "--tw-lbl-small-size:{$data};";
+							},
+						]
+					),
+
+					// Year Label Font Size
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['year_label_font_size'] ?? '24px';
+								return "--tw-ybx-text-size:{$data};";
+							},
+						]
+					),
+
+					// Timeline Line Width
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['timeline_line_width'] ?? '4px';
+								return "--tw-line-width:{$data};";
+							},
+						]
+					),
+
+					// Heading Text Size
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['heading_text_size'] ?? '24px';
+								return "--tw-cbx-title-font-size:{$data};";
+							},
+						]
+					),
+
+					// Heading Text Align
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['heading_text_align'] ?? '';
+								return "--tw-cbx-text-align:{$data};";
+							},
+						]
+					),
+
+					// Heading Line Height (applied on the title element)
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['heading_line_height'] ?? '';
+								return "line-height:{$data};";
+							},
+						]
+					),
+
+					// Description Text Size
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['description_text_size'] ?? '20px';
+								return "--tw-cbx-des-text-size:{$data};";
+							},
+						]
+					),
+
+					// Description Text Align
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['description_text_align'] ?? '';
+								return "--tw-cbx-des-text-align:{$data};";
+							},
+						]
+					),
+
+					// Description Line Height (applied on the description element)
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-description',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['description_line_height'] ?? '';
+								return "line-height:{$data};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['label_font'] ?? '';
+
+								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
+								$font_weight = ($data !== "") ? $data['fontWeight'] : 'bold'; 								
+
+								self::enqueue_google_font($data);
+								$data = self::extractFontProperties($data);
+								$css = "
+									--tw-lbl-big-font:{$font_family};
+									--tw-lbl-big-style:{$data['fontStyle']};
+									--tw-lbl-big-weight:{$font_weight};
+									--tw-lbl-big-text-decoration:{$data['textDecoration']};
+									--tw-lbl-big-text-decoration-color:{$data['textDecorationLineColor']};
+									--tw-lbl-big-text-decoration-style:{$data['textDecorationStyle']};
+									--tw-lbl-big-text-transform:{$data['textTransform']};
+								";
+								return $css;
+							},
+						]
+					),					
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['sub_label_font'] ?? '';
+
+								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
+								$font_weight = ($data !== "") ? $data['fontWeight'] : 'normal'; 
+
+								self::enqueue_google_font($data);
+								$data = self::extractFontProperties($data);
+								$css = "
+									--tw-lbl-small-font:{$font_family};
+									--tw-lbl-small-style:{$data['fontStyle']};
+									--tw-lbl-small-weight:{$font_weight};
+									--tw-lbl-small-text-decoration:{$data['textDecoration']};
+									--tw-lbl-small-text-decoration-color:{$data['textDecorationLineColor']};
+									--tw-lbl-small-text-decoration-style:{$data['textDecorationStyle']};
+									--tw-lbl-small-text-transform:{$data['textTransform']};
+								";
+								return $css;
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['year_label_font'] ?? '';
+
+								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
+								$font_weight = ($data !== "") ? $data['fontWeight'] : 'bold'; 
+
+								self::enqueue_google_font($data);
+								$data = self::extractFontProperties($data);
+								$css = "
+									--tw-ybx-font:{$font_family};
+									--tw-ybx-text-style:{$data['fontStyle']};
+									--tw-ybx-text-weight:{$font_weight};
+									--tw-ybx-text-text-decoration:{$data['textDecoration']};
+									--tw-ybx-text-text-decoration-color:{$data['textDecorationLineColor']};
+									--tw-ybx-text-text-decoration-style:{$data['textDecorationStyle']};
+									--tw-ybx-text-text-transform:{$data['textTransform']};
+								";
+								return $css;
+							},
+						]
+					),					
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['heading_settings_font'] ?? '';
+
+								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
+								$font_weight = ($data !== "") ? $data['fontWeight'] : 'bold'; 
+
+								self::enqueue_google_font($data);
+								$data = self::extractFontProperties($data);
+								$css = "
+									--tw-cbx-title-font-family:{$font_family};
+									--tw-cbx-title-font-style:{$data['fontStyle']};
+									--tw-cbx-title-font-weight:{$font_weight};
+									--tw-cbx-title-text-decoration:{$data['textDecoration']};
+									--tw-cbx-title-text-decoration-color:{$data['textDecorationLineColor']};
+									--tw-cbx-title-text-decoration-style:{$data['textDecorationStyle']};
+									--tw-cbx-title-text-transform:{$data['textTransform']};
+								";
+								return $css;
+							},
+						]
+					),
+					
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-description',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$data = $args['attrs']['unknownAttributes']['description_settings_font'] ?? '';
+
+								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
+
+								self::enqueue_google_font($data);
+								$data = self::extractFontProperties($data);
+								$css = "
+									--tw-cbx-des-font-family:{$font_family};
+									--tw-cbx-des-font-style:{$data['fontStyle']};
+									--tw-cbx-des-font-weight:{$data['fontWeight']};
+									--tw-cbx-des-text-decoration:{$data['textDecoration']};
+									--tw-cbx-des-text-decoration-color:{$data['textDecorationLineColor']};
+									--tw-cbx-des-text-decoration-style:{$data['textDecorationStyle']};
+									--tw-cbx-des-text-transform:{$data['textTransform']};
+								";
+								return $css;
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
+								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
+								$border_color_all = $args['attrs']['unknownAttributes']['border_color_all_story_settings'] ?? '';
+								$css = "
+									border-width:{$border_width_all};
+									border-style:{$border_style_all};
+									border-color:{$border_color_all};
+								";
+								return $css;
+							},
+						]
+					),
+					
+					// right story arrow
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story-right .tmdivi-arrow',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
+								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
+								$border_color_all = $args['attrs']['unknownAttributes']['border_color_all_story_settings'] ?? '';
+
+								$border_style_all = ($border_width_all !== '0px' && $border_style_all === '') ? 'solid' : $border_style_all;
+
+								$css = "
+									border-width:0px 0px {$border_width_all} {$border_width_all};
+									border-style:{$border_style_all};
+									border-color:{$border_color_all};
+								";
+								return $css;
+							},
+						]
+					),
+
+					// left story arrow
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story-left .tmdivi-arrow',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
+								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
+								$border_color_all = $args['attrs']['unknownAttributes']['border_color_all_story_settings'] ?? '';
+
+								$border_style_all = ($border_width_all !== '0px' && $border_style_all === '') ? 'solid' : $border_style_all;
+
+								$css = "
+									border-width:{$border_width_all} {$border_width_all} 0px 0px;
+									border-style:{$border_style_all};
+									border-color:{$border_color_all};
+								";
+								return $css;
+							},
+						]
+					),
+					
+					
+					// old module css migration end
+
 					// Timeline Story background color
 					CommonStyle::style(
 						[
@@ -58,44 +517,6 @@ trait ModuleStylesTrait {
 							},
 						]
 					),
-					// Timeline Story Border Color
-					// CommonStyle::style([
-					// 		'selector'            => $order_class . ' .tmdivi-story .tmdivi-content',
-					// 		'attr'                => $attrs['story_border_settings']['advanced'] ?? [],
-					// 		'declarationFunction' => function ($declaration_function_args) {
-					// 			$css = '';
-					// 			$attr_value = $declaration_function_args['attrValue'] ?? [];
-					// 			// Extract `styles.all`
-					// 			$all_styles = $attr_value['styles']['all'] ?? [];
-					// 			if (!empty($all_styles)) {
-					// 				// Border width and color
-					// 				if (isset($all_styles['width'])) {
-					// 					$width = $all_styles['width'];
-					// 					$color = $all_styles['color'] ?? '#666666';
-					// 					$style = $all_styles['style'] ?? 'solid';
-										
-					// 					if ((int) str_replace('px', '', $width) > 0) {
-					// 						$css .= "border-width: {$width}; border-color: {$color}; border-style: {$style};";
-					// 					} else {
-					// 						$css .= "border-width: {$width}; border-color: transparent; border-style: {$style};";
-					// 					}
-					// 				}
-					// 			}
-					// 			// Border radius
-					// 			$radius = $attr_value['radius'] ?? [];
-					// 			if (!empty($radius)) {
-					// 				$top_left = $radius['topLeft'] ?? '0';
-					// 				$top_right = $radius['topRight'] ?? '0';
-					// 				$bottom_right = $radius['bottomRight'] ?? '0';
-					// 				$bottom_left = $radius['bottomLeft'] ?? '0';
-									
-					// 				$css .= "border-radius: {$top_left} {$top_right} {$bottom_right} {$bottom_left};";
-					// 			}
-								
-					// 			return $css;
-					// 		},
-					// 	]
-					// ),
 					CommonStyle::style([
 						'selector'            => $order_class . ' .tmdivi-story .tmdivi-content',
 						'attr'                => $attrs['story_border_settings']['advanced'] ?? [],
@@ -499,22 +920,6 @@ trait ModuleStylesTrait {
 							'attrName' => 'content',
 						]
 					),
-
-					// ATTENTION: The code is intentionally added and commented in FE only as an example of expected value format.
-					// If you have custom style processing, the style output should be passed as an `array` of style declarations
-					// to the `styles` property of the `Style::add` method. For example:
-					// [
-					// 	[
-					// 		'atRules'     => false,
-					// 		'selector'    => $icon_selector,
-					// 		'declaration' => 'color: red;'
-					// 	],
-					// 	[
-					// 		'atRules'     => '@media only screen and (max-width: 767px)',
-					// 		'selector'    => $icon_selector,
-					// 		'declaration' => 'color: green;'
-					// 	],
-					// ],
 				],
 			]
 		);

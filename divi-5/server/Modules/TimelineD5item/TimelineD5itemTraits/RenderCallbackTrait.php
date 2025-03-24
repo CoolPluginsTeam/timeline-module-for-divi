@@ -171,14 +171,25 @@ trait RenderCallbackTrait {
 		$show_icon = $attrs['show_story_icon']['innerContent']['enable']['desktop']['value'] ?? '';
 
 		if(isset($attrs['icon'])){
-			$icon_lib_type = $attrs['icon']['innerContent']['desktop']['value']['type'];
+			$icon_lib_type = $attrs['icon']['innerContent']['desktop']['value']['type'] ?? '';
+			$icon_val = $attrs['icon']['innerContent']['desktop']['value'];
+			
+			if ( ! is_array( $icon_val ) ) {
+				$parts = explode( '||', $icon_val );
+				$convertedIcon = [
+					'unicode' => isset( $parts[0] ) ? $parts[0] : '',
+					'type'    => isset( $parts[1] ) ? $parts[1] : '',
+					'weight'  => isset( $parts[2] ) ? $parts[2] : '',
+				];
+				$icon_val = $convertedIcon;
+			}
 			
 			$story_icon = HTMLUtility::render(
 				[
 					'tag'               => 'i',
-					'attributes'        => [ 'class' => ($icon_lib_type === 'divi') ? 'et-tmdivi-icon' : 'et-tmdivi-icon-fa'],
+					'attributes'        => [ 'class' => ($icon_val['type'] === 'divi') ? 'et-tmdivi-icon' : 'et-tmdivi-icon-fa'],
 					'childrenSanitizer' => 'esc_html',
-					'children'          => Utils::process_font_icon( $attrs['icon']['innerContent']['desktop']['value'] ?? ''),
+					'children'          => Utils::process_font_icon( $icon_val ?? ''),
 				]
 			);
 		}else{
