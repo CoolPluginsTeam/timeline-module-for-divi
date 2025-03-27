@@ -99,12 +99,162 @@ trait ModuleStylesTrait {
 
 					CommonStyle::style(
 						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								// Retrieve the raw string; adjust the key as necessary.
+								$raw = $args['attrs']['unknownAttributes']['heading_custom_padding'] ?? '';
+								$parts = explode('|', $raw);
+								// Use default "5px" if any part is empty
+								$top = (isset($parts[0]) && $parts[0] !== '') ? trim($parts[0]) : '5px';
+								$right = (isset($parts[1]) && $parts[1] !== '') ? trim($parts[1]) : '5px';
+								$bottom = (isset($parts[2]) && $parts[2] !== '') ? trim($parts[2]) : '5px';
+								$left = (isset($parts[3]) && $parts[3] !== '') ? trim($parts[3]) : '5px';
+								return "--tw-cbx-title-padding: {$top} {$right} {$bottom} {$left};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								// Retrieve the raw string; adjust the key as necessary.
+								$raw = $args['attrs']['unknownAttributes']['description_custom_padding'] ?? '';
+								$parts = explode('|', $raw);
+								// Use default "5px" if any part is empty
+								$top = (isset($parts[0]) && $parts[0] !== '') ? trim($parts[0]) : '5px';
+								$right = (isset($parts[1]) && $parts[1] !== '') ? trim($parts[1]) : '5px';
+								$bottom = (isset($parts[2]) && $parts[2] !== '') ? trim($parts[2]) : '5px';
+								$left = (isset($parts[3]) && $parts[3] !== '') ? trim($parts[3]) : '5px';
+								return "--tw-cbx-des-padding: {$top} {$right} {$bottom} {$left};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								// Retrieve the raw string; adjust the key as necessary.
+								$raw = $args['attrs']['unknownAttributes']['story_padding'] ?? '';
+								$parts = explode('|', $raw);
+								// Use default "5px" if any part is empty
+								$top = (isset($parts[0]) && $parts[0] !== '') ? trim($parts[0]) : '0.75em';
+								$right = (isset($parts[1]) && $parts[1] !== '') ? trim($parts[1]) : '0.75em';
+								$bottom = (isset($parts[2]) && $parts[2] !== '') ? trim($parts[2]) : '2px';
+								$left = (isset($parts[3]) && $parts[3] !== '') ? trim($parts[3]) : '0.75em';
+								return "--tw-cbx-padding: {$top} {$right} {$bottom} {$left};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								$raw = $args['attrs']['unknownAttributes']['border_radii_story_settings'] ?? '';
+								// Expected format: "off|top|right|bottom|left"
+								$parts = explode('|', $raw);
+								$top = isset($parts[1]) ? trim($parts[1]) : '';
+								$right = isset($parts[2]) ? trim($parts[2]) : '';
+								$bottom = isset($parts[3]) ? trim($parts[3]) : '';
+								$left = isset($parts[4]) ? trim($parts[4]) : '';
+								return "border-radius: {$top} {$right} {$bottom} {$left};";
+							},
+						]
+					),					
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								$data = $args['attrs']['unknownAttributes']['year_label_box_size'] ?? '80px';
+								return "--tw-ybx-size:{$data};";
+							},
+						]
+					),
+					
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								$data = $args['attrs']['unknownAttributes']['story_spacing_top'] ?? '';
+								return "margin-top:{$data};";
+							},
+						]
+					),
+					
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								$data = $args['attrs']['unknownAttributes']['story_spacing_bottom'] ?? '';
+								return "margin-bottom:{$data};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-vertical',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								if(!empty(($args['attrs']['labels_position']['advanced']['desktop']['value']))){
+									return '';
+								}
+
+								$data = $args['attrs']['unknownAttributes']['labels_position'] ?? '0';
+								return "--tw-ibx-position:{$data};";
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ($declaration_function_args) use ($args) {
+								$data = $args['attrs']['unknownAttributes']['labels_spacing_bottom'] ?? '';
+								return "--tw-lbl-gap:{$data};";
+							},
+						]
+					),
+
+
+
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								if(!empty($args['attrs']['unknownAttributes'])){
+									
+									$data = $args['attrs']['unknownAttributes']['background_main'] ?? '';
+
+									return "--tw-tw-main-bc:{$data};";
+								}
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
 							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
-								$data = $args['attrs']['unknownAttributes']['heading_font_color'];
+								if(!empty($args['attrs']['unknownAttributes']['heading_font_color'])){
 
-								return "color:{$data};";
+									$data = $args['attrs']['unknownAttributes']['heading_font_color'];
+
+									return "color:{$data};";
+								}
 							},
 						]
 					),
@@ -126,7 +276,7 @@ trait ModuleStylesTrait {
 							'selector'            => $order_class . ' .tmdivi-wrapper',
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
-								$data = $args['attrs']['unknownAttributes']['description_font_color'] ?? '';
+								$data = $args['attrs']['unknownAttributes']['description_font_color'] ?? '#000000';
 								return "--tw-cbx-des-color:{$data};";
 							},
 						]
@@ -150,7 +300,7 @@ trait ModuleStylesTrait {
 							'selector'            => $order_class . ' .tmdivi-wrapper',
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
-								$data = $args['attrs']['unknownAttributes']['label_font_color'] ?? '';
+								$data = $args['attrs']['unknownAttributes']['label_font_color'] ?? '#222';
 								return "--tw-lbl-big-color:{$data};";
 							},
 						]
@@ -162,7 +312,7 @@ trait ModuleStylesTrait {
 							'selector'            => $order_class . ' .tmdivi-wrapper',
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
-								$data = $args['attrs']['unknownAttributes']['sub_label_font_color'] ?? '';
+								$data = $args['attrs']['unknownAttributes']['sub_label_font_color'] ?? '#222';
 								return "--tw-lbl-small-color:{$data};";
 							},
 						]
@@ -174,7 +324,7 @@ trait ModuleStylesTrait {
 							'selector'            => $order_class . ' .tmdivi-wrapper',
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
-								$data = $args['attrs']['unknownAttributes']['year_label_font_color'] ?? '';
+								$data = $args['attrs']['unknownAttributes']['year_label_font_color'] ?? '#ffffff';
 								return "--tw-ybx-text-color:{$data};";
 							},
 						]
@@ -186,7 +336,7 @@ trait ModuleStylesTrait {
 							'selector'            => $order_class . ' .tmdivi-wrapper',
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
-								$data = $args['attrs']['unknownAttributes']['year_label_bg_color'] ?? 'white';
+								$data = $args['attrs']['unknownAttributes']['year_label_bg_color'] ?? '#54595f';
 								return "--tw-ybx-bg:{$data};";
 							},
 						]
@@ -318,12 +468,13 @@ trait ModuleStylesTrait {
 							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['label_font'] ?? '';
-
-								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
-								$font_weight = ($data !== "") ? $data['fontWeight'] : 'bold'; 								
-
+							
 								self::enqueue_google_font($data);
 								$data = self::extractFontProperties($data);
+
+								$font_family = (!empty($data) && !empty($data['fontFamily'])) ? $data['fontFamily'] : 'Sans serif'; 	
+								$font_weight = (!empty($data['fontFamily']) && !empty($data['fontWeight'])) ? $data['fontWeight'] : 'bold'; 	
+
 								$css = "
 									--tw-lbl-big-font:{$font_family};
 									--tw-lbl-big-style:{$data['fontStyle']};
@@ -345,11 +496,12 @@ trait ModuleStylesTrait {
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['sub_label_font'] ?? '';
 
-								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
-								$font_weight = ($data !== "") ? $data['fontWeight'] : 'normal'; 
-
 								self::enqueue_google_font($data);
 								$data = self::extractFontProperties($data);
+
+								$font_family = (!empty($data) && !empty($data['fontFamily'])) ? $data['fontFamily'] : 'Sans serif'; 	
+								$font_weight = (!empty($data['fontFamily']) && !empty($data['fontWeight'])) ? $data['fontWeight'] : 'bold'; 	
+
 								$css = "
 									--tw-lbl-small-font:{$font_family};
 									--tw-lbl-small-style:{$data['fontStyle']};
@@ -370,12 +522,13 @@ trait ModuleStylesTrait {
 							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['year_label_font'] ?? '';
-
-								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
-								$font_weight = ($data !== "") ? $data['fontWeight'] : 'bold'; 
-
+ 
 								self::enqueue_google_font($data);
 								$data = self::extractFontProperties($data);
+
+								$font_family = (!empty($data) && !empty($data['fontFamily'])) ? $data['fontFamily'] : 'Sans serif'; 	
+								$font_weight = (!empty($data['fontFamily']) && !empty($data['fontWeight'])) ? $data['fontWeight'] : 'bold'; 	
+
 								$css = "
 									--tw-ybx-font:{$font_family};
 									--tw-ybx-text-style:{$data['fontStyle']};
@@ -397,11 +550,11 @@ trait ModuleStylesTrait {
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['heading_settings_font'] ?? '';
 
-								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
-								$font_weight = ($data !== "") ? $data['fontWeight'] : 'bold'; 
-
 								self::enqueue_google_font($data);
 								$data = self::extractFontProperties($data);
+
+								$font_family = (!empty($data) && !empty($data['fontFamily'])) ? $data['fontFamily'] : 'Sans serif'; 	
+								$font_weight = (!empty($data['fontFamily']) && !empty($data['fontWeight'])) ? $data['fontWeight'] : 'bold'; 	
 								$css = "
 									--tw-cbx-title-font-family:{$font_family};
 									--tw-cbx-title-font-style:{$data['fontStyle']};
@@ -423,10 +576,11 @@ trait ModuleStylesTrait {
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_settings_font'] ?? '';
 
-								$font_family = ($data !== "") ? $data['fontFamily'] : 'Sans serif'; 								
-
 								self::enqueue_google_font($data);
 								$data = self::extractFontProperties($data);
+
+								$font_family = (!empty($data) && !empty($data['fontFamily'])) ? $data['fontFamily'] : 'Sans serif'; 	
+
 								$css = "
 									--tw-cbx-des-font-family:{$font_family};
 									--tw-cbx-des-font-style:{$data['fontStyle']};
@@ -485,6 +639,50 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story-left .tmdivi-arrow',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
+								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
+								$border_color_all = $args['attrs']['unknownAttributes']['border_color_all_story_settings'] ?? '';
+
+								$border_style_all = ($border_width_all !== '0px' && $border_style_all === '') ? 'solid' : $border_style_all;
+
+								$border_width_all = $border_width_all === '' ? '0px' : $border_width_all; 
+
+								$css = "
+									border-width:{$border_width_all} {$border_width_all} 0px 0px;
+									border-style:{$border_style_all};
+									border-color:{$border_color_all};
+								";
+								return $css;
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper.tmdivi-vertical-right .tmdivi-arrow',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
+								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
+								$border_color_all = $args['attrs']['unknownAttributes']['border_color_all_story_settings'] ?? '';
+
+								$border_style_all = ($border_width_all !== '0px' && $border_style_all === '') ? 'solid' : $border_style_all;
+
+								$css = "
+									border-width:0px 0px {$border_width_all} {$border_width_all} ;
+									border-style:{$border_style_all};
+									border-color:{$border_color_all};
+								";
+								return $css;
+							},
+						]
+					),
+
+					CommonStyle::style(
+						[
+							'selector' => $order_class . ' .tmdivi-wrapper.tmdivi-vertical-left .tmdivi-arrow',
 							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';

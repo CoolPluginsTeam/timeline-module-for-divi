@@ -52,6 +52,121 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
       <>
         {/* ❗ migration css styling for old module ❗ */}
         <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let raw = props?.attrs?.unknownAttributes?.heading_custom_padding;
+            let parts = raw ? raw.split('|') : [];
+            // Assign defaults if empty
+            let top = parts[0] || '5px';
+            let right = parts[1] || '5px';
+            let bottom = parts[2] || '5px';
+            let left = parts[3] || '5px';
+            return `--tw-cbx-title-padding: ${top} ${right} ${bottom} ${left};`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let raw = props?.attrs?.unknownAttributes?.description_custom_padding;
+            let parts = raw ? raw.split('|') : [];
+            // Assign defaults if empty
+            let top = parts[0] || '5px';
+            let right = parts[1] || '5px';
+            let bottom = parts[2] || '5px';
+            let left = parts[3] || '5px';
+            return `--tw-cbx-des-padding: ${top} ${right} ${bottom} ${left};`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let raw = props?.attrs?.unknownAttributes?.story_padding;
+            let parts = raw ? raw.split('|') : [];
+            // Assign defaults if empty
+            let top = parts[0] || '0.75em';
+            let right = parts[1] || '0.75em';
+            let bottom = parts[2] || '2px';
+            let left = parts[3] || '0.75em';
+            return `--tw-cbx-padding: ${top} ${right} ${bottom} ${left};`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper .tmdivi-content`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let raw = props?.attrs?.unknownAttributes?.border_radii_story_settings;
+            // Expected format: "off|top|right|bottom|left"
+            let parts = raw ? raw.split('|') : [];
+            let top = parts[1] || '';
+            let right = parts[2] || '';
+            let bottom = parts[3] || '';
+            let left = parts[4] || '';
+            return `border-radius: ${top} ${right} ${bottom} ${left};`;
+          }}
+        />
+
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let data = props?.attrs?.unknownAttributes?.year_label_box_size ?? '80px';
+            return `--tw-ybx-size:${data}`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper .tmdivi-story`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let data = props?.attrs?.unknownAttributes?.story_spacing_top;
+            return `margin-top:${data}`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper .tmdivi-story`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let data = props?.attrs?.unknownAttributes?.story_spacing_bottom;
+            return `margin-bottom:${data}`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-vertical`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let data = props?.attrs?.unknownAttributes?.labels_position ?? '0';
+            return `--tw-ibx-position:${data}`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let data = props?.attrs?.unknownAttributes?.labels_spacing_bottom;
+            return `--tw-lbl-gap:${data}`;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let data = props?.attrs?.unknownAttributes?.background_main;
+            return `--tw-tw-main-bc:${data}`;
+          }}
+        />
+
+        <CommonStyle
           selector={`${orderClass} .tmdivi-wrapper .tmdivi-content .tmdivi-title`}
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
@@ -73,7 +188,7 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           selector={`${orderClass} .tmdivi-wrapper`}
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
-            let data = props?.attrs?.unknownAttributes?.description_font_color;
+            let data = props?.attrs?.unknownAttributes?.description_font_color ?? '#000000';
             return `--tw-cbx-des-color:${data}`;
           }}
         />
@@ -91,7 +206,7 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           selector={`${orderClass} .tmdivi-wrapper`}
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
-            let data = props?.attrs?.unknownAttributes?.label_font_color;
+            let data = props?.attrs?.unknownAttributes?.label_font_color ?? '#222';
             return `--tw-lbl-big-color:${data}`;
           }}
         />
@@ -100,7 +215,7 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           selector={`${orderClass} .tmdivi-wrapper`}
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
-            let data = props?.attrs?.unknownAttributes?.sub_label_font_color;
+            let data = props?.attrs?.unknownAttributes?.sub_label_font_color ?? '#222';
             return `--tw-lbl-small-color:${data}`;
           }}
         />
@@ -109,7 +224,7 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           selector={`${orderClass} .tmdivi-wrapper`}
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
-            let data = props?.attrs?.unknownAttributes?.year_label_font_color;
+            let data = props?.attrs?.unknownAttributes?.year_label_font_color ?? '#ffffff';
             return `--tw-ybx-text-color:${data}`;
           }}
         />
@@ -118,7 +233,7 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           selector={`${orderClass} .tmdivi-wrapper`}
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
-            let data = props?.attrs?.unknownAttributes?.year_label_bg_color ?? 'white';
+            let data = props?.attrs?.unknownAttributes?.year_label_bg_color ?? '#54595f';
             return `--tw-ybx-bg:${data}`;
           }}
         />
@@ -173,6 +288,7 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           attr={attrs?.story_background_color?.advanced}
           declarationFunction={(attrs) => {
             let data = props?.attrs?.unknownAttributes?.heading_text_align;
+            console.log(data)
             return `--tw-cbx-text-align:${data}`;
           }}
         />
@@ -368,6 +484,40 @@ const MigrationStyles = ({ orderClass, attrs, props }) => {
           }}
         />
 
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper.tmdivi-vertical-right .tmdivi-arrow`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let css = ``;
+            let border_style_all = props?.attrs?.unknownAttributes?.border_style_all_story_settings;
+            let border_width_all = props?.attrs?.unknownAttributes?.border_width_all_story_settings;
+            let border_color_all = props?.attrs?.unknownAttributes?.border_color_all_story_settings;
+
+            css += `
+                border-width:0px 0px ${border_width_all} ${border_width_all};
+                border-style:${((border_width_all !== '0px' && border_width_all !== undefined) && border_style_all === undefined) ? 'solid' : border_style_all};
+                border-color:${border_color_all};
+            `
+            return css;
+          }}
+        />
+
+        <CommonStyle
+          selector={`${orderClass} .tmdivi-wrapper.tmdivi-vertical-left .tmdivi-arrow`}
+          attr={attrs?.story_background_color?.advanced}
+          declarationFunction={(attrs) => {
+            let css = ``;
+            let border_style_all = props?.attrs?.unknownAttributes?.border_style_all_story_settings;
+            let border_width_all = props?.attrs?.unknownAttributes?.border_width_all_story_settings;
+            let border_color_all = props?.attrs?.unknownAttributes?.border_color_all_story_settings;
+            css += `
+                border-width:${border_width_all} ${border_width_all} 0px 0px;
+                border-style:${((border_width_all !== '0px' && border_width_all !== undefined) && border_style_all === undefined) ? 'solid' : border_style_all};
+                border-color:${border_color_all};
+            `
+            return css;
+          }}
+        />
         {/* ❗ migration css code end! ❗ */}
       </>
     );

@@ -336,6 +336,13 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
     }
 
     public function render_icons($icon = '') {
+        $parts = explode( '||', $icon );
+        if(isset($parts[1]) && $parts[1] === 'fa'){
+            if (!wp_style_is('tmdivi-fontawesome-css', 'enqueued')) {
+                wp_enqueue_style('tmdivi-fontawesome-css');
+            }
+        }
+
         if ($this->props['show_story_icon'] === 'on' && $icon === "") {
             $icon = "}||divi||400";
         }

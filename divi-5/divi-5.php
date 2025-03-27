@@ -32,6 +32,9 @@ class Divi5_Visual_Builder_Assets {
         // true
         false
       );
+      if (!wp_style_is('tmdivi-fontawesome-css', 'enqueued')) {
+        wp_enqueue_style('tmdivi-fontawesome-css');
+      }
     }
   }
 }

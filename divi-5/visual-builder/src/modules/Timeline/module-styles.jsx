@@ -100,7 +100,7 @@ const TimelineStyles = (props) => {
 
           // Border-radius settings
           if (data.radius !== undefined) {
-            css += `border-radius:${data.radius.topLeft} ${data.radius.topRight} ${data.radius.bottomRight} ${data.radius.bottomLeft};`;
+            css += `border-radius:${data.radius.topLeft ?? '0px'} ${data.radius.topRight ?? '0px'} ${data.radius.bottomRight ?? '0px'} ${data.radius.bottomLeft ?? '0px'};`;
           }
 
           return css;
@@ -321,10 +321,36 @@ const TimelineStyles = (props) => {
         declarationFunction={(attrs)=>{
           let css = '';
           const data = attrs?.attrValue
+          
+          const elements = document.querySelectorAll(`${orderClass} .tmdivi-wrapper .tmdivi-story .tmdivi-content .tmdivi-title`);
+          elements.forEach(el => {
+            el.style.justifyContent = data.value.textAlign;
+          });
+
           if(data.value.textAlign !== undefined){
             css = `--tw-cbx-text-align:${data.value.textAlign};`;
           }
           return css;
+        }}
+      />
+
+      <CommonStyle
+        selector={`${orderClass} .tmdivi-wrapper`}
+        attr={attrs?.content?.decoration?.bodyFont}
+        declarationFunction={(attrs)=>{
+          let data = attrs?.attrValue
+
+          const elements = document.querySelectorAll(`${orderClass} .tmdivi-wrapper .tmdivi-story .tmdivi-content .tmdivi-description`);
+          elements.forEach(el => {
+            if (data.desktop.value.color) {
+              el.style.color = data.desktop.value.color;
+              const paragraphs = el.querySelectorAll('p');
+              paragraphs.forEach(p => {
+                p.style.color = data.desktop.value.color;
+              });
+            }
+          });
+          
         }}
       />
 

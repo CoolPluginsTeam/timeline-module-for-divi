@@ -68,10 +68,7 @@ class RenderStoryContent extends React.Component{
       const alt_tag = attrs?.media_alt_tag?.innerContent?.desktop?.value ?? '';
       const show_label = attrs?.show_label?.innerContent?.enable?.desktop?.value ?? '';
       const showIcon = attrs.show_story_icon?.innerContent?.enable?.desktop?.value ?? ''      
-      const storyIcon = attrs?.select_icon_type?.innerContent?.desktop?.value ?? '';
       const storyIconData = attrs?.icon?.innerContent?.desktop?.value ?? '';
-      const storyIconsImage = attrs?.story_icons_image?.innerContent?.desktop?.value ?? '';
-      const storyIconsCustomText = attrs?.story_icons_custom_text?.innerContent?.desktop?.value ?? '';
 
 
       

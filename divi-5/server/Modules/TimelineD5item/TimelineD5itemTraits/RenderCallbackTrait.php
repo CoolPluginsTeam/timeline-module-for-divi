@@ -183,6 +183,11 @@ trait RenderCallbackTrait {
 				];
 				$icon_val = $convertedIcon;
 			}
+			if (isset($icon_val['type']) && $icon_val['type'] === 'fa') {
+				if (!wp_style_is('tmdivi-fontawesome-css', 'enqueued')) {
+					wp_enqueue_style('tmdivi-fontawesome-css');
+				}
+			}
 			
 			$story_icon = HTMLUtility::render(
 				[
