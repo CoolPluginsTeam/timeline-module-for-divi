@@ -43,15 +43,5 @@ node_modules/           export-ignore
 /src/                   export-ignore
 build/                  export-ignore 
 postcss.config.js       export-ignore
+.wordpress-org          export-ignore
 
-/admin/feedback/css/admin-feedback.css export-ignore
-/admin/feedback/js/admin-feedback.js export-ignore
-
-/assets/css/ecmdicons.css export-ignore
-/includes/modules/EventsLayouts/EventsLayouts.jsx export-ignore
-/includes/modules/EventsLayouts/style.css export-ignore
-/includes/modules/index.js export-ignore
-
-/includes/loader.js export-ignore
-/scripts/frontend.js export-ignore
-/styles/.gitignore export-ignore

@@ -44,15 +44,3 @@ node_modules
 build
 postcss.config.js
 .wordpress-org
-
-/admin/feedback/css/admin-feedback.css
-/admin/feedback/js/admin-feedback.js
-
-/assets/css/ecmdicons.css
-/includes/modules/EventsLayouts/EventsLayouts.jsx
-/includes/modules/EventsLayouts/style.css
-/includes/modules/index.js
-
-/includes/loader.js
-/scripts/frontend.js
-/styles/.gitignore
