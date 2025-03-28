@@ -15,7 +15,7 @@ Highlight your company's history, milestones, and future plans with the advanced
 
 **Timeline Module for Divi** is an easy-to-use plugin that helps you create beautiful timelines on your Divi website. Whether you want to show your  **company’s history**, important **milestones**, or **tell a story**, this plugin makes it simple and attractive.
 
-**[View Free Demos](https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=top_view_demo)**  | **[Buy Pro](https://www.elegantthemes.com/affiliates/idevaffiliate.php?id=79863&url=84937)**  |   **[Read More](https://coolplugins.net/how-to-add-a-timeline-in-divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=docs)**
+**[View Free Demos](https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=top_view_demo)**  | **[Buy Pro](https://www.elegantthemes.com/affiliates/idevaffiliate.php?id=79863&url=84937)**  |   **[Read More](https://coolplugins.net/how-to-add-a-timeline-in-divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=blog&utm_content=top_view_readmore)**
 
 https://www.youtube.com/watch?v=V9dEoN0PvFI
 
@@ -33,15 +33,18 @@ You can create timelines that are vertical, with events on one side or both side
 
 ### Check our other Timeline plugins demos
 <ul>
-<li><strong>Cool Timeline [Free]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_free_demo" target="_blank">View Demo</a></li>
+<li><strong>Cool Timeline [Free]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=ctl_demo&utm_content=view_free_demo" target="_blank">View Demo</a></li>
 
-<li><strong>Cool Timeline PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_pro_demo" target="_blank">View Demo</a></li>
-<li><strong>Timeline Widget For Elementor [Free]</strong>-<a href="https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_free_demo">View Demo</a></li>
-<li><strong>Timeline Widget For Elementor PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twea_pro_demo">View Demo</a></li>
-<li><strong>Timeline Builder PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo">View Demo</a></li>
-<li><strong>Timeline Block For Gutenberg [Free]</strong>- <a href="https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo" target="_blank">View Demo</a>
+<li><strong>Cool Timeline PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=ctl_demo&utm_content=view_pro_demo" target="_blank">View Demo</a></li>
+<li><strong>Timeline Widget For Elementor [Free]</strong>-<a href="https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=twae_demo&utm_content=view_free_demo">View Demo</a></li>
+<li><strong>Timeline Widget For Elementor PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=twae_demo&utm_content=twea_pro_demo">View Demo</a></li>
+<li><strong>Timeline Builder PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=tbp_demo&utm_content=view_demo">View Demo</a></li>
+<li><strong>Timeline Block For Gutenberg [Free]</strong>- <a href="https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=tbg_demo&utm_content=view_free_demo" target="_blank">View Demo</a>
 </li>
-<li><strong>Timeline Block For Gutenberg PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-block-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_demo" target="_blank">View Demo</a>
+<li><strong>Timeline Block For Gutenberg PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-block-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=tbg_demo&utm_content=view_pro_demo" target="_blank">View Demo</a>
+
+<li><strong>Events Calendar Modules for Divi [Free]</strong>- <a href="https://wordpress.org/plugins/events-calendar-modules-for-divi/" target="_blank">Check Plugin</a>
+
 </ul>
 
 
@@ -144,6 +147,26 @@ No, you don’t need any coding skills. The plugin is designed to be simple and 
 = Can I create horizontal timelines? =
 Yes, you can easily create horizontal timelines using the Timeline Module Pro for Divi.
 
+
+= Can I add multiple timelines to my website? =
+Yes, you can create and add multiple timelines on different pages of your Divi website.
+
+= What timeline layouts are available? =
+You can choose between a vertical timeline with events on one side or both sides.
+
+= Do I need coding skills to use this plugin? =
+No, this plugin is easy to use, and you don't need any coding knowledge to create and customize timelines.
+
+= Does this plugin work with other Divi modules? =
+Yes, the Timeline Module seamlessly integrates with other Divi modules and layouts.
+
+= How can I get support if I face any issues? =
+If you need help, you can reach out to the support team through the official support channel or plugin documentation.
+
+= How can I report security bugs? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team helps validate, triage, and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/timeline-module-for-divi)
+
+
 == Screenshots ==
 
 1. Timeline Module For Divi preview.
@@ -154,24 +177,26 @@ Yes, you can easily create horizontal timelines using the Timeline Module Pro fo
 
 == Upgrade Notice ==
 
-== Changelog ==
+== Changelog ==  
 
-= 1.1.0 | 27 Mar 2025 =
-- Added: Divi 5 compatibility.
+= Version 1.1.0 | 27 Mar 2025 =  
+- Added: Compatibility with Divi 5.  
+- Fixed: Minor bugs for improved stability.  
+- Improved: Design tweaks for better UI/UX.  
 
-= 1.0.3 | 17 Oct 2024 =
-- Fixed: Undefined array key Warning.
+= Version 1.0.3 | 17 Oct 2024 =  
+- Fixed: Undefined array key warning to enhance compatibility.  
 
-= 1.0.2 | 23 Aug 2024 =
-- Added: Admin Notice and feedback form.
+= Version 1.0.2 | 23 Aug 2024 =  
+- Added: Admin notice and feedback form for better user engagement.  
 
-= 1.0.1 =
-- Removed: online CDN for Font Awesome.
-- Improved: PHP file security by preventing direct access to files.
-- Updated: prefix for functions, classes, and other elements to avoid conflicts.
+= Version 1.0.1 =  
+- Removed: Online CDN dependency for Font Awesome to improve performance.  
+- Improved: Security by preventing direct access to PHP files.  
+- Updated: Function, class, and element prefixes to prevent conflicts.  
 
-= 1.0.0 =
-* Initial release with vertical timeline options.
-* Customization options for colors, fonts, and styles.
-* Responsive design.
+= Version 1.0.0 =  
+- Initial release with vertical timeline functionality.  
+- Customization options for colors, fonts, and styles.  
+- Fully responsive design for all devices.  
 
