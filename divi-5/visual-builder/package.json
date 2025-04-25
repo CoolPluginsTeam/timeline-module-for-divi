@@ -1,7 +1,7 @@
 {
-  "name": "d5-tutorial-module-conversion",
+  "name": "timeline-module-for-divi",
   "version": "1.0.0",
-  "description": "D5 Tutorial for module conversion from Divi 4 to Divi 5",
+  "description": "A timeline module for Divi",
   "main": "src/index.js",
   "author": "Elegant Themes",
   "license": "GPL2",

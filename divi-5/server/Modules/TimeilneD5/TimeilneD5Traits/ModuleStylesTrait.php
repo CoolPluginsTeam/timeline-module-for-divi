@@ -100,7 +100,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								// Retrieve the raw string; adjust the key as necessary.
 								$raw = $args['attrs']['unknownAttributes']['heading_custom_padding'] ?? '';
@@ -118,7 +118,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								// Retrieve the raw string; adjust the key as necessary.
 								$raw = $args['attrs']['unknownAttributes']['description_custom_padding'] ?? '';
@@ -136,7 +136,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								// Retrieve the raw string; adjust the key as necessary.
 								$raw = $args['attrs']['unknownAttributes']['story_padding'] ?? '';
@@ -154,7 +154,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								$raw = $args['attrs']['unknownAttributes']['border_radii_story_settings'] ?? '';
 								// Expected format: "off|top|right|bottom|left"
@@ -171,7 +171,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								$data = $args['attrs']['unknownAttributes']['year_label_box_size'] ?? '80px';
 								return "--tw-ybx-size:{$data};";
@@ -182,7 +182,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								$data = $args['attrs']['unknownAttributes']['story_spacing_top'] ?? '';
 								return "margin-top:{$data};";
@@ -193,7 +193,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								$data = $args['attrs']['unknownAttributes']['story_spacing_bottom'] ?? '';
 								return "margin-bottom:{$data};";
@@ -204,7 +204,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-vertical',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								if(!empty(($args['attrs']['labels_position']['advanced']['desktop']['value']))){
 									return '';
@@ -219,7 +219,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								$data = $args['attrs']['unknownAttributes']['labels_spacing_bottom'] ?? '';
 								return "--tw-lbl-gap:{$data};";
@@ -232,7 +232,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								if(!empty($args['attrs']['unknownAttributes'])){
 									
@@ -247,7 +247,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								if(!empty($args['attrs']['unknownAttributes']['heading_font_color'])){
 
@@ -262,7 +262,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['heading_background_color'] ?? '';
 								return "background-color:{$data};";
@@ -274,7 +274,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_font_color'] ?? '#000000';
 								return "--tw-cbx-des-color:{$data};";
@@ -286,7 +286,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_background_color'] ?? '';
 								return "--tw-cbx-des-background:{$data};";
@@ -298,7 +298,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['label_font_color'] ?? '#222';
 								return "--tw-lbl-big-color:{$data};";
@@ -310,7 +310,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['sub_label_font_color'] ?? '#222';
 								return "--tw-lbl-small-color:{$data};";
@@ -322,7 +322,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['year_label_font_color'] ?? '#ffffff';
 								return "--tw-ybx-text-color:{$data};";
@@ -334,7 +334,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['year_label_bg_color'] ?? '#54595f';
 								return "--tw-ybx-bg:{$data};";
@@ -346,7 +346,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['label_font_size'] ?? '24px';
 								return "--tw-lbl-big-size:{$data};";
@@ -358,7 +358,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['sub_label_font_size'] ?? '16px';
 								return "--tw-lbl-small-size:{$data};";
@@ -370,7 +370,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['year_label_font_size'] ?? '24px';
 								return "--tw-ybx-text-size:{$data};";
@@ -382,7 +382,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['timeline_line_width'] ?? '4px';
 								return "--tw-line-width:{$data};";
@@ -394,7 +394,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['heading_text_size'] ?? '24px';
 								return "--tw-cbx-title-font-size:{$data};";
@@ -406,7 +406,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['heading_text_align'] ?? '';
 								return "--tw-cbx-text-align:{$data};";
@@ -418,7 +418,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['heading_line_height'] ?? '';
 								return "line-height:{$data};";
@@ -430,7 +430,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_text_size'] ?? '20px';
 								return "--tw-cbx-des-text-size:{$data};";
@@ -442,7 +442,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_text_align'] ?? '';
 								return "--tw-cbx-des-text-align:{$data};";
@@ -454,7 +454,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector'            => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-description',
-							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_line_height'] ?? '';
 								return "line-height:{$data};";
@@ -465,7 +465,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['label_font'] ?? '';
 							
@@ -492,7 +492,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['sub_label_font'] ?? '';
 
@@ -519,7 +519,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['year_label_font'] ?? '';
  
@@ -546,7 +546,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-title',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['heading_settings_font'] ?? '';
 
@@ -572,7 +572,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content .tmdivi-description',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_settings_font'] ?? '';
 
@@ -598,7 +598,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-content',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
 								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
@@ -617,7 +617,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story-right .tmdivi-arrow',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
 								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
@@ -638,8 +638,8 @@ trait ModuleStylesTrait {
 					// left story arrow
 					CommonStyle::style(
 						[
-							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story-left .tmdivi-arrow',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow',
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
 								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
@@ -662,7 +662,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper.tmdivi-vertical-right .tmdivi-arrow',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
 								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
@@ -683,7 +683,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper.tmdivi-vertical-left .tmdivi-arrow',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? [],
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
 								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
@@ -711,7 +711,8 @@ trait ModuleStylesTrait {
 							'attr'                => $attrs['story_background_color']['advanced'] ?? [],
 							'declarationFunction' => function ( $declaration_function_args ) {
 								$attr_value = $declaration_function_args['attrValue'] ?? [];
-								return "background: {$attr_value};";
+								return "--tw-cbx-bgc: {$attr_value};";
+								// return "background: {$attr_value};";
 							},
 						]
 					),
@@ -1061,6 +1062,22 @@ trait ModuleStylesTrait {
 								$css = '';
 								if (!empty($data)) {
 									$css = "--tw-cbx-bottom-margin: {$data};";
+								}
+								return $css;
+							},
+						]
+					),
+
+					// year label box size
+					CommonStyle::style(
+						[
+							'selector'            => $order_class . ' .tmdivi-wrapper',
+							'attr'                => $attrs['year_label_box_size']['advanced'] ?? '',
+							'declarationFunction' => function ($declaration_function_args) {
+								$data = $declaration_function_args['attrValue'] ?? '';
+								$css = '';
+								if (!empty($data)) {
+									$css = "--tw-ybx-size: {$data};";
 								}
 								return $css;
 							},
