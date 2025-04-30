@@ -42,8 +42,17 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action( 'admin_init', array( $this, 'is_divi_theme_exist' ) );
         add_action('wp_loaded', array($this, 'load_child_items'));
         add_action( 'wp_enqueue_scripts', array($this,'d5_extension_example_module_enqueue_frontend_scripts') );
+        add_action('send_headers',array($this,'stop_browser_cache'));
     }
 
+    public function stop_browser_cache(){
+        if ( is_singular() && false !== strpos( get_post()->post_content, '[tmdivi_timeline_story' ) && isset($_GET['et_fb'])) {
+            header( 'Cache-Control: no-cache, no-store, must-revalidate' );
+            header( 'Pragma: no-cache' );
+            header( 'Expires: 0' );
+        }
+    }
+    
     public function d5_extension_example_module_enqueue_frontend_scripts() {
         if(wp_get_theme()->get('Version') >= 5){
             $plugin_dir_url = TMDIVI_URL;

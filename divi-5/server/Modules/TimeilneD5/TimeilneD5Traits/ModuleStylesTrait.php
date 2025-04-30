@@ -100,7 +100,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
+							'attr'     => c,
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								// Retrieve the raw string; adjust the key as necessary.
 								$raw = $args['attrs']['unknownAttributes']['heading_custom_padding'] ?? '';
