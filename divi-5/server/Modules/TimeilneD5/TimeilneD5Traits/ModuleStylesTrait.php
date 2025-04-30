@@ -222,6 +222,9 @@ trait ModuleStylesTrait {
 							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								$data = $args['attrs']['unknownAttributes']['labels_spacing_bottom'] ?? '';
+								if($data === ""){
+									return '';
+								}
 								return "--tw-lbl-gap:{$data};";
 							},
 						]
@@ -445,6 +448,9 @@ trait ModuleStylesTrait {
 							'attr'                => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
 								$data = $args['attrs']['unknownAttributes']['description_text_align'] ?? '';
+								if($data === ""){
+									return '';
+								}
 								return "--tw-cbx-des-text-align:{$data};";
 							},
 						]

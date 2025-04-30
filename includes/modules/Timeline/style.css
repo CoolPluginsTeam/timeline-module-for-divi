@@ -101,7 +101,35 @@
   --lbl-arw-bg: var(--lbl-bk-color);
   --lbl-bottom-spacing: 0.75em;
 
+  /* extra variable for cool timeline */
+  /* --tw-cbx-custom-bg-clr:trasparent; */
   --tw-cbx-img-bg:transparent;
+}
+
+.tmdivi-wrapper.tmdivi-dark-timeline {
+  --tw-cbx-bg: black;
+  --tw-cbx-title-color: #fff;
+  --tw-cbx-des-color: #fff;
+  --tw-cbx-img-padding: 1%;
+  --tw-ibx-color:#fff;
+  --tw-ybx-bg:#000000;
+  --tw-line-bg:#000000;
+  --tw-cbx-img-bg:#fff;
+}
+
+.tmdivi-wrapper.tmdivi-light-timeline {
+  --tw-cbx-bg: #f8f8f8;
+  --tw-cbx-title-color: #8c8c8c;
+  --tw-cbx-des-color: #8c8c8c;
+  --tw-cbx-bd-color:#f9f9f9;
+  --tw-arw-bd-color: var(--tw-cbx-bd-color);
+  --tw-ibx-bg:#f8f8f8;
+  --tw-cbx-img-padding: 1%;
+  --tw-ibx-color:#8c8c8c;
+  --tw-ybx-bg:#f9f9f9;
+  --tw-ybx-text-color:#000000;
+  --tw-line-bg :#eaeaea;
+  --tw-cbx-img-bg:#eaeaea;
 }
 
 .tmdivi-wrapper,
@@ -258,6 +286,9 @@
   z-index: 2;
 }
 
+/* .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-content{
+  border-width: var(--tw-tsl-bd-top) var(--tw-tsl-bd-left) var(--tw-tsl-bd-bottom) var(--tw-tsl-bd-right);
+} */
 .tmdivi-wrapper .tmdivi-story:not(.tmdivi-content)>.tmdivi-label-bg.tmdivi-lbl-arrow-line .tmdivi-inner-label::after {
   content: '';
   position: absolute;
@@ -290,6 +321,8 @@
   -moz-border-radius: calc(var(--tw-ibx-radius) * 1%);
   -ms-border-radius: calc(var(--tw-ibx-radius) * 1%);
   -o-border-radius: calc(var(--tw-ibx-radius) * 1%);
+/*   
+  padding:calc(var(--tw-ibx-size)*0.05); */
 }
 
 .tmdivi-wrapper .tmdivi-icon .et-tmdivi-icon{
@@ -315,6 +348,11 @@
   line-height: 1em;
 }
 
+/* .tmdivi-wrapper .tmdivi-icon img {
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+  border-radius: calc(var(--tw-ibx-radius) * 1%);
+} */
 
 .tmdivi-wrapper .tmdivi-icon img {
   border-radius: calc(var(--tw-ibx-radius) * 1%);
@@ -397,10 +435,24 @@
   padding: var(--tw-cbx-padding);
   background: var(--tw-cbx-bg);
   background-color: var(--tw-cbx-bgc);
+  /* border-width: var(--tw-cbx-bd-top-width) var(--tw-cbx-bd-right-width) var(--tw-cbx-bd-bottom-width) var(--tw-cbx-bd-left-width); */
+  /* border-width: var(--tw-cbx-bd-width);
+  border-color: var(--tw-cbx-bd-color);  */
   border-style: var(--tw-cbx-bd-style);
   box-shadow: var(--tw-cbx-shadow);
+  /* border-radius: var(--tw-cbx-radius);
+  -webkit-border-radius: var(--tw-cbx-radius);
+  -moz-border-radius: var(--tw-cbx-radius);
+  -ms-border-radius: var(--tw-cbx-radius);
+  -o-border-radius: var(--tw-cbx-radius); */
 }
 
+.tmdivi-dark-timeline.tmdivi-wrapper .tmdivi-content {
+  background: var(--tw-cbx-custom-bg-clr, var(--tw-cbx-bg));
+}
+.tmdivi-light-timeline.tmdivi-wrapper .tmdivi-content {
+  background:var(--tw-cbx-custom-bg-clr, var(--tw-cbx-bg) );
+}
 
 .tmdivi-wrapper .tmdivi-label-content-top .tmdivi-content {
   overflow: visible;
@@ -537,6 +589,45 @@
   color: var(--tw-cbx-des-color);
 }
 
+.tmdivi-wrapper .tmdivi-button {
+  display: flex;
+  justify-content: var(--tw-cbx-btn-align, var(--tw-cbx-text-align));
+}
+
+.tmdivi-wrapper .tmdivi-button a.elementor-button {
+  width: var(--tw-cbx-btn-width);
+  height: var(--tw-cbx-btn-height);
+  margin: var(--tw-cbx-btn-margin);
+  padding: var(--tw-cbx-btn-padding);
+  color: var(--tw-cbx-btn-color);
+  background-color: var(--tw-cbx-btn-bgcolor);
+  text-decoration: none !important;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.tmdivi-wrapper .tmdivi-button a.elementor-button:hover {
+  opacity: 0.8;
+  color: var(--tw-cbx-btn-color);
+  height: var(--tw-cbx-btn-height);
+  margin: var(--tw-cbx-btn-margin);
+  padding: var(--tw-cbx-btn-padding);
+}
+
+.tmdivi-wrapper .tmdivi-button button.elementor-button {
+  color: var(--tw-cbx-btn-color);
+  background-color: var(--tw-cbx-btn-bgcolor);
+}
+
+/* .tmdivi-wrapper .tmdivi-story:hover .tmdivi-content {
+  box-shadow: var(--tw-cbx-shadow-hover);
+  border-radius: var(--tw-cbx-radius-hover);
+  -webkit-border-radius: var(--tw-cbx-radius-hover);
+  -moz-border-radius: var(--tw-cbx-radius-hover);
+  -ms-border-radius: var(--tw-cbx-radius-hover);
+  -o-border-radius: var(--tw-cbx-radius-hover);
+} */
 
 .tmdivi-wrapper .tmdivi-story.tmdivi-bg-hover:hover .tmdivi-content {
   background: linear-gradient(to right,
@@ -545,7 +636,6 @@
 }
 
 /**-------------- Story Content end ---------------*/
-
 /*---------------Slideshow Arrows-----------*/
 .tmdivi-wrapper .tmdivi-icon-left-open,
 .tmdivi-wrapper .tmdivi-icon-right-open {
@@ -778,7 +868,6 @@ img.attachment-thumbnail.size-thumbnail.wp-post-image {
   background-color: var(--tw-ibx-bg);
 }
 
-
 /*--------------Older Version Global CSS Fix - END ------------*/
 .tmdivi-vertical-right.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text {
   position: relative;
@@ -879,6 +968,9 @@ img.attachment-thumbnail.size-thumbnail.wp-post-image {
   .tmdivi-wrapper .tmdivi-labels{
     margin-bottom: 5px;
   }
+  /* .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-content{
+    border-width: var(--tw-tsl-bd-top) var(--tw-tsl-bd-right) var(--tw-tsl-bd-bottom) var(--tw-tsl-bd-left);
+  } */
   .tmdivi-vertical-right.tmdivi-wrapper .tmdivi-year-label.tmdivi-year-text::before {
     left: auto;
     right: calc(100% + var(--tw-ybx-bd-width)) !important;
