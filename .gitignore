@@ -21,3 +21,11 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock
 package-lock.json
+divi-5/**/*.jsx export-ignore
+divi-5/**/node_modules export-ignore
+divi-5/**/package.json export-ignore
+divi-5/**/installed.json export-ignore
+divi-5/**/composer.json export-ignore
+divi-5/**/composer.lock export-ignore
+divi-5/**/webpack.config.js export-ignore
+divi-5/**/License export-ignore
