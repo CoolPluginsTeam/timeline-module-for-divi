@@ -446,9 +446,9 @@
       border-width: 0 0 var(--tw-cbx-bd-left-width) var(--tw-cbx-bd-left-width);
       box-shadow: -4px 4px 8px -4px rgba(0, 0, 0, 0.4);
     }
-    .tmdivi-vertical.tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow{
+    /* .tmdivi-vertical.tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow{
       border-width: var(--tw-cbx-bd-left-width) var(--tw-cbx-bd-left-width) 0 0;
-    }
+    } */
     
     
     .tmdivi-vertical.tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow {

@@ -100,7 +100,7 @@ trait ModuleStylesTrait {
 					CommonStyle::style(
 						[
 							'selector' => $order_class . ' .tmdivi-wrapper',
-							'attr'     => c,
+							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ($declaration_function_args) use ($args) {
 								// Retrieve the raw string; adjust the key as necessary.
 								$raw = $args['attrs']['unknownAttributes']['heading_custom_padding'] ?? '';
@@ -641,6 +641,11 @@ trait ModuleStylesTrait {
 							'selector' => $order_class . ' .tmdivi-wrapper .tmdivi-story.tmdivi-story-left .tmdivi-arrow',
 							'attr'     => $attrs['story_background_color']['advanced'] ?? $attrs['timeline_layout']['advanced']['layout'],
 							'declarationFunction' => function ( $declaration_function_args ) use ( $args ) {
+
+								if(isset($args['attrs']['story_border_settings'])){
+									return;
+								}
+
 								$border_style_all = $args['attrs']['unknownAttributes']['border_style_all_story_settings'] ?? '';
 								$border_width_all = $args['attrs']['unknownAttributes']['border_width_all_story_settings'] ?? '';
 								$border_color_all = $args['attrs']['unknownAttributes']['border_color_all_story_settings'] ?? '';
