@@ -46,4 +46,4 @@ build/                  export-ignore
 postcss.config.js       export-ignore
 .wordpress-org          export-ignore
 /styles/.gitignore      export-ignore
-
+visual-builder/        export-ignore 
