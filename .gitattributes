@@ -45,5 +45,5 @@ node_modules/           export-ignore
 postcss.config.js       export-ignore
 .wordpress-org          export-ignore
 /styles/.gitignore      export-ignore
-modules/   export-ignore
+/src/modules/   export-ignore
 asset-manifest.json     export-ignore 
