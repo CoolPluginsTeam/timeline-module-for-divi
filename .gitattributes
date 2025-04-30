@@ -42,9 +42,8 @@ node_modules/           export-ignore
 *.tar.gz                export-ignore
 *.zip                   export-ignore
 /src/                   export-ignore
-build/                  export-ignore 
 postcss.config.js       export-ignore
 .wordpress-org          export-ignore
 /styles/.gitignore      export-ignore
-visual-builder/        export-ignore 
+visual-builder/src/        export-ignore 
 asset-manifest.json   export-ignore 
