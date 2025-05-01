@@ -3,7 +3,7 @@ Contributors:coolplugins,narinder-singh,satindersingh
 Donate link: https://paypal.me/CoolPlugins/10USD/
 Tags: divi timeline, timeline, horizontal timeline, history, roadmap
 Requires at least: 5.0
-Tested up to: 6.7.2
+Tested up to: 6.8
 Requires PHP: 7.2
 Stable tag: 1.1.2
 License: GPLv2 or later
@@ -179,7 +179,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
-= Version 1.1.2 | 30 Apr 2025 =  
+= Version 1.1.2 | 01 May 2025 =  
 - Fixed: Multiple bugs in the Visual Builder for both Divi 4 and Divi 5.   
 - Improved: Migration process from Divi 4 to Divi 5 and design for better UI/UX.
 
