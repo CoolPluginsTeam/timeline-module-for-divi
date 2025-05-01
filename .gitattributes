@@ -38,6 +38,7 @@ wp-cli.local.yml        export-ignore
 yarn.lock               export-ignore
 tests/                  export-ignore
 node_modules/           export-ignore
+src/                     export-ignore
 *.sql                   export-ignore
 *.tar.gz                export-ignore
 *.zip                   export-ignore
