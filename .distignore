@@ -54,4 +54,5 @@ divi-5/**/composer.json
 divi-5/**/composer.lock
 divi-5/**/webpack.config.js
 divi-5/**/License
-visual-builder
+divi-5/visual-builder/src/
+divi-5/visual-builder/*
