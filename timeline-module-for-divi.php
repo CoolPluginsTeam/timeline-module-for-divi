@@ -46,7 +46,7 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
 
     public function stop_browser_cache(){
-        if ( is_singular() && false !== strpos( get_post()->post_content, '[tmdivi_timeline_story' ) && isset($_GET['et_fb'])) {
+        if ( is_singular() && false !== strpos( get_post()->post_content, '[tmdivi_timeline_story' ) && (function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled())) {
             header( 'Cache-Control: no-cache, no-store, must-revalidate' );
             header( 'Pragma: no-cache' );
             header( 'Expires: 0' );
