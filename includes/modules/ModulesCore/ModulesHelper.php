@@ -772,11 +772,11 @@ class TMDIVI_ModulesHelper{
 
     public static function ChildStaticCssLoader($props, $render_slug){
 
-        $child_story_background_color = $props['child_story_background_color'];
-        $child_story_heading_color = $props['child_story_heading_color'];
-        $child_story_description_color = $props['child_story_description_color'];
-        $child_story_label_color = $props['child_story_label_color'];
-        $child_story_sub_label_color = $props['child_story_sub_label_color'];
+        $child_story_background_color = esc_attr($props['child_story_background_color']);
+        $child_story_heading_color = esc_attr($props['child_story_heading_color']);
+        $child_story_description_color = esc_attr($props['child_story_description_color']);
+        $child_story_label_color = esc_attr($props['child_story_label_color']);
+        $child_story_sub_label_color = esc_attr($props['child_story_sub_label_color']);
 
 
 
