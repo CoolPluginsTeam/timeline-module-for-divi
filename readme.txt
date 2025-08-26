@@ -33,15 +33,15 @@ You can create timelines that are vertical, with events on one side or both side
 
 ### Check our other Timeline plugins demos
 <ul>
-<li><strong>Cool Timeline [Free]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=ctl_demo&utm_content=view_free_demo" target="_blank">View Demo</a></li>
+<li><strong>Cool Timeline [Free]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=ctl_free_demo" target="_blank">View Demo</a></li>
 
-<li><strong>Cool Timeline PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=ctl_demo&utm_content=view_pro_demo" target="_blank">View Demo</a></li>
-<li><strong>Timeline Widget For Elementor [Free]</strong>-<a href="https://cooltimeline.com/demo/elementor-timeline/free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=twae_demo&utm_content=view_free_demo">View Demo</a></li>
-<li><strong>Timeline Widget For Elementor PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=twae_demo&utm_content=twea_pro_demo">View Demo</a></li>
-<li><strong>Timeline Builder PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=tbp_demo&utm_content=view_demo">View Demo</a></li>
-<li><strong>Timeline Block For Gutenberg [Free]</strong>- <a href="https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=tbg_demo&utm_content=view_free_demo" target="_blank">View Demo</a>
+<li><strong>Cool Timeline PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/cool-timeline-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=ctl_pro_demo" target="_blank">View Demo</a></li>
+<li><strong>Timeline Widget For Elementor [Free]</strong>-<a href="https://cooltimeline.com/demo/elementor-timeline-widget/free/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twae_free_demo">View Demo</a></li>
+<li><strong>Timeline Widget For Elementor PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/elementor-timeline-widget/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=twae_pro_demo">View Demo</a></li>
+<li><strong>Timeline Builder PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo">View Demo</a></li>
+<li><strong>Timeline Block For Gutenberg [Free]</strong>- <a href="https://cooltimeline.com/demo/gutenberg-timeline-block/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_free_demo" target="_blank">View Demo</a>
 </li>
-<li><strong>Timeline Block For Gutenberg PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-block-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=tbg_demo&utm_content=view_pro_demo" target="_blank">View Demo</a>
+<li><strong>Timeline Block For Gutenberg PRO [PRO]</strong>- <a href="https://cooltimeline.com/demo/timeline-block-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbg_pro_demo" target="_blank">View Demo</a>
 
 <li><strong>Events Calendar Modules for Divi [Free]</strong>- <a href="https://wordpress.org/plugins/events-calendar-modules-for-divi/" target="_blank">Check Plugin</a>
 
