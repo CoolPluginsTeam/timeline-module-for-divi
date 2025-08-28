@@ -215,6 +215,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 - Customization options for colors, fonts, and styles.  
 - Fully responsive design for all devices.  
 
+== ⚠️Important Notice ==
+Migration from Divi 4 to Divi 5 will only be supported till Divi 5 Public Alpha 14. If you are planning to upgrade your site or plugins, please make sure to complete the migration process before Alpha 14. After this point, direct migration from Divi 4 will no longer be available, and this may lead to compatibility issues.
+
 == Upgrade Notice ==
 
 = Version 1.1.0 | 27 Mar 2025 =  
