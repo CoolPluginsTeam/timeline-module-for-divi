@@ -146,6 +146,10 @@ class TMDIVI_Timeline_Module_For_Divi {
 		update_option( 'tmdivi-installDate', gmdate( 'Y-m-d h:i:s' ) );
 		update_option( 'tmdivi-defaultPlugin', true );
 
+        if (!get_option( 'tmdivi_initial_version' ) ) {
+            add_option( 'tmdivi_initial_version', TMDIVI_V );
+        }
+
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
             update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
         }
