@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Timeline Module For Divi
-Plugin URI:  https://cooltimeline.com/divi
+Plugin URI:  https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=product_site&utm_content=plugins_list
 Description: A timeline module for Divi
 Version:     1.1.2
 Author:      CoolPlugins
-Author URI:  https://coolplugins.net
+Author URI:  https://coolplugins.net/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: timeline-module-for-divi
@@ -43,6 +43,13 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action('wp_loaded', array($this, 'load_child_items'));
         add_action( 'wp_enqueue_scripts', array($this,'d5_extension_example_module_enqueue_frontend_scripts') );
         add_action('send_headers',array($this,'stop_browser_cache'));
+        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'tmdivi_pro_plugin_link' ) );
+    }
+
+    public function tmdivi_pro_plugin_link($links){
+        $get_pro_link = '<a href="https://www.elegantthemes.com/marketplace/timeline-module-for-divi-pro/" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
+		array_push( $links, $get_pro_link );
+		return $links;
     }
 
     public function stop_browser_cache(){
@@ -138,6 +145,10 @@ class TMDIVI_Timeline_Module_For_Divi {
 		update_option( 'tmdivi-type', 'free' );
 		update_option( 'tmdivi-installDate', gmdate( 'Y-m-d h:i:s' ) );
 		update_option( 'tmdivi-defaultPlugin', true );
+
+        if (!get_option( 'tmdivi_initial_version' ) ) {
+            add_option( 'tmdivi_initial_version', TMDIVI_V );
+        }
 
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
             update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
