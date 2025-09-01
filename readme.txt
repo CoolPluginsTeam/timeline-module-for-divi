@@ -183,7 +183,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
-= Version 1.1.3 | 29 Aug 2025 =  
+= Version 1.1.3 | 01 Sep 2025 =  
 - Optimization:- Bug fixes and security code improvements.
 - Updated :- UTM Links.
 
