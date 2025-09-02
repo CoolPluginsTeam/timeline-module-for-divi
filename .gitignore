@@ -24,6 +24,7 @@ package-lock.json
 divi-5/**/*.jsx export-ignore
 divi-5/**/node_modules export-ignore
 divi-5/**/package.json export-ignore
+divi-5/**/package-lock.json export-ignore
 divi-5/**/installed.json export-ignore
 divi-5/**/composer.json export-ignore
 divi-5/**/composer.lock export-ignore
