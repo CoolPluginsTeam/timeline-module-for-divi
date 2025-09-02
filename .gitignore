@@ -30,5 +30,3 @@ divi-5/**/composer.json export-ignore
 divi-5/**/composer.lock export-ignore
 divi-5/**/webpack.config.js export-ignore
 divi-5/**/License export-ignore
-
-divi-5/visual-builder/*
