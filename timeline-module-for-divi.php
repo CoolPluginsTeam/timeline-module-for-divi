@@ -61,7 +61,7 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
     
     public function d5_extension_example_module_enqueue_frontend_scripts() {
-        if(wp_get_theme()->get('Version') >= 5){
+        if(wp_get_theme('Divi')->get('Version') >= 5){
             $plugin_dir_url = TMDIVI_URL;
             wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), TMDIVI_V );
     
@@ -89,7 +89,7 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
     
     public static function includes(){
-        if(wp_get_theme()->get('Version') >= 5){
+        if(wp_get_theme('Divi')->get('Version') >= 5){
             require_once TMDIVI_DIR . '/divi-5/divi-5.php';
             new Divi5_Visual_Builder_Assets();
         }        
