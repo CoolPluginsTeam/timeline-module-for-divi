@@ -5,7 +5,7 @@ Tags: divi timeline, timeline, horizontal timeline, history, roadmap
 Requires at least: 5.0
 Tested up to: 6.8.2
 Requires PHP: 7.2
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -182,6 +182,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 == Upgrade Notice ==
 
 == Changelog == 
+
+= Version 1.1.8 | 18 Nov 2025 =  
+* Optimization:- Minor code improvements.
+* Improved:- Admin review notice design.
 
 = Version 1.1.7 | 02 Sep 2025 =  
 Fixed: Missing divi-5 build folder.
