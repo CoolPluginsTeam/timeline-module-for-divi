@@ -9,7 +9,6 @@ Author URI:  https://coolplugins.net/?utm_source=tmdivi_plugin&utm_medium=inside
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: timeline-module-for-divi
-Domain Path: /languages
 
 Timeline Module For Divi is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,7 +62,7 @@ class TMDIVI_Timeline_Module_For_Divi {
     public function d5_extension_example_module_enqueue_frontend_scripts() {
         if(wp_get_theme('Divi')->get('Version') >= 5){
             $plugin_dir_url = TMDIVI_URL;
-            wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), TMDIVI_V );
+            wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), TMDIVI_V, true );
     
             wp_enqueue_style( 'd5-timeline-style', "{$plugin_dir_url}styles/style.min.css", array(), TMDIVI_V);
             wp_enqueue_style( 'd5-timeline-helper-style', "{$plugin_dir_url}assets/css/divi-5-helper-css.css", array(), TMDIVI_V );
@@ -102,6 +101,7 @@ class TMDIVI_Timeline_Module_For_Divi {
         if ($theme->name == $target || stripos($theme->parent_theme, $target) !== false) {
             return true;
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound	
         if (apply_filters('divi_ghoster_ghosted_theme', '') == $target) {
             return true;
         }

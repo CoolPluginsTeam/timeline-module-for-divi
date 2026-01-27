@@ -39,7 +39,7 @@ class TMDIVI_feedback {
 	function enqueue_feedback_scripts() {
 		$screen = get_current_screen();
 		if ( isset( $screen ) && $screen->id == 'plugins' ) {
-			wp_enqueue_script( 'tmdivi-feedback-script', $this->plugin_url . 'admin/feedback/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version );
+			wp_enqueue_script( 'tmdivi-feedback-script', $this->plugin_url . 'admin/feedback/js/admin-feedback.js', array( 'jquery' ), $this->plugin_version, true );
 			wp_enqueue_style( 'tmdivi-feedback-css', $this->plugin_url . 'admin/feedback/css/admin-feedback.css', null, $this->plugin_version );
 		}
 
@@ -80,6 +80,7 @@ class TMDIVI_feedback {
 		}
 
 		// grab plugin installation date and compare it with current date
+		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date		
 		$display_date = date( 'Y-m-d h:i:s' );
 		$install_date = new DateTime( $installation_date );
 		$current_date = new DateTime( $display_date );
@@ -88,9 +89,9 @@ class TMDIVI_feedback {
 
 		// check if installation days is greator then week
 		if ( isset( $diff_days ) && $diff_days >= 3 ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
 			wp_enqueue_style('tmdivi-feedback-notice');
 			wp_enqueue_script('tmdivi-feedback-notice');
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
 			echo $this->tmdivi_create_notice_content();
 		}
 	}
@@ -104,7 +105,7 @@ class TMDIVI_feedback {
 		$p_name             = esc_html('Timeline Module For Divi');
 		$like_it_text       =  esc_html('Rate Now! ★★★★★');
 		$already_rated_text = esc_html__('Already Reviewed', 'timeline-module-for-divi');
-		$not_interested     = esc_html__('Not Interested', 'ect');
+		$not_interested     = esc_html__('Not Interested', 'timeline-module-for-divi');
 		$not_like_it_text   = esc_html__('No, not good enough, i do not like to rate it!', 'timeline-module-for-divi');
 		$p_link             = esc_url($this->review_link);
 		$pro_url            = $this->buy_link;
@@ -242,7 +243,8 @@ class TMDIVI_feedback {
 		global $wpdb;
         // Server and WP environment details
         $server_info = [
-            'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field($_SERVER['SERVER_SOFTWARE']) : 'N/A',
+            'server_software'        => isset($_SERVER['SERVER_SOFTWARE']) ? sanitize_text_field(wp_unslash($_SERVER['SERVER_SOFTWARE'])) : 'N/A',
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching		
             'mysql_version'          => $wpdb ? sanitize_text_field($wpdb->get_var("SELECT VERSION()")) : 'N/A',
             'php_version'            => sanitize_text_field(phpversion() ?: 'N/A'),
             'wp_version'             => sanitize_text_field(get_bloginfo('version') ?: 'N/A'),
@@ -286,10 +288,10 @@ class TMDIVI_feedback {
 	}
 
 	function submit_deactivation_response() {
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['_wpnonce'] ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
-			$reason             = isset( $_POST['reason'] ) ? sanitize_text_field( $_POST['reason'] ) : '';
+			$reason             = isset( $_POST['reason'] ) ? sanitize_text_field( wp_unslash( $_POST['reason'] ) ) : '';
 			$deactivate_reasons = array(
 				'didnt_work_as_expected'         => array(
 					'title'             => __( 'The plugin didn\'t work as expected', 'timeline-module-for-divi' ),
@@ -308,7 +310,7 @@ class TMDIVI_feedback {
 					'input_placeholder' => '',
 				),
 				'other'                          => array(
-					'title'             => __( 'Other', 'cool-plugins' ),
+					'title'             => __( 'Other', 'timeline-module-for-divi' ),
 					'input_placeholder' => __( 'Please share the reason.', 'timeline-module-for-divi' ),
 				),
 			);
@@ -318,7 +320,7 @@ class TMDIVI_feedback {
 			$deativation_reason = array_key_exists( $reason, $deactivate_reasons ) ? $reason : 'other';
 
 			$deativation_reason = esc_html($deativation_reason);
-			$sanitized_message = empty( $_POST['message'] ) || sanitize_text_field( $_POST['message'] ) == '' ? 'N/A' : sanitize_text_field( $_POST['message'] );
+			$sanitized_message = empty( $_POST['message'] ) || sanitize_text_field( wp_unslash($_POST['message']) ) == '' ? 'N/A' : sanitize_text_field( wp_unslash($_POST['message']) );
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
 			$site_url          = esc_url( site_url() );
 			$feedback_url      = esc_url( 'https://feedback.coolplugins.net/wp-json/coolplugins-feedback/v1/feedback' );
