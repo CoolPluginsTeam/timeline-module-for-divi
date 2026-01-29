@@ -11,7 +11,7 @@ class TMDIVI_feedback {
 		private $plugin_slug    = 'timeline-module-for-divi';
 		private $installation_date_option = 'tmdivi-installDate';
 		private $review_option = 'tmdivi-Boxes-ratingDiv';
-		private $buy_link = 'https://www.elegantthemes.com/affiliates/idevaffiliate.php?id=79863&url=84937';
+		private $buy_link = 'https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=admin_review_notice';
 		private $review_link = 'https://wordpress.org/support/plugin/timeline-module-for-divi/reviews/#new-post';
 		private $plugin_logo = 'assets/image/divi-timeline-logo.png';
 

@@ -46,7 +46,7 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
 
     public function tmdivi_pro_plugin_link($links){
-        $get_pro_link = '<a href="https://www.elegantthemes.com/marketplace/timeline-module-for-divi-pro/" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
+        $get_pro_link = '<a href="https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
 		array_push( $links, $get_pro_link );
 		return $links;
     }

@@ -39,7 +39,7 @@ Whether you want to display your company’s history, highlight important milest
 ### Upgrade to Pro
 Upgrading to the Pro version gives you access to even more powerful features. With Pro, you can create **[horizontal timelines](https://cooltimeline.com/divi/horizontal-layout/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=view_horizontal_demos)** perfect for roadmaps, step-by-step guides, and product launches. You also get access to advanced customization options and event layout styles.
 
-**[Get Pro!](https://www.elegantthemes.com/affiliates/idevaffiliate.php?id=79863&url=84937)**
+**[Get Pro!](https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=get_pro&utm_content=get_pro_plugin)**
 
 ### Where can you use the Timeline Module for Divi
 
