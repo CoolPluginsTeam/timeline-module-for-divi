@@ -38,8 +38,43 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			// AJAX handlers for install & activate.
 			add_action( 'wp_ajax_cfe_plugin_install', 'wp_ajax_install_plugin' );
 			add_action( 'wp_ajax_cfe_plugin_activate', array( $this, 'ajax_activate_plugin' ) );
+
+			$this->cool_run_global_divi_contact_form_scan();
 		}
 
+		public function cool_run_global_divi_contact_form_scan() {
+			if ( ! is_admin() ) {
+				return;
+			}
+			$using_contactform_module = get_option( 'cool_divi_contact_form_exists', '' );
+			if ( 'yes' === $using_contactform_module || 'no' === $using_contactform_module ) {
+				return;
+			}
+			// Run a one-time scan across posts to detect any Divi contact form usage.
+			$found = $this->cool_scan_database_for_divi_contact_forms();
+			update_option( 'cool_divi_contact_form_exists', $found ? 'yes' : 'no' );
+		}
+
+		public function cool_scan_database_for_divi_contact_forms() {
+			global $wpdb;
+		
+			$like_shortcode = '%et_pb_contact_form%';      // Divi 4
+			$like_block     = '%wp:divi/contact-form%';    // Divi 5 blocks
+		
+			$sql = $wpdb->prepare("
+				SELECT ID FROM $wpdb->posts
+				WHERE post_status = 'publish'
+				AND post_type IN ('page','post','et_pb_layout')
+				AND (
+					post_content LIKE %s
+					OR post_content LIKE %s
+				)
+				LIMIT 1
+			", $like_shortcode, $like_block);
+		
+			$result = $wpdb->get_var($sql);
+			return ! empty($result);
+		}
 		/**
 		 * Enqueue builder scripts/styles and expose config variables.
 		 */
