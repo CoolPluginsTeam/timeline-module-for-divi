@@ -100,6 +100,9 @@ class TMDIVI_Timeline_Module_For_Divi {
         }        
         require_once TMDIVI_MODULE_DIR . '/assets-loader.php';
         new TMDIVI_AssetsLoader();
+
+        // Load marketing file upload option for Divi Contact Form
+		require_once TMDIVI_DIR . 'marketing/marketing-file-upload.php';   
     }
 
     public static function is_theme_activate($target){
