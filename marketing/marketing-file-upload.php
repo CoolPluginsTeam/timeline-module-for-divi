@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
+if ( ! class_exists( 'CFE_Marketing_File_Upload' ) ) {
 
-	class ContactFormExtender_Marketing {
+	class CFE_Marketing_File_Upload {
 
 		/**
 		 * Target plugin slug on WordPress.org.
@@ -36,9 +36,8 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_vb_scripts' ), 999 );
 
 			// AJAX handlers for install & activate.
-			// add_action( 'wp_ajax_ecmd_plugin_install', array( $this, 'ajax_install_plugin' ) );
-			add_action( 'wp_ajax_ecmd_plugin_install', 'wp_ajax_install_plugin' );
-			add_action( 'wp_ajax_ecmd_plugin_activate', array( $this, 'ajax_activate_plugin' ) );
+			add_action( 'wp_ajax_cfe_plugin_install', 'wp_ajax_install_plugin' );
+			add_action( 'wp_ajax_cfe_plugin_activate', array( $this, 'ajax_activate_plugin' ) );
 		}
 
 		/**
@@ -59,10 +58,8 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 			
 
 			if ( function_exists( 'et_core_is_fb_enabled' ) && et_core_is_fb_enabled() ) {
-				$this->enqueue_d5_script( $vars );
-			} else {
-				$this->enqueue_d4_script( $vars );
-			}
+				$this->enqueue_editor_script( $vars );
+			} 
 		}
 
 		/**
@@ -72,12 +69,12 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 		 */
 		private function get_js_vars() {
 			return array(
-				'ajaxurl'      => admin_url( 'admin-ajax.php' ),
-				'installNonce' => wp_create_nonce( 'updates' ),
-				'activateNonce'=> wp_create_nonce( 'ecmd_plugin_activate' ),
-				'pluginSlug'   => self::TARGET_PLUGIN_SLUG,
-				'pluginInit'   => self::TARGET_PLUGIN_INIT,
-				'status'       => $this->get_plugin_status(),
+				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+				'installNonce'  => wp_create_nonce( 'updates' ),
+				'activateNonce' => wp_create_nonce( 'cfe_plugin_activate' ),
+				'pluginSlug'    => self::TARGET_PLUGIN_SLUG,
+				'pluginInit'    => self::TARGET_PLUGIN_INIT,
+				'status'        => $this->get_plugin_status(),
 			);
 		}
 
@@ -86,77 +83,26 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 		 *
 		 * @param array $vars
 		 */
-		public function enqueue_d4_script( $vars ) {
+		public function enqueue_editor_script( $vars ) {
 			$base = plugins_url( '', __FILE__ );
-			$ver  = defined( 'ECMD_V' ) ? ECMD_V : '1.0';
+			$ver  = defined( 'CFE_V' ) ? CFE_V : '1.0';
 
 			wp_enqueue_style(
-				'ecmd-marketing-file-upload-d4',
+				'cfe-marketing-file-upload-d4',
 				$base . '/marketing-file-upload-d4.css',
 				array(),
 				$ver
 			);
 
 			wp_enqueue_script(
-				'ecmd-marketing-file-upload',
+				'cfe-marketing-file-upload',
 				$base . '/marketing-file-upload.js',
 				array( 'jquery' ),
 				$ver,
 				true
 			);
 
-			wp_localize_script( 'ecmd-marketing-file-upload', 'ecmd_plugin_vars', $vars );
-		}
-
-		/**
-		 * Enqueue assets for Divi 5 builder.
-		 *
-		 * @param array $vars
-		 */
-		public function enqueue_d5_script( $vars ) {
-			if ( ! class_exists( '\ET\Builder\VisualBuilder\Assets\PackageBuildManager' ) ) {
-				return;
-			}
-
-			$base = plugins_url( '', __FILE__ );
-			$ver  = defined( 'ECMD_V' ) ? ECMD_V : '1.0';
-
-			wp_enqueue_style(
-				'ecmd-marketing-file-upload-d4',
-				$base . '/marketing-file-upload-d4.css',
-				array(),
-				$ver
-			);
-
-			wp_enqueue_script(
-				'ecmd-marketing-file-upload',
-				$base . '/marketing-file-upload.js',
-				array( 'jquery' ),
-				$ver,
-				true
-			);
-			// Provide config before the package script.
-			wp_register_script( 'ecmd-marketing-file-upload-config', '', array(), $ver, false );
-			wp_enqueue_script( 'ecmd-marketing-file-upload-config' );
-			wp_add_inline_script(
-				'ecmd-marketing-file-upload-config',
-				'window.ecmd_plugin_vars = ' . wp_json_encode( $vars ) . ';',
-				'before'
-			);
-
-			// \ET\Builder\VisualBuilder\Assets\PackageBuildManager::register_package_build(
-			// 	array(
-			// 		'name'    => 'ecmd-marketing-file-upload',
-			// 		'version' => $ver,
-			// 		'script'  => array(
-			// 			'src'                => $base . '/marketing-file-upload.js',
-			// 			'deps'               => array( 'divi-vendor-wp-hooks', 'ecmd-marketing-file-upload-config' ),
-			// 			'enqueue_top_window' => false,
-			// 			'enqueue_app_window' => true,
-			// 			'args'               => array( 'in_footer' => false ),
-			// 		),
-			// 	)
-			// );
+			wp_localize_script( 'cfe-marketing-file-upload', 'cfe_plugin_vars', $vars );
 		}
 
 		/**
@@ -168,8 +114,13 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 		 * @return array
 		 */
 		public function add_toggles( $modules, $post_type ) {
+			// Do not show marketing section if plugin is already active.
+			if ( 'active' === $this->get_plugin_status() ) {
+				return $modules;
+			}
+
 			if ( isset( $modules['et_pb_contact_form'] ) ) {
-				$modules['et_pb_contact_form']->settings_modal_toggles['general']['toggles']['ecmd_file_upload_promo'] = array(
+				$modules['et_pb_contact_form']->settings_modal_toggles['general']['toggles']['cfe_file_upload_promo'] = array(
 					'title'    => esc_html__( 'Save submissions', 'events-calendar-modules-for-divi' ),
 					'priority' => 200,
 				);
@@ -189,23 +140,23 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 		 */
 		public function add_promo_field( $fields_unprocessed ) {
 			static $field = null;
-			if ( $field === null ) {
-				$status = $this->get_plugin_status();
+			$status       = $this->get_plugin_status();
 
-				if ( 'active' === $status ) {
+			// If already active, do not show the marketing field at all.
+			if ( 'active' === $status ) {
+				return $fields_unprocessed;
+			}
+
+			if ( $field === null ) {
+				if ( 'inactive' === $status ) {
 					$button_html = sprintf(
-						'<span style="display:inline-block;padding:10px 16px;background:#22c55e;border:none;color:#fff;border-radius:4px;font-weight:bold;width:100%%;text-align:center;box-sizing:border-box;">%s</span>',
-						esc_html__( 'Contact Form Extender for Divi is active', 'events-calendar-modules-for-divi' )
-					);
-				} elseif ( 'inactive' === $status ) {
-					$button_html = sprintf(
-						'<button type="button" class="ecmd-d4-promo__btn ecmd-activate-plugin-btn" data-init="%s" style="display:inline-block;padding:10px 16px;background:#007cba;border:none;color:#fff;border-radius:4px;font-weight:bold;width:100%%;text-align:center;box-sizing:border-box;cursor:pointer;">%s</button>',
+						'<button type="button" class="cfe-d4-promo__btn cfe-activate-plugin-btn" data-init="%s" style="display:inline-block;padding:10px 16px;background:#007cba;border:none;color:#fff;border-radius:4px;font-weight:bold;width:100%%;text-align:center;box-sizing:border-box;cursor:pointer;">%s</button>',
 						esc_attr( self::TARGET_PLUGIN_INIT ),
 						esc_html__( 'Activate Plugin', 'events-calendar-modules-for-divi' )
 					);
 				} else {
 					$button_html = sprintf(
-						'<button type="button" class="ecmd-d4-promo__btn ecmd-install-plugin-btn" data-slug="%s" data-init="%s" style="display:inline-block;padding:10px 16px;background:#007cba;border:none;color:#fff;border-radius:4px;font-weight:bold;width:100%%;text-align:center;box-sizing:border-box;cursor:pointer;">%s</button>',
+						'<button type="button" class="cfe-d4-promo__btn cfe-install-plugin-btn" data-slug="%s" data-init="%s" style="display:inline-block;padding:10px 16px;background:#007cba;border:none;color:#fff;border-radius:4px;font-weight:bold;width:100%%;text-align:center;box-sizing:border-box;cursor:pointer;">%s</button>',
 						esc_attr( self::TARGET_PLUGIN_SLUG ),
 						esc_attr( self::TARGET_PLUGIN_INIT ),
 						esc_html__( 'Install & Activate', 'events-calendar-modules-for-divi' )
@@ -223,67 +174,20 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 						esc_html__( 'Want better form management? Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.', 'events-calendar-modules-for-divi' ),
 						$button_html
 					),
-					'toggle_slug'     => 'ecmd_file_upload_promo',
+					'toggle_slug'     => 'cfe_file_upload_promo',
 				);
 			}
 
-			$fields_unprocessed['ecmd_marketing_file_upload_promo'] = $field;
+			$fields_unprocessed['cfe_marketing_file_upload_promo'] = $field;
 
 			return $fields_unprocessed;
-		}
-
-		/**
-		 * AJAX: Install the target plugin.
-		 */
-		public function ajax_install_plugin() {
-			check_ajax_referer( 'ecmd_plugin_install', 'security' );
-
-			if ( ! current_user_can( 'install_plugins' ) ) {
-				wp_send_json_error( array( 'message' => __( 'You do not have permission to install plugins.', 'events-calendar-modules-for-divi' ) ) );
-			}
-
-			if ( empty( $_POST['slug'] ) ) {
-				wp_send_json_error( array( 'message' => __( 'Plugin slug missing.', 'events-calendar-modules-for-divi' ) ) );
-			}
-
-			$slug = sanitize_text_field( wp_unslash( $_POST['slug'] ) );
-
-			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-
-			$api = plugins_api(
-				'plugin_information',
-				array(
-					'slug'   => $slug,
-					'fields' => array(
-						'sections' => false,
-					),
-				)
-			);
-
-			if ( is_wp_error( $api ) ) {
-				wp_send_json_error( array( 'message' => $api->get_error_message() ) );
-			}
-
-			$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
-			$result   = $upgrader->install( $api->download_link );
-
-			if ( is_wp_error( $result ) ) {
-				wp_send_json_error( array( 'message' => $result->get_error_message() ) );
-			}
-
-			if ( ! $result ) {
-				wp_send_json_error( array( 'message' => __( 'Installation failed.', 'events-calendar-modules-for-divi' ) ) );
-			}
-
-			wp_send_json_success( array( 'message' => __( 'Plugin installed successfully.', 'events-calendar-modules-for-divi' ) ) );
 		}
 
 		/**
 		 * AJAX: Activate the target plugin.
 		 */
 		public function ajax_activate_plugin() {
-			check_ajax_referer( 'ecmd_plugin_activate', 'security' );
+			check_ajax_referer( 'cfe_plugin_activate', 'security' );
 
 			if ( ! current_user_can( 'activate_plugins' ) ) {
 				wp_send_json_error( array( 'message' => __( 'You do not have permission to activate plugins.', 'events-calendar-modules-for-divi' ) ) );
@@ -331,5 +235,5 @@ if ( ! class_exists( 'ContactFormExtender_Marketing' ) ) {
 		}
 	}
 
-	new ContactFormExtender_Marketing();
+	new CFE_Marketing_File_Upload();
 }

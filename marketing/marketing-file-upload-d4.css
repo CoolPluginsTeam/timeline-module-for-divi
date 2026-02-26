@@ -1,5 +1,5 @@
 /* Divi 4 Contact Form promo notice */
-.ecmd-d4-promo {
+.cfe-d4-promo {
     position: relative;
     padding: 16px 40px 16px 16px;
     background: #f8fafc;
@@ -11,7 +11,7 @@
     margin-bottom: 12px;
 }
 
-.ecmd-d4-promo__close {
+.cfe-d4-promo__close {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -28,26 +28,26 @@
     text-align: center;
 }
 
-.ecmd-d4-promo__close:hover {
+.cfe-d4-promo__close:hover {
     background: #cbd5e1;
     color: #475569;
 }
 
-.ecmd-d4-promo__title {
+.cfe-d4-promo__title {
     margin: 0 0 8px;
     color: #334155;
     font-size: 14px;
     font-weight: 600;
 }
 
-.ecmd-d4-promo__text {
+.cfe-d4-promo__text {
     margin: 0 0 14px;
     color: #475569;
     font-size: 13px;
     line-height: 1.5;
 }
 
-.ecmd-d4-promo__btn {
+.cfe-d4-promo__btn {
     display: inline-block;
     padding: 10px 20px;
     background: #007cba;
@@ -58,7 +58,7 @@
     font-size: 13px;
 }
 
-.ecmd-d4-promo__btn:hover {
+.cfe-d4-promo__btn:hover {
     color: #fff;
     background: #005a87;
 }
