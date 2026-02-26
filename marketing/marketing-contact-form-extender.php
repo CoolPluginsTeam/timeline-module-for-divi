@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'CFE_Marketing_File_Upload' ) ) {
+if ( ! class_exists( 'CFE_Marketing' ) ) {
 
-	class CFE_Marketing_File_Upload {
+	class CFE_Marketing {
 
 		/**
 		 * Target plugin slug on WordPress.org.
@@ -88,21 +88,21 @@ if ( ! class_exists( 'CFE_Marketing_File_Upload' ) ) {
 			$ver  = defined( 'CFE_V' ) ? CFE_V : '1.0';
 
 			wp_enqueue_style(
-				'cfe-marketing-file-upload-d4',
-				$base . '/marketing-file-upload-d4.css',
+				'cfe-marketing-contact-form-extender',
+				$base . '/marketing-contact-form-extender.css',
 				array(),
 				$ver
 			);
 
 			wp_enqueue_script(
-				'cfe-marketing-file-upload',
-				$base . '/marketing-file-upload.js',
+				'cfe-marketing-contact-form-extender',
+				$base . '/marketing-contact-form-extender.js',
 				array( 'jquery' ),
 				$ver,
 				true
 			);
 
-			wp_localize_script( 'cfe-marketing-file-upload', 'cfe_plugin_vars', $vars );
+			wp_localize_script( 'cfe-marketing-contact-form-extender', 'cfe_plugin_vars', $vars );
 		}
 
 		/**
@@ -120,7 +120,7 @@ if ( ! class_exists( 'CFE_Marketing_File_Upload' ) ) {
 			}
 
 			if ( isset( $modules['et_pb_contact_form'] ) ) {
-				$modules['et_pb_contact_form']->settings_modal_toggles['general']['toggles']['cfe_file_upload_promo'] = array(
+				$modules['et_pb_contact_form']->settings_modal_toggles['general']['toggles']['cfe_marketing_promo'] = array(
 					'title'    => esc_html__( 'Save submissions', 'events-calendar-modules-for-divi' ),
 					'priority' => 200,
 				);
@@ -174,11 +174,12 @@ if ( ! class_exists( 'CFE_Marketing_File_Upload' ) ) {
 						esc_html__( 'Want better form management? Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.', 'events-calendar-modules-for-divi' ),
 						$button_html
 					),
-					'toggle_slug'     => 'cfe_file_upload_promo',
+					'toggle_slug'     => 'cfe_marketing_promo',
 				);
 			}
 
-			$fields_unprocessed['cfe_marketing_file_upload_promo'] = $field;
+			// Internal option key, used only for this marketing field.
+			$fields_unprocessed['cfe_marketing_promo_field'] = $field;
 
 			return $fields_unprocessed;
 		}
@@ -235,5 +236,5 @@ if ( ! class_exists( 'CFE_Marketing_File_Upload' ) ) {
 		}
 	}
 
-	new CFE_Marketing_File_Upload();
+	new CFE_Marketing();
 }

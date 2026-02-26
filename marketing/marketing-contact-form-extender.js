@@ -9,12 +9,55 @@
     var INSTALL_NONCE = config.installNonce || '';
     var ACTIVATE_NONCE = config.activateNonce || '';
 
+    // Divi 4: when the marketing toggle is opened, ensure UI reflects current STATUS.
+    jQuery(document).on('mousedown click', '.et-fb-form__toggle[data-name="cfe_marketing_promo"]', function (event) {
+        setTimeout(function () {
+            var $mainButton = jQuery(event.currentTarget).find('button.cfe-d4-promo__btn');
+            if (!$mainButton.length) {
+                return;
+            }
+            
+            if (STATUS === 'active') {
+                var boxEl = $mainButton.closest('.cfe-d4-promo, .cfe-promo-notice').get(0);
+                if (boxEl) {
+                    showReloadNotice(boxEl);
+                }
+            }
+        }, 100);
+    });
+
+    // Divi 5: when the "Save submissions" marketing group is opened,
+    // ensure the notice reflects current STATUS (e.g., reload state).
+    jQuery(document).on('mousedown click', '.et-vb-modal-group .et-vb-modal-group-title[data-name="cfeMarketingPromoGroup"]', function (event) {
+        setTimeout(function () {
+            var $group = jQuery(event.currentTarget).closest('.et-vb-modal-group');
+            if (!$group.length) {
+                return;
+            }
+
+            var $promoBox = $group.find('.cfe-promo-notice');
+            if (!$promoBox.length) {
+                return;
+            }
+
+            if (STATUS === 'active') {
+                var boxEl = $promoBox.get(0);
+                if (boxEl) {
+                    showReloadNotice(boxEl);
+                }
+            }
+        }, 100);
+    });
+
     function buildButtonHtml(status, extraClasses) {
+
         extraClasses = extraClasses || '';
         if (status === 'inactive') {
             return '<button type="button" class="cfe-d4-promo__btn cfe-activate-plugin-btn ' + extraClasses + '" data-init="' + PLUGIN_INIT + '">' +
                 'Activate Plugin' +
                 '</button>';
+        }else if(status === 'active'){
+            return '<button type="button" class="cfe-d4-promo__btn cfe-reload-page-btn">Reload Page</button>'
         }
         return '<button type="button" class="cfe-d4-promo__btn cfe-install-plugin-btn ' + extraClasses + '" data-slug="' + PLUGIN_SLUG + '" data-init="' + PLUGIN_INIT + '">' +
             'Install &amp; Activate' +
@@ -133,10 +176,10 @@
             '<p style="margin:0 0 14px;color:#475569;font-size:13px;line-height:1.5;">Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.</p>' +
             buildButtonHtml(STATUS, '') +
             '</div>';
-        var GROUP = { panel: 'content', priority: 250, multiElements: true, groupName: 'cfeFileUploadPromo', component: { name: 'divi/composite', props: { groupLabel: 'Save submissions' } } };
-        var ATTR = { type: 'string', default: '', settings: { innerContent: { groupType: 'group-item', item: { groupSlug: 'cfeFileUploadPromo', priority: 10, render: true, attrName: 'cfeMarketingFileUploadPromo', label: '', component: { type: 'field', name: 'divi/warning', props: { message: PROMO_MSG } } } } } };
-        var addGroups = function (g, m) { return (m && m.name === 'divi/contact-form') ? Object.assign({}, g || {}, { cfeFileUploadPromo: GROUP }) : g; };
-        var addAttrs = function (a) { return Object.assign({}, a || {}, { cfeMarketingFileUploadPromo: ATTR }); };
+        var GROUP = { panel: 'content', priority: 250, multiElements: true, groupName: 'cfeMarketingPromoGroup', component: { name: 'divi/composite', props: { groupLabel: 'Save submissions' } } };
+        var ATTR = { type: 'string', default: '', settings: { innerContent: { groupType: 'group-item', item: { groupSlug: 'cfeMarketingPromoGroup', priority: 10, render: true, attrName: 'cfeMarketingPromoAttr', label: '', component: { type: 'field', name: 'divi/warning', props: { message: PROMO_MSG } } } } } };
+        var addGroups = function (g, m) { return (m && m.name === 'divi/contact-form') ? Object.assign({}, g || {}, { cfeMarketingPromoGroup: GROUP }) : g; };
+        var addAttrs = function (a) { return Object.assign({}, a || {}, { cfeMarketingPromoAttr: ATTR }); };
         var h = global.vendor.wp.hooks;
 
         if (h) {
@@ -154,17 +197,17 @@
             '</div>';
 
         var injectPromo = function () {
-            var $container = $('[data-name="cfe_file_upload_promo"]');
+            var $container = $('[data-name="cfe_marketing_promo"]');
             if (!$container.length || $container.find('.cfe-d4-promo').length) return false;
-            $container.find('input[name="cfe_marketing_file_upload_promo"]').closest('.et-fb-settings-options').remove();
+            $container.find('input[name="cfe_marketing_promo_field"]').closest('.et-fb-settings-options').remove();
             var $content = $container.find('.et-fb-form__group').first();
             return $content.length ? ($content.prepend(PROMO_HTML), true) : false;
         };
 
-        $(document).on('click', '[data-name="cfe_file_upload_promo"] .et-fb-form__toggle-title', function () {
+        $(document).on('click', '[data-name="cfe_marketing_promo"] .et-fb-form__toggle-title', function () {
             requestAnimationFrame(injectPromo);
         });
-        $(document).on('click', '[data-name="cfe_file_upload_promo"] .cfe-d4-promo__close', function () {
+        $(document).on('click', '[data-name="cfe_marketing_promo"] .cfe-d4-promo__close', function () {
             $(this).closest('.cfe-d4-promo').hide();
         });
         $(function () { injectPromo(); });
