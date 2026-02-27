@@ -167,9 +167,9 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 				data-slug="<?php echo esc_attr( self::TARGET_PLUGIN_SLUG ); ?>"
 				data-init="<?php echo esc_attr( self::TARGET_PLUGIN_INIT ); ?>">
 				<div class="cfe-admin-notice-content">
-					<p><strong><?php esc_html_e( 'Save your Divi contact form submissions', 'events-calendar-modules-for-divi' ); ?></strong></p>
+					<p><strong><?php esc_html_e( 'Improve your Divi Contact Form.', 'events-calendar-modules-for-divi' ); ?></strong></p>
 					<p>
-						<?php esc_html_e( 'We detected that you are using the Divi Contact Form module. You can save submissions, extend fields, and add advanced features with the Contact Form Extender for Divi plugin.', 'events-calendar-modules-for-divi' ); ?>
+						<?php esc_html_e( 'Save submissions, add file upload, and unlock advanced fields with Contact Form Extender for Divi.', 'events-calendar-modules-for-divi' ); ?>
 					</p>
 					<p><?php echo $action_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
