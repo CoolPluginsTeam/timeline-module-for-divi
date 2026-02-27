@@ -3,7 +3,7 @@
     position: relative;
     padding: 16px 40px 16px 16px;
     background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #6c2eb9;
     border-radius: 6px;
     color: #475569;
     font-size: 13px;
@@ -47,10 +47,20 @@
     line-height: 1.5;
 }
 
+.cfe-d4-promo .cfe-d4-promo__btn{
+    background: #6c2eb9;
+}
+
+.cfe-d4-promo .cfe-d4-promo__btn:hover{
+    background: #6706de;
+}
+
+
 .cfe-d4-promo__btn {
     display: inline-block;
     padding: 10px 20px;
-    background: #007cba;
+    background: #1959ff;
+    border: none;
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -60,5 +70,5 @@
 
 .cfe-d4-promo__btn:hover {
     color: #fff;
-    background: #005a87;
+    background: #0349f9;
 }

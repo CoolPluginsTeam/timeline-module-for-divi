@@ -34,10 +34,13 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			add_filter( 'et_pb_all_fields_unprocessed_et_pb_contact_form', array( $this, 'add_promo_field' ), 20 );
 			add_action( 'divi_visual_builder_assets_before_enqueue_scripts', array( $this, 'enqueue_vb_scripts' ), 999 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_vb_scripts' ), 999 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_notice_assets' ) );
+			add_action( 'admin_notices', array( $this, 'maybe_show_admin_notice' ) );
 
-			// AJAX handlers for install & activate.
+			// AJAX handlers for install, activate & notice dismiss.
 			add_action( 'wp_ajax_cfe_plugin_install', 'wp_ajax_install_plugin' );
 			add_action( 'wp_ajax_cfe_plugin_activate', array( $this, 'ajax_activate_plugin' ) );
+			add_action( 'wp_ajax_cfe_dismiss_contact_form_notice', array( $this, 'ajax_dismiss_contact_form_notice' ) );
 
 			$this->cool_run_global_divi_contact_form_scan();
 		}
@@ -46,13 +49,148 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			if ( ! is_admin() ) {
 				return;
 			}
+
 			$using_contactform_module = get_option( 'cool_divi_contact_form_exists', '' );
 			if ( 'yes' === $using_contactform_module || 'no' === $using_contactform_module ) {
 				return;
 			}
+
 			// Run a one-time scan across posts to detect any Divi contact form usage.
 			$found = $this->cool_scan_database_for_divi_contact_forms();
+
+			// Cache the result so subsequent requests can use the option only.
 			update_option( 'cool_divi_contact_form_exists', $found ? 'yes' : 'no' );
+		}
+
+		/**
+		 * Enqueue small JS helper for the admin notice (install/activate/dismiss).
+		 */
+		public function enqueue_admin_notice_assets( $hook ) {
+			if ( ! is_admin() ) {
+				return;
+			}
+
+			// Only enqueue when our notice might be shown.
+			$exists = get_option( 'cool_divi_contact_form_exists', '' );
+			if ( 'yes' !== $exists ) {
+				return;
+			}
+
+			if ( 'active' === $this->get_plugin_status() ) {
+				return;
+			}
+
+			// Respect per-user dismissal.
+			$user_id   = get_current_user_id();
+			$dismissed = $user_id ? get_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', true ) : '';
+			if ( 'yes' === $dismissed ) {
+				return;
+			}
+			$base = plugins_url( '', __FILE__ );
+			$ver  = defined( 'CFE_V' ) ? CFE_V : '1.0';
+
+			wp_enqueue_script(
+				'cfe-marketing-admin-notice',
+				$base . '/assets/marketing-contact-form-extender-admin.js',
+				array( 'jquery' ),
+				$ver,
+				true
+			);
+
+			$vars = array(
+				'installNonce'  => wp_create_nonce( 'updates' ),
+				'activateNonce' => wp_create_nonce( 'cfe_plugin_activate' ),
+				'dismissNonce'  => wp_create_nonce( 'cfe_dismiss_notice' ),
+				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+				'pluginSlug'    => self::TARGET_PLUGIN_SLUG,
+				'pluginInit'    => self::TARGET_PLUGIN_INIT,
+				'status'        => $this->get_plugin_status(),
+			);
+
+			wp_localize_script(
+				'cfe-marketing-admin-notice',
+				'cfeAdminNotice',
+				$vars
+			);
+		}
+
+		/**
+		 * Show admin notice when a Divi contact form is detected and CFE is not active.
+		 */
+		public function maybe_show_admin_notice() {
+			if ( ! is_admin() ) {
+				return;
+			}
+
+			if ( 'active' === $this->get_plugin_status() ) {
+				return;
+			}
+
+			$exists = get_option( 'cool_divi_contact_form_exists', '' );
+			if ( 'yes' !== $exists ) {
+				return;
+			}
+
+			$user_id = get_current_user_id();
+			if ( $user_id ) {
+				$dismissed = get_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', true );
+				if ( 'yes' === $dismissed ) {
+					return;
+				}
+			}
+
+			$status = $this->get_plugin_status();
+
+			if ( ! current_user_can( 'install_plugins' ) && ! current_user_can( 'activate_plugins' ) ) {
+				return;
+			}
+
+			$action_html = '';
+			if ( 'inactive' === $status ) {
+				$action_html = sprintf(
+					'<button type="button" class="button button-primary cfe-admin-activate-btn">%s</button>',
+					esc_html__( 'Activate Contact Form Extender', 'events-calendar-modules-for-divi' )
+				);
+			} elseif ( 'not_installed' === $status ) {
+				$action_html = sprintf(
+					'<button type="button" class="button button-primary cfe-admin-install-btn">%s</button>',
+					esc_html__( 'Install & Activate Contact Form Extender', 'events-calendar-modules-for-divi' )
+				);
+			}
+
+			if ( empty( $action_html ) ) {
+				return;
+			}
+
+			?>
+			<div class="notice notice-info is-dismissible cfe-contact-form-admin-notice"
+				data-slug="<?php echo esc_attr( self::TARGET_PLUGIN_SLUG ); ?>"
+				data-init="<?php echo esc_attr( self::TARGET_PLUGIN_INIT ); ?>">
+				<div class="cfe-admin-notice-content">
+					<p><strong><?php esc_html_e( 'Save your Divi contact form submissions', 'events-calendar-modules-for-divi' ); ?></strong></p>
+					<p>
+						<?php esc_html_e( 'We detected that you are using the Divi Contact Form module. You can save submissions, extend fields, and add advanced features with the Contact Form Extender for Divi plugin.', 'events-calendar-modules-for-divi' ); ?>
+					</p>
+					<p><?php echo $action_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+				</div>
+			</div>
+			<?php
+		}
+
+		/**
+		 * AJAX: Persist dismissal of the admin notice per user.
+		 */
+		public function ajax_dismiss_contact_form_notice() {
+			check_ajax_referer( 'cfe_dismiss_notice', 'nonce' );
+
+			if ( ! is_user_logged_in() ) {
+				wp_send_json_error();
+			}
+
+			$user_id = get_current_user_id();
+			update_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', 'yes' );
+
+			wp_send_json_success();
 		}
 
 		public function cool_scan_database_for_divi_contact_forms() {
@@ -124,14 +262,14 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 
 			wp_enqueue_style(
 				'cfe-marketing-contact-form-extender',
-				$base . '/marketing-contact-form-extender.css',
+				$base . '/assets/marketing-contact-form-extender.css',
 				array(),
 				$ver
 			);
 
 			wp_enqueue_script(
 				'cfe-marketing-contact-form-extender',
-				$base . '/marketing-contact-form-extender.js',
+				$base . '/assets/marketing-contact-form-extender.js',
 				array( 'jquery' ),
 				$ver,
 				true
@@ -206,7 +344,7 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 					'description'     => sprintf(
 						'<div style="text-align:left;color:#666;"><div style="font-weight:700;color:#333;margin-bottom:5px;">%s</div>%s<br><br>%s</div>',
 						esc_html__( 'Enhance Your Contact Form', 'events-calendar-modules-for-divi' ),
-						esc_html__( 'Want better form management? Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.', 'events-calendar-modules-for-divi' ),
+						esc_html__( 'Want better form management? Save submissions, country code add file upload, and extend your Divi Form with Contact Form Extender for Divi.', 'events-calendar-modules-for-divi' ),
 						$button_html
 					),
 					'toggle_slug'     => 'cfe_marketing_promo',

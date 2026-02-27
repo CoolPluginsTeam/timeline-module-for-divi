@@ -102,7 +102,7 @@ class TMDIVI_Timeline_Module_For_Divi {
         new TMDIVI_AssetsLoader();
 
         // Load marketing file upload option for Divi Contact Form
-		require_once TMDIVI_DIR . 'marketing/marketing-contact-form-extender.php';   
+		require_once TMDIVI_DIR . 'admin/marketing/marketing-contact-form-extender.php';   
     }
 
     public static function is_theme_activate($target){

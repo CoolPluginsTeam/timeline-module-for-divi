@@ -170,7 +170,7 @@
             return;
         }
 
-        var PROMO_MSG = '<div class="cfe-promo-notice" style="position:relative;padding:16px 40px 16px 16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;color:#475569;font-size:13px;line-height:1.6;">' +
+        var PROMO_MSG = '<div class="cfe-promo-notice" style="position:relative;padding:16px 40px 16px 16px;background:#f8fafc;border:1px solid #1959ff;border-radius:6px;color:#475569;font-size:13px;line-height:1.6;">' +
             '<button type="button" onclick="var e=this.closest(\\\'cfe-promo-notice\\\');e&&(e.style.display=\\\'none\\\')" style="position:absolute;top:8px;right:8px;width:28px;height:28px;padding:0;border:none;background:#e2e8f0;color:#64748b;border-radius:4px;cursor:pointer;font-size:20px;line-height:26px;text-align:center;" aria-label="Close">×</button>' +
             '<h4 style="margin:0 0 8px;color:#334155;font-size:14px;font-weight:600;">Want better form management?</h4>' +
             '<p style="margin:0 0 14px;color:#475569;font-size:13px;line-height:1.5;">Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.</p>' +
