@@ -31,6 +31,7 @@
 
 			var $btn  = $(this);
 			var slug  = $notice.data('slug') || cfg.pluginSlug;
+			if(slug !== 'contact-form-extender-for-divi-builder') return;
 			var init  = $notice.data('init') || cfg.pluginInit;
 			if (!slug || !init) {
 				return;
@@ -59,9 +60,7 @@
 
 							$notice.addClass('cfe-notice-active');
 							$notice.find('.cfe-admin-notice-content').html(
-								'<p><strong>Contact Form Extender for Divi is now active.</strong></p>' +
-								'<p>Please reload this page to start using the plugin.</p>' +
-								'<p><button type="button" class="button button-primary cfe-admin-reload-btn">Reload Page</button></p>'
+								'<p><strong>Contact Form Extender for Divi is now active.</strong> Unlock powerful advanced fields and enhance your forms with Contact Form Extender for Divi.</p>'
 							);
 						});
 				});
@@ -89,9 +88,7 @@
 
 					$notice.addClass('cfe-notice-active');
 					$notice.find('.cfe-admin-notice-content').html(
-						'<p><strong>Contact Form Extender for Divi is now active.</strong></p>' +
-						'<p>Please reload this page to start using the plugin.</p>' +
-						'<p><button type="button" class="button button-primary cfe-admin-reload-btn">Reload Page</button></p>'
+						'<p><strong>Contact Form Extender for Divi is now active.</strong> Unlock powerful advanced fields and enhance your forms with Contact Form Extender for Divi.</p>'
 					);
 				});
 		});
@@ -104,7 +101,7 @@
 		});
 
 		$(document).on('click', '.cfe-contact-form-admin-notice .notice-dismiss', function () {
-			postAjax('cfe_dismiss_contact_form_notice', {});
+			postAjax('cfe_dismiss_contact_form_notice', { context: 'admin' });
 		});
 	});
 })(jQuery, window);

@@ -57,6 +57,7 @@
 
 
 .cfe-d4-promo__btn {
+    cursor: pointer;
     display: inline-block;
     padding: 10px 20px;
     background: #1959ff;
@@ -66,6 +67,15 @@
     text-decoration: none;
     font-weight: 600;
     font-size: 13px;
+}
+.et-fb-form__group .cfe-d4-promo .cfe-d4-promo__reload-text, .cfe-d4-promo__reload-text{
+    margin-top: 10px;
+    line-height: unset;
+}
+
+.cfe-reload-page-btn{
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .cfe-d4-promo__btn:hover {

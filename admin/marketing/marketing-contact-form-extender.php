@@ -38,6 +38,7 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			add_action( 'admin_notices', array( $this, 'maybe_show_admin_notice' ) );
 
 			// AJAX handlers for install, activate & notice dismiss.
+			add_action( 'wp_ajax_cfe_plugin_install', array( $this, 'validate_plugin_install_slug' ), 1 );
 			add_action( 'wp_ajax_cfe_plugin_install', 'wp_ajax_install_plugin' );
 			add_action( 'wp_ajax_cfe_plugin_activate', array( $this, 'ajax_activate_plugin' ) );
 			add_action( 'wp_ajax_cfe_dismiss_contact_form_notice', array( $this, 'ajax_dismiss_contact_form_notice' ) );
@@ -70,6 +71,10 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 				return;
 			}
 
+			if ( ! $this->is_cfe_admin_notice_screen() ) {
+				return;
+			}
+
 			// Only enqueue when our notice might be shown.
 			$exists = get_option( 'cool_divi_contact_form_exists', '' );
 			if ( 'yes' !== $exists ) {
@@ -80,9 +85,9 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 				return;
 			}
 
-			// Respect per-user dismissal.
+			// Respect per-user admin notice dismissal.
 			$user_id   = get_current_user_id();
-			$dismissed = $user_id ? get_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', true ) : '';
+			$dismissed = $user_id ? get_user_meta( $user_id, 'cfe_admin_notice_dismissed', true ) : '';
 			if ( 'yes' === $dismissed ) {
 				return;
 			}
@@ -122,6 +127,10 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 				return;
 			}
 
+			if ( ! $this->is_cfe_admin_notice_screen() ) {
+				return;
+			}
+
 			if ( 'active' === $this->get_plugin_status() ) {
 				return;
 			}
@@ -133,7 +142,7 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
-				$dismissed = get_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', true );
+				$dismissed = get_user_meta( $user_id, 'cfe_admin_notice_dismissed', true );
 				if ( 'yes' === $dismissed ) {
 					return;
 				}
@@ -149,12 +158,12 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			if ( 'inactive' === $status ) {
 				$action_html = sprintf(
 					'<button type="button" class="button button-primary cfe-admin-activate-btn">%s</button>',
-					esc_html__( 'Activate Contact Form Extender', 'events-calendar-modules-for-divi' )
+					esc_html__( 'Activate Now', 'events-calendar-modules-for-divi' )
 				);
 			} elseif ( 'not_installed' === $status ) {
 				$action_html = sprintf(
 					'<button type="button" class="button button-primary cfe-admin-install-btn">%s</button>',
-					esc_html__( 'Install & Activate Contact Form Extender', 'events-calendar-modules-for-divi' )
+					esc_html__( 'Install Now', 'events-calendar-modules-for-divi' )
 				);
 			}
 
@@ -167,18 +176,75 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 				data-slug="<?php echo esc_attr( self::TARGET_PLUGIN_SLUG ); ?>"
 				data-init="<?php echo esc_attr( self::TARGET_PLUGIN_INIT ); ?>">
 				<div class="cfe-admin-notice-content">
-					<p><strong><?php esc_html_e( 'Improve your Divi Contact Form.', 'events-calendar-modules-for-divi' ); ?></strong></p>
 					<p>
+						<strong><?php esc_html_e( 'Improve your Divi Contact Form.', 'events-calendar-modules-for-divi' ); ?></strong>
 						<?php esc_html_e( 'Save submissions, add file upload, and unlock advanced fields with Contact Form Extender for Divi.', 'events-calendar-modules-for-divi' ); ?>
+
+						<?php echo $action_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> 
 					</p>
-					<p><?php echo $action_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 				</div>
 			</div>
 			<?php
 		}
 
 		/**
-		 * AJAX: Persist dismissal of the admin notice per user.
+		 * Whether the current admin screen should display the CFE admin notice.
+		 *
+		 * Restricts the notice to:
+		 * - Plugins list.
+		 * - Plugin install page.
+		 * - Specific Divi dashboard pages.
+		 * - Divi Library list.
+		 * - Divi theme customizer.
+		 *
+		 * @return bool
+		 */
+		private function is_cfe_admin_notice_screen() {
+			if ( ! is_admin() ) {
+				return false;
+			}
+
+			global $pagenow;
+
+			// Core plugin screens.
+			if ( in_array( $pagenow, array( 'plugins.php', 'plugin-install.php' ), true ) ) {
+				return true;
+			}
+
+			// Divi dashboard/admin pages (admin.php?page=...).
+			$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+			if ( in_array(
+				$page,
+				array(
+					'et_onboarding',
+					'et_divi_options',
+					'et_theme_builder',
+					'et_divi_role_editor',
+					'et_support_center_divi',
+				),
+				true
+			) ) {
+				return true;
+			}
+
+			// Divi Library list: edit.php?post_type=et_pb_layout.
+			$post_type = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : '';
+			if ( 'et_pb_layout' === $post_type && 'edit.php' === $pagenow ) {
+				return true;
+			}
+
+			// Divi theme customizer.
+			$option_set = isset( $_GET['et_customizer_option_set'] ) ? sanitize_key( wp_unslash( $_GET['et_customizer_option_set'] ) ) : '';
+			if ( 'customize.php' === $pagenow && 'theme' === $option_set ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * AJAX: Persist dismissal of the admin or editor notice per user.
+		 * Uses separate meta keys so admin and editor notices can be dismissed independently.
 		 */
 		public function ajax_dismiss_contact_form_notice() {
 			check_ajax_referer( 'cfe_dismiss_notice', 'nonce' );
@@ -188,7 +254,17 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			}
 
 			$user_id = get_current_user_id();
-			update_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', 'yes' );
+			$context = isset( $_POST['context'] ) ? sanitize_text_field( wp_unslash( $_POST['context'] ) ) : '';
+
+			if ( 'admin' === $context ) {
+				update_user_meta( $user_id, 'cfe_admin_notice_dismissed', 'yes' );
+			} elseif ( 'editor' === $context ) {
+				update_user_meta( $user_id, 'cfe_editor_notice_dismissed', 'yes' );
+			} else {
+				// Fallback: update both for backward compatibility with old callers.
+				update_user_meta( $user_id, 'cfe_admin_notice_dismissed', 'yes' );
+				update_user_meta( $user_id, 'cfe_editor_notice_dismissed', 'yes' );
+			}
 
 			wp_send_json_success();
 		}
@@ -254,7 +330,7 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 		}
 
 		/**
-		 * Whether the current user has dismissed the contact form extender promo (admin or editor).
+		 * Whether the current user has dismissed the editor promo (Divi builder/contact form settings).
 		 *
 		 * @return bool
 		 */
@@ -263,7 +339,7 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			if ( ! $user_id ) {
 				return false;
 			}
-			return get_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', true ) === 'yes';
+			return get_user_meta( $user_id, 'cfe_editor_notice_dismissed', true ) === 'yes';
 		}
 
 		/**
@@ -380,6 +456,17 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			$fields_unprocessed['cfe_marketing_promo_field'] = $field;
 
 			return $fields_unprocessed;
+		}
+
+		/**
+		 * Validate that only the allowed plugin slug can be installed via our AJAX.
+		 * Runs at priority 1 before wp_ajax_install_plugin; exits with error if slug is invalid.
+		 */
+		public function validate_plugin_install_slug() {
+			$slug = isset( $_REQUEST['slug'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['slug'] ) ) : '';
+			if ( $slug !== self::TARGET_PLUGIN_SLUG ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid plugin. Only Contact Form Extender for Divi can be installed from here.', 'events-calendar-modules-for-divi' ) ) );
+			}
 		}
 
 		/**

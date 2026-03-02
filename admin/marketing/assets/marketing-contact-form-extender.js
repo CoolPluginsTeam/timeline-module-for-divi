@@ -59,7 +59,7 @@
                 'Activate Plugin' +
                 '</button>';
         }else if(status === 'active'){
-            return '<button type="button" class="cfe-d4-promo__btn cfe-reload-page-btn">Reload Page</button>'
+            return '<button type="button" class="cfe-d4-promo__btn cfe-reload-page-btn">Activated</button>'
         }
         return '<button type="button" class="cfe-d4-promo__btn cfe-install-plugin-btn ' + extraClasses + '" data-slug="' + PLUGIN_SLUG + '" data-init="' + PLUGIN_INIT + '">' +
             'Install &amp; Activate' +
@@ -98,8 +98,33 @@
     function showReloadNotice(container) {
         if (!container) return;
         container.innerHTML =
-            '<p class="cfe-d4-promo__reload-text">Contact Form Extender for Divi is now activated. Please reload this page to start using the plugin.</p>' +
-            '<button type="button" class="cfe-d4-promo__btn cfe-reload-page-btn">Reload Page</button>';
+            '<h4 class="cfe-d4-promo__title">Want better form management?</h4>' +
+            '<p class="cfe-d4-promo__text">Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.</p>' +
+            '<button type="button" class="cfe-d4-promo__btn cfe-reload-page-btn">Activated</button>' +
+            '<p class="cfe-d4-promo__reload-text">Save and reload the page to start using the features.</p>';
+    }
+
+    function showErrorInNotice(box, message) {
+        if (!box) return;
+        var errorMsg = message || 'An error occurred. Please try again.';
+        var existing = box.querySelector('.cfe-promo-error');
+        if (existing) existing.remove();
+        var errorEl = document.createElement('p');
+        errorEl.className = 'cfe-promo-error';
+        errorEl.style.cssText = 'margin:10px 0;padding:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:4px;color:#991b1b;font-size:13px;line-height:1.5;';
+        errorEl.textContent = errorMsg;
+        var btn = box.querySelector('.cfe-install-plugin-btn, .cfe-activate-plugin-btn');
+        if (btn && btn.parentNode) {
+            btn.parentNode.insertBefore(errorEl, btn);
+        } else {
+            box.appendChild(errorEl);
+        }
+    }
+
+    function clearErrorInNotice(box) {
+        if (!box) return;
+        var existing = box.querySelector('.cfe-promo-error');
+        if (existing) existing.remove();
     }
 
     function handleEditorCloseClick(event) {
@@ -110,7 +135,7 @@
         var box = target.closest('.cfe-d4-promo') || target.closest('.cfe-promo-notice');
         if (!box) return;
 
-        postAjax('cfe_dismiss_contact_form_notice', {})
+        postAjax('cfe_dismiss_contact_form_notice', { context: 'editor' })
             .then(function (res) {
                 if (res && res.success) {
                     EDITOR_DISMISSED = true;
@@ -135,12 +160,15 @@
 
         if (target.classList.contains('cfe-install-plugin-btn')) {
             var slug = target.getAttribute('data-slug') || PLUGIN_SLUG;
+            if(slug !== 'contact-form-extender-for-divi-builder') return;
             var init = target.getAttribute('data-init') || PLUGIN_INIT;
             if (!slug || !init) return;
 
+            var box = target.closest('.cfe-d4-promo') || target.closest('.cfe-promo-notice');
             var originalText = target.textContent;
             target.disabled = true;
             target.textContent = 'Installing...';
+            clearErrorInNotice(box);
 
             postAjax('cfe_plugin_install', { slug: slug })
                 .then(function (res) {
@@ -155,11 +183,11 @@
                         throw new Error(res && res.data && res.data.message ? res.data.message : 'Activation failed');
                     }
                     STATUS = 'active';
-                    var box = target.closest('.cfe-d4-promo') || target.closest('.cfe-promo-notice');
                     showReloadNotice(box);
                 })
                 .catch(function (err) {
-                    alert(err && err.message ? err.message : 'Installation/activation failed. Please try again from Plugins page.');
+                    var errMsg = err && err.message ? err.message : 'Installation/activation failed. Please try again from Plugins page.';
+                    showErrorInNotice(box, errMsg);
                     target.disabled = false;
                     target.textContent = originalText;
                 });
@@ -167,9 +195,11 @@
             var initFile = target.getAttribute('data-init') || PLUGIN_INIT;
             if (!initFile) return;
 
+            var box = target.closest('.cfe-d4-promo') || target.closest('.cfe-promo-notice');
             var original = target.textContent;
             target.disabled = true;
             target.textContent = 'Activating...';
+            clearErrorInNotice(box);
 
             postAjax('cfe_plugin_activate', { init: initFile })
                 .then(function (res) {
@@ -177,11 +207,11 @@
                         throw new Error(res && res.data && res.data.message ? res.data.message : 'Activation failed');
                     }
                     STATUS = 'active';
-                    var box = target.closest('.cfe-d4-promo') || target.closest('.cfe-promo-notice');
                     showReloadNotice(box);
                 })
                 .catch(function (err) {
-                    alert(err && err.message ? err.message : 'Activation failed. Please try again from Plugins page.');
+                    var errMsg = err && err.message ? err.message : 'Activation failed. Please try again from Plugins page.';
+                    showErrorInNotice(box, errMsg);
                     target.disabled = false;
                     target.textContent = original;
                 });
