@@ -8,6 +8,8 @@
     var AJAX_URL = config.ajaxurl || (typeof ajaxurl !== 'undefined' ? ajaxurl : '');
     var INSTALL_NONCE = config.installNonce || '';
     var ACTIVATE_NONCE = config.activateNonce || '';
+    var DISMISS_NONCE = config.dismissNonce || '';
+    var EDITOR_DISMISSED = !!config.editorDismissed;
 
     // Divi 4: when the marketing toggle is opened, ensure UI reflects current STATUS.
     jQuery(document).on('mousedown click', '.et-fb-form__toggle[data-name="cfe_marketing_promo"]', function (event) {
@@ -73,6 +75,8 @@
             data._ajax_nonce = INSTALL_NONCE;
         } else if (action === 'cfe_plugin_activate') {
             data.security = ACTIVATE_NONCE;
+        } else if (action === 'cfe_dismiss_contact_form_notice') {
+            data.nonce = DISMISS_NONCE;
         }
 
         var body = Object.keys(data)
@@ -96,6 +100,33 @@
         container.innerHTML =
             '<p class="cfe-d4-promo__reload-text">Contact Form Extender for Divi is now activated. Please reload this page to start using the plugin.</p>' +
             '<button type="button" class="cfe-d4-promo__btn cfe-reload-page-btn">Reload Page</button>';
+    }
+
+    function handleEditorCloseClick(event) {
+        var target = event.target;
+        if (!target || ( !target.classList.contains('cfe-editor-promo-close') && !target.classList.contains('cfe-d4-promo__close') )) {
+            return;
+        }
+        var box = target.closest('.cfe-d4-promo') || target.closest('.cfe-promo-notice');
+        if (!box) return;
+
+        postAjax('cfe_dismiss_contact_form_notice', {})
+            .then(function (res) {
+                if (res && res.success) {
+                    EDITOR_DISMISSED = true;
+                    box.style.display = 'none';
+                    var $box = (typeof jQuery !== 'undefined') ? jQuery(box) : null;
+                    if ($box && $box.length) {
+                        var $section = $box.closest('.et-vb-modal-group, .et-fb-form__toggle, [data-name="cfe_marketing_promo"]');
+                        if ($section && $section.length) {
+                            $section.hide();
+                        }
+                    }
+                }
+            })
+            .catch(function () {
+                box.style.display = 'none';
+            });
     }
 
     function handleButtonClick(event) {
@@ -162,16 +193,17 @@
     }
 
     if (global.vendor && global.vendor.wp && global.vendor.wp.hooks) {
-        // Divi 5 – if plugin already active, do not inject the marketing group at all.
-        if (STATUS === 'active') {
+        // Divi 5 – if plugin already active or user dismissed, do not inject the marketing group at all.
+        if (STATUS === 'active' || EDITOR_DISMISSED) {
             if (typeof document !== 'undefined') {
                 document.addEventListener('click', handleButtonClick, false);
+                document.addEventListener('click', handleEditorCloseClick, false);
             }
             return;
         }
 
         var PROMO_MSG = '<div class="cfe-promo-notice" style="position:relative;padding:16px 40px 16px 16px;background:#f8fafc;border:1px solid #1959ff;border-radius:6px;color:#475569;font-size:13px;line-height:1.6;">' +
-            '<button type="button" onclick="var e=this.closest(\\\'cfe-promo-notice\\\');e&&(e.style.display=\\\'none\\\')" style="position:absolute;top:8px;right:8px;width:28px;height:28px;padding:0;border:none;background:#e2e8f0;color:#64748b;border-radius:4px;cursor:pointer;font-size:20px;line-height:26px;text-align:center;" aria-label="Close">×</button>' +
+            '<button type="button" class="cfe-editor-promo-close" style="position:absolute;top:8px;right:8px;width:28px;height:28px;padding:0;border:none;background:#e2e8f0;color:#64748b;border-radius:4px;cursor:pointer;font-size:20px;line-height:26px;text-align:center;" aria-label="Close">×</button>' +
             '<h4 style="margin:0 0 8px;color:#334155;font-size:14px;font-weight:600;">Want better form management?</h4>' +
             '<p style="margin:0 0 14px;color:#475569;font-size:13px;line-height:1.5;">Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.</p>' +
             buildButtonHtml(STATUS, '') +
@@ -190,13 +222,14 @@
         var $ = global.jQuery;
 
         var PROMO_HTML = '<div class="cfe-d4-promo">' +
-            '<button type="button" class="cfe-d4-promo__close" aria-label="Close">×</button>' +
+            '<button type="button" class="cfe-d4-promo__close cfe-editor-promo-close" aria-label="Close">×</button>' +
             '<h4 class="cfe-d4-promo__title">Want better form management?</h4>' +
             '<p class="cfe-d4-promo__text">Save submissions, add file upload, and extend your Divi Form with Contact Form Extender for Divi.</p>' +
             buildButtonHtml(STATUS, '') +
             '</div>';
 
         var injectPromo = function () {
+            if (EDITOR_DISMISSED) return false;
             var $container = $('[data-name="cfe_marketing_promo"]');
             if (!$container.length || $container.find('.cfe-d4-promo').length) return false;
             $container.find('input[name="cfe_marketing_promo_field"]').closest('.et-fb-settings-options').remove();
@@ -207,14 +240,12 @@
         $(document).on('click', '[data-name="cfe_marketing_promo"] .et-fb-form__toggle-title', function () {
             requestAnimationFrame(injectPromo);
         });
-        $(document).on('click', '[data-name="cfe_marketing_promo"] .cfe-d4-promo__close', function () {
-            $(this).closest('.cfe-d4-promo').hide();
-        });
         $(function () { injectPromo(); });
     }
 
     if (typeof document !== 'undefined') {
         document.addEventListener('click', handleButtonClick, false);
+        document.addEventListener('click', handleEditorCloseClick, false);
     }
 
 })(typeof window !== 'undefined' ? window : this);

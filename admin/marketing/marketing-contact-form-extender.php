@@ -242,13 +242,28 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 		 */
 		private function get_js_vars() {
 			return array(
-				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-				'installNonce'  => wp_create_nonce( 'updates' ),
-				'activateNonce' => wp_create_nonce( 'cfe_plugin_activate' ),
-				'pluginSlug'    => self::TARGET_PLUGIN_SLUG,
-				'pluginInit'    => self::TARGET_PLUGIN_INIT,
-				'status'        => $this->get_plugin_status(),
+				'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+				'installNonce'     => wp_create_nonce( 'updates' ),
+				'activateNonce'    => wp_create_nonce( 'cfe_plugin_activate' ),
+				'dismissNonce'     => wp_create_nonce( 'cfe_dismiss_notice' ),
+				'pluginSlug'       => self::TARGET_PLUGIN_SLUG,
+				'pluginInit'       => self::TARGET_PLUGIN_INIT,
+				'status'           => $this->get_plugin_status(),
+				'editorDismissed'  => $this->has_user_dismissed_editor_promo(),
 			);
+		}
+
+		/**
+		 * Whether the current user has dismissed the contact form extender promo (admin or editor).
+		 *
+		 * @return bool
+		 */
+		private function has_user_dismissed_editor_promo() {
+			$user_id = get_current_user_id();
+			if ( ! $user_id ) {
+				return false;
+			}
+			return get_user_meta( $user_id, 'cfe_contact_form_notice_dismissed', true ) === 'yes';
 		}
 
 		/**
@@ -292,6 +307,11 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 				return $modules;
 			}
 
+			// Do not show if user has dismissed the promo (admin or editor).
+			if ( $this->has_user_dismissed_editor_promo() ) {
+				return $modules;
+			}
+
 			if ( isset( $modules['et_pb_contact_form'] ) ) {
 				$modules['et_pb_contact_form']->settings_modal_toggles['general']['toggles']['cfe_marketing_promo'] = array(
 					'title'    => esc_html__( 'Save submissions', 'events-calendar-modules-for-divi' ),
@@ -317,6 +337,11 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 
 			// If already active, do not show the marketing field at all.
 			if ( 'active' === $status ) {
+				return $fields_unprocessed;
+			}
+
+			// Do not show if user has dismissed the promo (admin or editor).
+			if ( $this->has_user_dismissed_editor_promo() ) {
 				return $fields_unprocessed;
 			}
 
