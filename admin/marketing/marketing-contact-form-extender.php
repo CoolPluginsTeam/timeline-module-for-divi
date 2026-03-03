@@ -29,6 +29,9 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 		 */
 		private const TARGET_PLUGIN_INIT = 'contact-form-extender-for-divi-builder/contact-form-extender-for-divi-builder.php';
 
+
+		private const INSTALL_SOURCE_OPTION = 'cfefd_install_source';
+
 		public function __construct() {
 			add_filter( 'et_builder_get_parent_modules', array( $this, 'add_toggles' ), 10, 2 );
 			add_filter( 'et_pb_all_fields_unprocessed_et_pb_contact_form', array( $this, 'add_promo_field' ), 20 );
@@ -44,6 +47,37 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			add_action( 'wp_ajax_cfe_dismiss_contact_form_notice', array( $this, 'ajax_dismiss_contact_form_notice' ) );
 
 			$this->cool_run_global_divi_contact_form_scan();
+		}
+
+		/**
+		 * Determine which plugin folder this marketing code is running from.
+		 *
+		 * Example:
+		 *  wp-content/plugins/timeline-module-for-divi/admin/marketing/...
+		 *  -> timeline-module-for-divi
+		 *
+		 * @return string
+		 */
+		private function get_install_source_value() {
+			static $value = null;
+		
+			if ( null === $value ) {
+				// Go two levels up from /admin/marketing/ to reach plugin root folder.
+				$plugin_dir = dirname( dirname( dirname( __FILE__ ) ) );
+				$value      = basename( $plugin_dir );
+			}
+
+			$prefix = 'tmdivi';
+			switch($value){
+				case "timeline-module-for-divi":
+					$prefix = "tmdivi";
+					break;
+				case "events-calendar-modules-for-divi":
+					$prefix = "ecmd";
+					break;
+			}
+		
+			return $prefix;
 		}
 
 		public function cool_run_global_divi_contact_form_scan() {
@@ -467,6 +501,10 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 			$slug = isset( $_REQUEST['slug'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['slug'] ) ) : '';
 			if ( $slug !== self::TARGET_PLUGIN_SLUG ) {
 				wp_send_json_error( array( 'message' => __( 'Invalid plugin. Only Contact Form Extender for Divi can be installed from here.', 'events-calendar-modules-for-divi' ) ) );
+			}
+
+			if ( ! get_option( self::INSTALL_SOURCE_OPTION ) ) {
+				update_option( self::INSTALL_SOURCE_OPTION, $this->get_install_source_value() );
 			}
 		}
 
