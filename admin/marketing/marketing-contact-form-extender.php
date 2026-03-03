@@ -221,6 +221,7 @@ if ( ! class_exists( 'CFE_Marketing' ) ) {
 					'et_theme_builder',
 					'et_divi_role_editor',
 					'et_support_center_divi',
+					'et_d5_readiness',
 				),
 				true
 			) ) {
