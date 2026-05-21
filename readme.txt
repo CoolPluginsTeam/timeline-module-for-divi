@@ -3,7 +3,7 @@ Contributors:coolplugins,narinder-singh,satindersingh
 Donate link: https://paypal.me/CoolPlugins/10USD/
 Tags: divi timeline, timeline, horizontal timeline, history, roadmap
 Requires at least: 5.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.2
 Stable tag: 1.2.1
 License: GPLv2 or later
