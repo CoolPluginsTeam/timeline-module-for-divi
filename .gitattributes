@@ -46,3 +46,8 @@ postcss.config.js       export-ignore
 /styles/.gitignore      export-ignore
 /src/modules/   export-ignore
 asset-manifest.json     export-ignore 
+
+.github/ export-ignore
+.claude/ export-ignore
+.codex/ export-ignore
+.cursor/ export-ignore
