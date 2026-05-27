@@ -58,7 +58,7 @@ class TMDIVI_feedback {
 	public function tmdivi_dismiss_review_notice(){
 		if ( check_ajax_referer( 'tmdivi_dismiss_notice_nonce', 'nonce' ) ){
 			$rs = update_option( $this->review_option, 'yes' );
-			echo json_encode( array( 'success' => 'true' ) );
+			wp_send_json_success( array( 'success' => true ) );
 		}else {
 			wp_send_json_error( array( 'message' => 'Invalid nonce' ) );
 		}
@@ -332,8 +332,8 @@ class TMDIVI_feedback {
 				array(
 					'timeout' => 30,
 					'body'    => array(
-						'server_info' => serialize($this->tmdivi_get_user_info()['server_info']),
-                        'extra_details' => serialize($this->tmdivi_get_user_info()['extra_details']),
+						'server_info' => wp_json_encode($this->tmdivi_get_user_info()['server_info']),
+                        'extra_details' => wp_json_encode($this->tmdivi_get_user_info()['extra_details']),
 						'plugin_initial'  => isset($plugin_initial) ? sanitize_text_field($plugin_initial) : 'N/A',
 						'plugin_version' => sanitize_text_field($this->plugin_version),
 						'plugin_name'    => sanitize_text_field($this->plugin_name),
@@ -346,7 +346,7 @@ class TMDIVI_feedback {
 				)
 			);
 
-			// die( json_encode( array( 'response' => $response ) ) );
+			wp_send_json( array( 'response' => $response ));		
 		}
 
 	}
