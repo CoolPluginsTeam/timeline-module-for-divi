@@ -56,6 +56,9 @@ class TMDIVI_feedback {
 	}
 
 	public function tmdivi_dismiss_review_notice(){
+		if ( ! current_user_can( 'manage_options' ) ) { 
+			wp_send_json_error( array( 'message' => 'Forbidden' ) ); 
+		}
 		if ( check_ajax_referer( 'tmdivi_dismiss_notice_nonce', 'nonce' ) ){
 			$rs = update_option( $this->review_option, 'yes' );
 			wp_send_json_success( array( 'success' => true ) );
@@ -288,6 +291,10 @@ class TMDIVI_feedback {
 	}
 
 	function submit_deactivation_response() {
+		if ( ! current_user_can( 'activate_plugins' ) ) { 
+			wp_send_json_error();
+		}
+		
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
@@ -324,7 +331,7 @@ class TMDIVI_feedback {
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
 			$site_url          = esc_url( site_url() );
 			$feedback_url      = esc_url( 'https://feedback.coolplugins.net/wp-json/coolplugins-feedback/v1/feedback' );
-			$install_date 		= get_option('tmdivi-installDate');
+			$install_date 		= get_option('tmdivi-install-date');
 			$unique_key     	= '56';
 			$site_id        	= $site_url . '-' . $install_date . '-' . $unique_key;
 			$response          = wp_remote_post(

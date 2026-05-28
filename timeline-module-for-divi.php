@@ -66,7 +66,7 @@ class TMDIVI_Timeline_Module_For_Divi {
     }
     
     public function d5_extension_example_module_enqueue_frontend_scripts() {
-        if(wp_get_theme('Divi')->get('Version') >= 5){
+        if(version_compare( wp_get_theme('Divi')->get('Version'), '5', '>=' )){
             $plugin_dir_url = TMDIVI_URL;
             wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), TMDIVI_V, true );
     
@@ -157,6 +157,10 @@ class TMDIVI_Timeline_Module_For_Divi {
 
         if (!get_option( 'tmdivi_initial_version' ) ) {
             add_option( 'tmdivi_initial_version', TMDIVI_V );
+        }
+
+        if(!get_option( 'tmdivi-install-date' ) ) {
+            add_option( 'tmdivi-install-date', gmdate('Y-m-d h:i:s') );
         }
 
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {

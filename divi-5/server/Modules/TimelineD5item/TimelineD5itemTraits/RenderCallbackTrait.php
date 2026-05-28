@@ -116,6 +116,7 @@ trait RenderCallbackTrait {
 	$sanitize_alt_tag = wp_kses_post($alt_tag);
 	$sanitize_story_title_tag = wp_kses_post($story_title);
 	$content = wp_kses_post($content);
+	$media = esc_url($media);
 	
 	$media_html = ($media !== '') ? "<div class='tmdivi-media full'>
 			<img decoding='async' src='{$media}' alt='{$sanitize_alt_tag}' />
