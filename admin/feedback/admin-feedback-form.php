@@ -75,6 +75,10 @@ class TMDIVI_feedback {
 
 		// get installation dates and rated settings
 		$installation_date = get_option( $this->installation_date_option );
+		if ( empty( $installation_date ) ) {
+			$installation_date = get_option( 'tmdivi-install-date' ); // new key
+		}
+		
 		$alreadyRated      = get_option( $this->review_option ) != false ? get_option( $this->review_option ) : 'no';
 
 		// check user already rated
@@ -334,13 +338,16 @@ class TMDIVI_feedback {
 			$install_date 		= get_option('tmdivi-install-date');
 			$unique_key     	= '56';
 			$site_id        	= $site_url . '-' . $install_date . '-' . $unique_key;
+			$user_info         = $this->tmdivi_get_user_info();
+			$server_info       = $user_info['server_info'] ?? array();
+			$extra_details     = $user_info['extra_details'] ?? array();
 			$response          = wp_remote_post(
 				$feedback_url,
 				array(
 					'timeout' => 30,
 					'body'    => array(
-						'server_info' => wp_json_encode($this->tmdivi_get_user_info()['server_info']),
-                        'extra_details' => wp_json_encode($this->tmdivi_get_user_info()['extra_details']),
+						'server_info' => wp_json_encode($server_info),
+                        'extra_details' => wp_json_encode($extra_details),
 						'plugin_initial'  => isset($plugin_initial) ? sanitize_text_field($plugin_initial) : 'N/A',
 						'plugin_version' => sanitize_text_field($this->plugin_version),
 						'plugin_name'    => sanitize_text_field($this->plugin_name),

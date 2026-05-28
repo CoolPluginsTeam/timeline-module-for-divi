@@ -525,7 +525,7 @@ class TMDIVI_ModulesHelper{
         }
 
         if ($heading_settings_font != '') {
-            $Font_properties = self::extractFontProperties($year_label_font);
+            $Font_properties = self::extractFontProperties($heading_settings_font);
             $font_weight = $Font_properties['fontWeight'] === null ? 'normal' : $Font_properties['fontWeight'];
 
             ET_Builder_Element::set_style(
