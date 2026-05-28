@@ -56,9 +56,12 @@ class TMDIVI_feedback {
 	}
 
 	public function tmdivi_dismiss_review_notice(){
+		if ( ! current_user_can( 'manage_options' ) ) { 
+			wp_send_json_error( array( 'message' => 'Forbidden' ) ); 
+		}
 		if ( check_ajax_referer( 'tmdivi_dismiss_notice_nonce', 'nonce' ) ){
 			$rs = update_option( $this->review_option, 'yes' );
-			echo json_encode( array( 'success' => 'true' ) );
+			wp_send_json_success( array( 'success' => true ) );
 		}else {
 			wp_send_json_error( array( 'message' => 'Invalid nonce' ) );
 		}
@@ -72,6 +75,10 @@ class TMDIVI_feedback {
 
 		// get installation dates and rated settings
 		$installation_date = get_option( $this->installation_date_option );
+		if ( empty( $installation_date ) ) {
+			$installation_date = get_option( 'tmdivi-install-date' ); // new key
+		}
+		
 		$alreadyRated      = get_option( $this->review_option ) != false ? get_option( $this->review_option ) : 'no';
 
 		// check user already rated
@@ -288,6 +295,10 @@ class TMDIVI_feedback {
 	}
 
 	function submit_deactivation_response() {
+		if ( ! current_user_can( 'activate_plugins' ) ) { 
+			wp_send_json_error();
+		}
+		
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), '_cool-plugins_deactivate_feedback_nonce' ) ) {
 			wp_send_json_error();
 		} else {
@@ -324,16 +335,19 @@ class TMDIVI_feedback {
 			$admin_email       = sanitize_email( get_option( 'admin_email' ) );
 			$site_url          = esc_url( site_url() );
 			$feedback_url      = esc_url( 'https://feedback.coolplugins.net/wp-json/coolplugins-feedback/v1/feedback' );
-			$install_date 		= get_option('tmdivi-installDate');
+			$install_date 		= get_option('tmdivi-install-date');
 			$unique_key     	= '56';
 			$site_id        	= $site_url . '-' . $install_date . '-' . $unique_key;
+			$user_info         = $this->tmdivi_get_user_info();
+			$server_info       = $user_info['server_info'] ?? array();
+			$extra_details     = $user_info['extra_details'] ?? array();
 			$response          = wp_remote_post(
 				$feedback_url,
 				array(
 					'timeout' => 30,
 					'body'    => array(
-						'server_info' => serialize($this->tmdivi_get_user_info()['server_info']),
-                        'extra_details' => serialize($this->tmdivi_get_user_info()['extra_details']),
+						'server_info' => wp_json_encode($server_info),
+                        'extra_details' => wp_json_encode($extra_details),
 						'plugin_initial'  => isset($plugin_initial) ? sanitize_text_field($plugin_initial) : 'N/A',
 						'plugin_version' => sanitize_text_field($this->plugin_version),
 						'plugin_name'    => sanitize_text_field($this->plugin_name),
@@ -346,7 +360,7 @@ class TMDIVI_feedback {
 				)
 			);
 
-			// die( json_encode( array( 'response' => $response ) ) );
+			wp_send_json( array( 'response' => $response ));		
 		}
 
 	}
