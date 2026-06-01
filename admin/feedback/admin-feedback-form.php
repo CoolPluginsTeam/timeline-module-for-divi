@@ -98,8 +98,13 @@ class TMDIVI_feedback {
 		if ( isset( $diff_days ) && $diff_days >= 3 ) {
 			wp_enqueue_style('tmdivi-feedback-notice');
 			wp_enqueue_script('tmdivi-feedback-notice');
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
-			echo $this->tmdivi_create_notice_content();
+
+			if ( function_exists( 'et_core_esc_previously' ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo et_core_esc_previously(
+					$this->tmdivi_create_notice_content()
+				);
+			}
 		}
 	}
 
@@ -109,8 +114,8 @@ class TMDIVI_feedback {
 		$ajax_callback      = 'tmdivi_dismiss_notice';
 		$wrap_cls           = 'notice notice-info is-dismissible';
 		$img_path      = '';
-		$p_name             = esc_html('Timeline Module For Divi');
-		$like_it_text       =  esc_html('Rate Now! ★★★★★');
+		$p_name             = esc_html__('Timeline Module For Divi', 'timeline-module-for-divi');
+		$like_it_text       = esc_html__('Rate Now! ★★★★★', 'timeline-module-for-divi');
 		$already_rated_text = esc_html__('Already Reviewed', 'timeline-module-for-divi');
 		$not_interested     = esc_html__('Not Interested', 'timeline-module-for-divi');
 		$not_like_it_text   = esc_html__('No, not good enough, i do not like to rate it!', 'timeline-module-for-divi');
