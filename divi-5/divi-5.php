@@ -28,8 +28,17 @@ class Divi5_Visual_Builder_Assets {
           'wp-hooks',
           'divi-rest',
         ],
-        '1.0.0',
-        // true
+        TMDIVI_V,
+        false
+      );
+
+      wp_enqueue_script(
+        'tmdivi5-editor-helper',
+        TMDIVI_URL . 'assets/js/tmdivi5-editor-helper.js',
+        [
+          'jquery',
+        ],
+        TMDIVI_V,
         false
       );
       if (!wp_style_is('tmdivi-fontawesome-css', 'enqueued')) {
