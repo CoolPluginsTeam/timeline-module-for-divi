@@ -71,7 +71,8 @@ class TMDIVI_Timeline_Module_For_Divi {
             wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), TMDIVI_V, true );
     
             wp_enqueue_style( 'd5-timeline-style', "{$plugin_dir_url}styles/style.min.css", array(), TMDIVI_V);
-            wp_enqueue_style( 'd5-timeline-helper-style', "{$plugin_dir_url}assets/css/divi-5-helper-css.css", array(), TMDIVI_V );
+
+            wp_register_style( 'd5-timeline-helper-style', "{$plugin_dir_url}assets/css/divi-5-helper-css.css", array(), TMDIVI_V );
 
             wp_register_style('tmdivi-fontawesome-css', "{$plugin_dir_url}assets/css/fontawesome.min.css", array(), TMDIVI_V);
         }
