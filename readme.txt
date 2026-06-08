@@ -186,6 +186,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 == Changelog == 
 
 = Version 1.2.3 | 08 Jun 2026 =  
+- Improved: Textual Changes.
+
+= Version 1.2.3 | 08 Jun 2026 =  
 - Fixed: Wrong folder issue.
 
 = Version 1.2.2 | 08 Jun 2026 =  
