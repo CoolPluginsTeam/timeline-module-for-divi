@@ -3,7 +3,7 @@
 Plugin Name: Timeline Module For Divi
 Plugin URI:  https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=product_site&utm_content=plugins_list
 Description: A timeline module for Divi
-Version:     1.2.1
+Version:     1.2.2
 Author:      CoolPlugins
 Author URI:  https://coolplugins.net/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
 License:     GPL2
@@ -26,7 +26,7 @@ along with Timeline Module For Divi. If not, see https://www.gnu.org/licenses/gp
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 
-define('TMDIVI_V', '1.2.1');
+define('TMDIVI_V', '1.2.2');
 define('TMDIVI_DIR', plugin_dir_path(__FILE__));
 define('TMDIVI_URL', plugin_dir_url(__FILE__));
 define('TMDIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
@@ -71,7 +71,8 @@ class TMDIVI_Timeline_Module_For_Divi {
             wp_register_script( 'd5-timeline-line-filling', "{$plugin_dir_url}assets/js/tm_divi_vertical.min.js", array(), TMDIVI_V, true );
     
             wp_enqueue_style( 'd5-timeline-style', "{$plugin_dir_url}styles/style.min.css", array(), TMDIVI_V);
-            wp_enqueue_style( 'd5-timeline-helper-style', "{$plugin_dir_url}assets/css/divi-5-helper-css.css", array(), TMDIVI_V );
+
+            wp_register_style( 'd5-timeline-helper-style', "{$plugin_dir_url}assets/css/divi-5-helper-css.css", array(), TMDIVI_V );
 
             wp_register_style('tmdivi-fontawesome-css', "{$plugin_dir_url}assets/css/fontawesome.min.css", array(), TMDIVI_V);
         }
