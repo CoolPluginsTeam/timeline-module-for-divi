@@ -53,7 +53,7 @@ divi-5/**/composer.json
 divi-5/**/composer.lock
 divi-5/**/webpack.config.js
 divi-5/**/License
-.github/ 
-.claude/
-.cursor/ 
-.codex/ 
+.github
+.claude
+.cursor
+.codex
