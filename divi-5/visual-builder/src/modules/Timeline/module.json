@@ -4,6 +4,12 @@
     "title": "Timeline",
     "titles": "Timelines",
     "category": "module",
+    "childModuleName": "tmdivi/timeline-story",
+    "childModuleTitle": "Timeline Story",
+    "childModuleTitleAttribute": "story_title",
+    "childrenName": [
+      "tmdivi/timeline-story"
+    ],
     "attributes": {
       "module": {
         "type": "object",
