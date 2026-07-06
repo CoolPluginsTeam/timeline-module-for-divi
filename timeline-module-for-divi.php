@@ -33,6 +33,10 @@ define('TMDIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
 define('TMDIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
 
 register_activation_hook( __FILE__, array( 'TMDIVI_Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
+
+// Lightweight — only registers this copy as a version candidate.
+require_once TMDIVI_DIR . 'admin/cp-onboarding/loader.php';
+cpo_onboarding_register( '1.0.0', TMDIVI_DIR . 'admin/cp-onboarding' );
 class TMDIVI_Timeline_Module_For_Divi {
 
     public function __construct() {
@@ -43,11 +47,86 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action( 'wp_enqueue_scripts', array($this,'d5_extension_example_module_enqueue_frontend_scripts') );
         add_action('send_headers',array($this,'stop_browser_cache'));
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'tmdivi_pro_plugin_link' ) );
+
+
+        if ( ! $this->twae_is_cool_timeline_active() ) {
+            add_action( 'admin_menu', array( $this, 'twae_register_timeline_addons_menu' ), 9 );
+            add_action( 'admin_head', array( $this, 'twae_hide_getting_started_settings_submenu_css' ) );
+            add_filter( 'parent_file', array( $this, 'twae_highlight_addons_menu' ), 999 );
+            add_filter( 'submenu_file', array( $this, 'twae_highlight_addons_submenu' ), 999 );
+        }
     }
 
+    private function twae_is_cool_timeline_active() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		return is_plugin_active( 'cool-timeline/cooltimeline.php' );
+	}
+
+
+    public function twae_register_timeline_addons_menu() {
+		global $_wp_real_parent_file;
+
+		// Nested under Settings: remap so get_admin_page_parent() (called after the
+		// parent_file filter in menu-header.php) highlights Settings, not the
+		// virtual cool-plugins-timeline-addon group slug.
+		$_wp_real_parent_file['twdivi-getting-started'] = 'options-general.php';
+
+		$hook = add_submenu_page(
+			'options-general.php',
+			__( 'Timeline Addons', 'timeline-widget-addon-for-elementor' ),
+			__( 'Timeline Addons', 'timeline-widget-addon-for-elementor' ),
+			'manage_options',
+			'twdivi-getting-started',
+			'__return_null'
+		);
+
+		add_action( 'load-' . $hook, array( $this, 'twae_redirect_addons_menu_to_getting_started' ) );
+	}
+
+    public function twae_redirect_addons_menu_to_getting_started() {
+		wp_safe_redirect( admin_url( 'admin.php?page=twdivi-getting-started' ) );
+		exit;
+	}
+
+    public function twae_hide_getting_started_settings_submenu_css() {
+		echo '<style id="twae-hide-getting-started-settings-submenu">
+/* Hide Getting Started submenu under Settings menu only */
+#menu-settings .wp-submenu li:has(> a[href="options-general.php?page=twdivi-getting-started"]) {
+	display: none !important;
+}
+</style>';
+	}
+
+
+    public function twae_highlight_addons_menu( $parent_file ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+		if ( in_array( $page, array( 'twdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
+			return 'options-general.php';
+		}
+
+		return $parent_file;
+	}
+
+    public function twae_highlight_addons_submenu( $submenu_file ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+		if ( in_array( $page, array( 'twdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
+			return 'cool-plugins-timeline-addon';
+		}
+
+		return $submenu_file;
+	}
+
     public function tmdivi_pro_plugin_link($links){
+        $get_started ='<a href="admin.php?page=tmdivi-getting-started">Getting Started</a>';
         $get_pro_link = '<a href="https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
-		array_push( $links, $get_pro_link );
+		array_push( $links, $get_pro_link,$get_started );
 		return $links;
     }
 
@@ -104,6 +183,12 @@ class TMDIVI_Timeline_Module_For_Divi {
 
         // Load marketing file upload option for Divi Contact Form
 		require_once TMDIVI_DIR . 'admin/marketing/marketing-contact-form-extender.php';   
+
+        add_action( 'cpo_onboarding_loaded', function () {
+            require_once TMDIVI_DIR . '/admin/cp-onboarding/onboarding-config.php';
+            } );
+    
+            require_once TMDIVI_DIR . 'admin/tmdivi-timeline-header.php';
     }
 
     public static function is_theme_activate($target){
@@ -166,6 +251,14 @@ class TMDIVI_Timeline_Module_For_Divi {
 
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
             update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
+        }
+
+        if ( ! get_option( 'tmdivi_sample_cta_eligible' ) ) {
+            add_option( 'tmdivi_sample_cta_eligible', 'yes' );
+        }
+
+        if ( ! get_option( 'tmdivi_is_new_user' ) ) {
+            add_option( 'tmdivi_is_new_user', 'yes' );
         }
 	}
 

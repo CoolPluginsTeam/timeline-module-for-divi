@@ -1,14 +1,11 @@
 <?php
 /**
- * Timeline Widget for Elementor — onboarding wiring.
+ * Timeline Module for Divi — onboarding wiring.
  *
- * A single-method ("widget") onboarding flow that reuses the SAME shared
- * cp-onboarding framework as Cool Timeline. There is no method chooser
- * (`show_chooser => false`): the page renders the video + steps for the one
- * Elementor widget method, and the CTA generates a pre-filled Elementor draft
- * page (see twae_onboarding_create_page below). No framework code changes.
+ * Single-method onboarding via the shared cp-onboarding framework. The CTA
+ * creates a pre-filled Divi page (see tmdivi_onboarding_create_page below).
  *
- * @package TimelineWidget
+ * @package TimelineModuleForDivi
  */
 
 use CoolPlugins\Onboarding\Config;
@@ -19,30 +16,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Builds the onboarding Config array for Timeline Widget for Elementor.
+ * Builds the onboarding Config array for Timeline Module for Divi.
  */
-final class TWAE_Onboarding_pro_Config {
+final class TMDIVI_Onboarding_Config {
 
 	/**
 	 * Plugin text domain.
 	 *
 	 * @var string
 	 */
-	private const TEXT_DOMAIN = 'timeline-widget-addon-for-elementor';
+	private const TEXT_DOMAIN = 'timeline-module-for-divi';
 
 	/**
 	 * Build the full config array passed to CoolPlugins\Onboarding\Config.
 	 *
+	 * @param int  $telemetry_data CTA click count.
+	 * @param bool $is_onboarding  Whether onboarding mode is active.
 	 * @return array
 	 */
-	public function build($telemetry_data, $is_onboarding) {
-	
+	public function build( $telemetry_data, $is_onboarding ) {
 		return array_merge(
 			$this->identity(),
 			array(
-				'methods' => array( 'widget' => $this->method_widget($telemetry_data, $is_onboarding) ),
+				'methods' => array( 'module' => $this->method_divi( $telemetry_data, $is_onboarding ) ),
 				'addons'  => $this->addons(),
-				'links'   => array( 'footer' => $this->footer_cards($telemetry_data, $is_onboarding	) ),
+				'links'   => array( 'footer' => $this->footer_cards( $telemetry_data, $is_onboarding ) ),
 			)
 		);
 	}
@@ -56,107 +54,87 @@ final class TWAE_Onboarding_pro_Config {
 		$td = self::TEXT_DOMAIN;
 
 		return array(
-			'slug'            => 'twae',
-			'prefix'          => 'twae',
+			'slug'            => 'tmdivi',
+			'prefix'          => 'tmdivi',
 			'text_domain'     => $td,
-			'version'         => '1.0.0',
-			// Plugin ROOT path/URL (trailing-slashed). The framework appends
-			// 'admin/cp-onboarding/framework/assets/' itself, so passing the root is required.
-			'plugin_dir'      => defined( 'TWAE_PRO_PATH' ) ? TWAE_PRO_PATH : plugin_dir_path( __FILE__ ),
-			'plugin_url'      => $this->plugin_url(),
-			'parent_slug'     => 'options-general.php',
+			'version'         => defined( 'TMDIVI_V' ) ? TMDIVI_V : '1.0.0',
+			'plugin_dir'      => defined( 'TMDIVI_DIR' ) ? TMDIVI_DIR : plugin_dir_path( __FILE__ ),
+			'plugin_url'      => defined( 'TMDIVI_URL' ) ? TMDIVI_URL : plugin_dir_url( __FILE__ ),
+			'parent_slug'     => 'cool-plugins-timeline-addon',
 			'edition'         => 'full',
-			//'edition'       => 'liter',   // <- the only structural difference.
-			'tier'            => 'pro',
-			// Free addon: show the "Getting Started" submenu only for fresh installs.
-			'only_new_user'   => true,
-			'new_user_option' => 'twae_is_new_user',
-			// Single method — no picker: just video + steps for the one widget flow.
+			'tier'            => 'free',
+			'new_user_option' => 'tmdivi_is_new_user',
 			'show_chooser'    => false,
 			'colors'          => array(
 				'primary'      => '#2e9e9d',
 				'primary_dark' => '#257f7e',
 			),
 			'page'            => array(
-				'menu_title' => __( 'Timeline Addons', $td ),
-				'heading'    => __( 'Welcome to Timeline Widget for Elementor Pro !', $td ),
-				'subheading' => __( 'Create beautiful timeline layouts in Elementor in just a few minutes.', $td ),
+				'menu_title' => __( 'Getting Started', $td ),
+				'heading'    => __( 'Welcome to Timeline Module for Divi!', $td ),
+				'subheading' => __( 'Create beautiful timeline layouts in Divi in just a few minutes.', $td ),
 				'chooser'    => '',
 			),
 		);
 	}
 
 	/**
-	 * Plugin asset base URL.
-	 *
-	 * @return string
-	 */
-	private function plugin_url() {
-		return defined( 'TWAE_PRO_URL' ) ? TWAE_PRO_URL : plugin_dir_url( __FILE__ );
-	}
-
-	/**
-	 * Single Elementor widget onboarding method.
+	 * Single Divi module onboarding method.
 	 *
 	 * @param int  $telemetry_data CTA click count.
 	 * @param bool $is_onboarding  Whether onboarding mode is active.
 	 * @return array
 	 */
-	private function method_widget($telemetry_data, $is_onboarding) {
+	private function method_divi( $telemetry_data, $is_onboarding ) {
 		$td = self::TEXT_DOMAIN;
-	
-		$utm_params = '';
-		if($is_onboarding === false){
-			$utm_params = '?utm_source=twae_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard';
-		}else{
-			$utm_params = '?utm_source=twae_plugin&utm_medium=inside&utm_campaign=demo&utm_content=onboarding';
-		}
+
+		$utm_params = $is_onboarding
+			? '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=demo&utm_content=onboarding'
+			: '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard';
 
 		$arr_method = array(
-			'type'          => 'elementor-based',
-			'title'         => __( 'Elementor Widget', $td ),
+			'type'          => 'divi-based',
+			'title'         => __( 'Divi Module', $td ),
 			'badge'         => __( 'Recommended', $td ),
-			'content_badge' => __( 'Best for Elementor Users', $td ),
-			'description'   => __( 'Create Timeline Layouts in Elementor.', $td ),
-			'best_for'      => __( 'Sites built with Elementor', $td ),
-			//'time_estimate' => __( '~1 min', $td ),
+			'content_badge' => __( 'Best for Divi Users', $td ),
+			'description'   => __( 'Create timeline layouts in Divi.', $td ),
+			'best_for'      => __( 'Sites built with Divi', $td ),
 			'editions'      => array( 'full' ),
 			'video'         => array(
 				'id'       => 'mau6jLJZY1s',
-				'title'    => __( 'Create a Timeline in Elementor', $td ),
-				'duration' => __( '', $td ),
+				'title'    => __( 'Create a Timeline in Divi', $td ),
+				'duration' => '',
 			),
 			'steps'         => array(
 				array(
-					'title' => __( 'Add the Timeline Widget', $td ),
-					'desc'  => __( 'Create a new page and edit it with Elementor, then drag in the Story Timeline widget and pick the layout you want.', $td ),
+					'title' => __( 'Add the Timeline Module', $td ),
+					'desc'  => __( 'Create a new page and edit it with the Divi Builder, then add the Timeline module and pick the layout you want.', $td ),
 				),
 				array(
 					'title' => __( 'Add Timeline Stories', $td ),
-					'desc'  => __( 'Click "Add Item" for each story, then set its date, sub-label, title, description, and a custom image.', $td ),
+					'desc'  => __( 'Click "Add New Story" for each story, then set its date, sub-label, title, description, and a custom image.', $td ),
 				),
 				array(
 					'title' => __( 'Configure Timeline Settings', $td ),
-					'desc'  => __( 'In the Style tab, choose the line color and customize the Label, Year Box, and typography — then save and preview your page.', $td ),
+					'desc'  => __( 'In the Design tab, choose the line color and customize labels, year box, and typography — then save and preview your page.', $td ),
 				),
 			),
-			
-			'secondary'    => array(
+			'secondary'     => array(
 				'label' => __( 'View Demo', $td ),
-				'url'   => 'https://cooltimeline.com/demo/elementor-timeline-widget/'.$utm_params,
+				'url'   => 'https://cooltimeline.com/divi/' . $utm_params,
 			),
-			'redirect_url' => admin_url( 'edit.php?post_type=page' ),
-			'fallback_url' => admin_url( 'edit.php?post_type=page' ),
+			'redirect_url'  => admin_url( 'edit.php?post_type=page' ),
+			'fallback_url'  => admin_url( 'edit.php?post_type=page' ),
+			'cta'           => array(
+				'label' => __( 'Create Sample Timeline', $td ),
+			),
 		);
-		if ( 'yes' === get_option( 'twae_sample_cta_eligible' ) ) {
-			$arr_method['cta'] = array( 'label' => __( 'Create Sample Timeline', $td ) );
-		}
 
 		return $arr_method;
 	}
 
 	/**
-	 * Cross-sell addon cards for the bottom section.
+	 * Cross-sell addon cards.
 	 *
 	 * @return array
 	 */
@@ -165,44 +143,20 @@ final class TWAE_Onboarding_pro_Config {
 	}
 
 	/**
-	 * Free Cool Timeline cross-sell card.
-	 *
-	 * @return array
-	 */
-/*	private function addon_cool_timeline() {
-		$td = self::TEXT_DOMAIN;
-
-		return array(
-			'slug'           => 'cool-timeline',
-			'type'           => 'free',
-			'group'         => 'elementor-based',
-			'install_method' => 'manually',
-			'title'          => __( 'Cool Timeline', $td ),
-			'description'    => __( 'Create beautiful timeline directly in the Block Editor.Perfect for company history, roadmaps, stories.', $td ),
-			'icon'           => $this->plugin_url() . 'assets/images/cool-timeline.png',
-			'setup_url'      => admin_url( 'admin.php?page=ctl-getting-started' ),
-			'learn_more'     => 'https://cooltimeline.com/docs/cool-timeline-pro/?utm_source=twae_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=onboarding',
-		);
-	}	*/
-
-	/**
 	 * Footer link cards for the onboarding page.
 	 *
+	 * @param int  $telemetry_data CTA click count.
+	 * @param bool $is_onboarding  Whether onboarding mode is active.
 	 * @return array
 	 */
-	private function footer_cards($telemetry_data, $is_onboarding) {
+	private function footer_cards( $telemetry_data, $is_onboarding ) {
 		$td = self::TEXT_DOMAIN;
 
-		
-		$utm_params = '';
-		if($is_onboarding === false){
-			$utm_params = '?utm_source=twae_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard	';
-		}else{
-			$utm_params = '?utm_source=twae_plugin&utm_medium=inside&utm_campaign=docs&utm_content=onboarding';
-		}
+		$utm_params = $is_onboarding
+			? '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=docs&utm_content=onboarding'
+			: '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard';
 
-		$cards = array();
-
+		$cards   = array();
 		$cards[] = $this->card(
 			'<span class="dashicons dashicons-sos"></span>',
 			__( 'Support', $td ),
@@ -211,7 +165,7 @@ final class TWAE_Onboarding_pro_Config {
 				array(
 					'label' => __( 'Get Support', $td ),
 					'class' => 'cpo-button cpo-button-secondary cpo-button-small',
-					'url'   => 'https://coolplugins.net/support/'.$utm_params,
+					'url'   => 'https://coolplugins.net/support/' . $utm_params,
 				),
 			)
 		);
@@ -223,34 +177,28 @@ final class TWAE_Onboarding_pro_Config {
 				array(
 					'label' => __( 'How to Create Stories', $td ),
 					'class' => 'ctl_doc_link',
-					'url'   => 'https://cooltimeline.com/doc/create-story-timeline/'.$utm_params,
-				),
-				array(
-					'label' => __( 'How to create Horizontal Timeline', $td ),
-					'class' => 'ctl_doc_link',
-					'url'   => 'https://cooltimeline.com/doc/horizontal-timeline-story/'.$utm_params,
+					'url'   => 'https://cooltimeline.com/doc/create-story-timeline/' . $utm_params,
 				),
 				array(
 					'label' => __( 'FAQs', $td ),
 					'class' => 'ctl_doc_link',
-					'url'   => 'https://cooltimeline.com/doc/faqs-timeline-widget-for-elementor/'.$utm_params,
+					'url'   => 'https://cooltimeline.com/doc/faqs-timeline-module-for-divi/' . $utm_params,
 				),
 				array(
 					'label' => __( 'View All Documentation', $td ),
 					'class' => 'ctl_doc_link',
-					'url'   => 'https://cooltimeline.com/docs/timeline-widget-pro-addon-for-elementor/'.$utm_params,
+					'url'   => 'https://cooltimeline.com/docs/timeline-module-for-divi/' . $utm_params,
 				),
 			)
 		);
-
 		$cards[] = $this->card(
 			'<span class="dashicons dashicons-star-filled"></span>',
 			__( 'Your Feedback Matters', $td ),
-			__( 'If you \'re happy with the plugin, we \'d greatly appreciate a quick review. Your feedback helps us continue improving it', $td ),
+			__( 'If you\'re happy with the plugin, we\'d greatly appreciate a quick review. Your feedback helps us continue improving it.', $td ),
 			array(
 				array(
 					'label' => __( 'Leave a Review', $td ),
-					'url'   => 'https://wordpress.org/support/plugin/timeline-widget-addon-for-elementor/reviews/#new-post',
+					'url'   => 'https://wordpress.org/support/plugin/timeline-module-for-divi/reviews/#new-post',
 					'class' => 'cpo-button cpo-button-secondary cpo-button-small',
 				),
 			)
@@ -262,10 +210,10 @@ final class TWAE_Onboarding_pro_Config {
 	/**
 	 * Build a single footer card.
 	 *
-	 * @param string $icon  Emoji or icon character.
+	 * @param string $icon  Icon HTML.
 	 * @param string $title Card title.
 	 * @param string $text  Card body text.
-	 * @param array  $links Link rows (label + url).
+	 * @param array  $links Link rows.
 	 * @return array
 	 */
 	private function card( $icon, $title, $text, array $links ) {
@@ -278,21 +226,19 @@ final class TWAE_Onboarding_pro_Config {
 	}
 }
 
-$telemetry_data   = get_option( 'twae_onboarding_telemetry', array() );
+$telemetry_data = get_option( 'tmdivi_onboarding_telemetry', array() );
+$telemetry_data = isset( $telemetry_data['counters']['cta_clicked.divi-based'] )
+	? $telemetry_data['counters']['cta_clicked.divi-based']
+	: 0;
 
-$telemetry_data = isset( $telemetry_data['counters']['cta_clicked.widget-based'] )
-	? $telemetry_data['counters']['cta_clicked.widget-based']
-	: 0;	
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen mode.
+$is_onboarding = isset( $_GET['mode'] ) && 'onboarding' === $_GET['mode'];
 
-$is_onboarding = isset($_GET['mode']) && $_GET['mode'] === 'onboarding' ? true : false;
-
-$builder   = new TWAE_Onboarding_pro_Config();
-$config    = new Config( $builder->build($telemetry_data, $is_onboarding) );
+$builder   = new TMDIVI_Onboarding_Config();
+$config    = new Config( $builder->build( $telemetry_data, $is_onboarding ) );
 $framework = new Framework( $config );
 $framework->init();
 
-// Ensure $title is set before admin-header.php even if another plugin's framework
-// copy wins the shared versioned loader at the same semver.
 add_action(
 	'admin_init',
 	static function () use ( $framework ) {
@@ -310,30 +256,25 @@ add_action(
 
 		$menu_title = $framework->config()->page( 'menu_title' );
 		if ( empty( $menu_title ) ) {
-			$menu_title = __( 'Timeline Addons','twae' );
+			$menu_title = __( 'Getting Started', 'timeline-module-for-divi' );
 		}
 
 		$title = $menu_title;
 	}
 );
 
-/*
- * CTA action: create a draft Elementor page with the Timeline widget pre-inserted,
- * then open it in the Elementor editor.
- **/
-
 add_filter(
 	$config->prefix() . '_onboarding_script_data',
-	function ( $data ) {
-		$data['action'] = 'twae_onboarding_create_page';
+	static function ( $data ) {
+		$data['action'] = 'tmdivi_onboarding_create_page';
 
 		if ( isset( $data['install']['labels'] ) ) {
 			$data['install']['labels'] = array(
-				'installing' => __( 'Installing…','twae' ),
-				'activating' => __( 'Activating…','twae' ),
-				'activated'  => __( 'Activated','twae' ),
-				'setupGuide' => __( 'Check Setup Guide','twae' ),
-				'error'      => __( 'Plugin could not be installed. Please try again.','twae' ),
+				'installing' => __( 'Installing…', 'timeline-module-for-divi' ),
+				'activating' => __( 'Activating…', 'timeline-module-for-divi' ),
+				'activated'  => __( 'Activated', 'timeline-module-for-divi' ),
+				'setupGuide' => __( 'Check Setup Guide', 'timeline-module-for-divi' ),
+				'error'      => __( 'Plugin could not be installed. Please try again.', 'timeline-module-for-divi' ),
 			);
 		}
 
@@ -344,17 +285,13 @@ add_filter(
 add_filter(
 	$config->prefix() . '_onboarding_labels',
 	static function ( $labels ) {
-		$labels['loading']     = __( 'Creating Timeline…','twae' );
-		$labels['redirecting'] = __( 'Redirecting…','twae' );
-		$labels['error']       = __( 'Something went wrong. Please try again.','twae' );
+		$labels['loading']     = __( 'Creating Timeline…', 'timeline-module-for-divi' );
+		$labels['redirecting'] = __( 'Redirecting…', 'timeline-module-for-divi' );
+		$labels['error']       = __( 'Something went wrong. Please try again.', 'timeline-module-for-divi' );
 		return $labels;
 	}
 );
 
-// When the user performs any action on the Getting Started page, they are no
-// longer a "new user" — drop the flag so the onboarding submenu stops showing.
-// Runs before the framework's ajax_track (priority 5 < 10) because that handler
-// ends in wp_send_json_success() and exits.
 add_action(
 	'wp_ajax_' . $config->ajax_action( 'track' ),
 	static function () use ( $config ) {
@@ -363,201 +300,202 @@ add_action(
 		if ( current_user_can( $config->capability() ) ) {
 			delete_option( $config->new_user_option() );
 		}
-		// No response here — let the framework's ajax_track send the JSON.
 	},
 	5
 );
 
 add_action(
-	'wp_ajax_twae_onboarding_create_page',
-	function () use ( $framework ) {
+	'wp_ajax_tmdivi_onboarding_create_page',
+	static function () use ( $framework ) {
 		$cfg = $framework->config();
 
 		check_ajax_referer( $cfg->option( 'prepare' ), 'nonce' );
 
 		if ( ! current_user_can( $cfg->capability() ) ) {
-			wp_send_json_error( array( 'message' => __( 'Unauthorized.','twae' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'timeline-module-for-divi' ) ), 403 );
 		}
 
-			delete_option($cfg->new_user_option());
-			delete_option('twae_sample_cta_eligible');
-		// Reuse a previously created draft only if it still exists AND still contains the
-		// timeline widget (avoid clutter on repeat clicks). A page whose Elementor content
-		// was emptied/deleted is treated as stale and regenerated, so the user is never sent
-		// to a blank page. (Same staleness rule as the Cool Timeline demo generator.)
-		$existing = (int) get_option( 'twae_onboarding_demo_page_id' );
-		if ( $existing && get_post( $existing ) && 'trash' !== get_post_status( $existing )
-			&& twae_onboarding_page_has_timeline( $existing )
-			&& ! apply_filters( 'twae_onboarding_force_new_page', false ) ) {
-			wp_send_json_success( array( 'redirectUrl' => twae_onboarding_elementor_edit_url( $existing ) ) );
+		delete_option( $cfg->new_user_option() );
+		delete_option( 'tmdivi_sample_cta_eligible' );
+
+		$existing = (int) get_option( 'tmdivi_onboarding_demo_page_id' );
+		if (
+			$existing
+			&& get_post( $existing )
+			&& 'trash' !== get_post_status( $existing )
+			&& tmdivi_onboarding_page_has_timeline( $existing )
+			&& ! apply_filters( 'tmdivi_onboarding_force_new_page', false )
+		) {
+			wp_send_json_success(
+				array(
+					'redirectUrl' => tmdivi_onboarding_divi_edit_url( $existing ),
+				)
+			);
 		}
 
-		$page_id = twae_onboarding_create_timeline_page();
+		$page_id = tmdivi_onboarding_create_timeline_page();
 		if ( is_wp_error( $page_id ) || ! $page_id ) {
-			wp_send_json_error( array( 'message' => __( 'Could not create the page.','twae' ) ), 500 );
+			wp_send_json_error(
+				array( 'message' => __( 'Could not create the page.', 'timeline-module-for-divi' ) ),
+				500
+			);
 		}
 
-		update_option( 'twae_onboarding_demo_page_id', (int) $page_id, false );
-		wp_send_json_success( array( 'redirectUrl' => twae_onboarding_elementor_edit_url( $page_id ) ) );
+		update_option( 'tmdivi_onboarding_demo_page_id', (int) $page_id, false );
+		wp_send_json_success(
+			array(
+				'redirectUrl' => tmdivi_onboarding_divi_edit_url( $page_id ),
+			)
+		);
 	}
 );
 
-if ( ! function_exists( 'twae_onboarding_elementor_edit_url' ) ) {
+if ( ! function_exists( 'tmdivi_onboarding_divi_edit_url' ) ) {
 	/**
-	 * Build the Elementor editor URL for a given post.
+	 * Build the Divi Visual Builder URL for a given post.
 	 *
 	 * @param int $id Post ID.
 	 * @return string
 	 */
-	function twae_onboarding_elementor_edit_url( $id ) {
+	function tmdivi_onboarding_divi_edit_url( $id ) {
 		return add_query_arg(
 			array(
 				'post'   => (int) $id,
-				'action' => 'elementor',
+				'action' => 'edit',
+				'et_fb'  => '1',
 			),
 			admin_url( 'post.php' )
 		);
 	}
 }
 
-if ( ! function_exists( 'twae_onboarding_page_has_timeline' ) ) {
+if ( ! function_exists( 'tmdivi_onboarding_page_has_timeline' ) ) {
 	/**
-	 * Whether a page still contains the Story Timeline widget in its Elementor data.
-	 *
-	 * Used to detect a "stale" demo page (content emptied/deleted) so a fresh one is
-	 * created instead of redirecting the user to a blank page.
+	 * Whether a page still contains the Timeline module in its Divi content.
 	 *
 	 * @param int $id Post ID.
-	 * @return bool True when the page's Elementor data references the timeline widget.
+	 * @return bool
 	 */
-	function twae_onboarding_page_has_timeline( $id ) {
-		$data = get_post_meta( (int) $id, '_elementor_data', true );
-
-		if ( empty( $data ) || ! is_string( $data ) ) {
+	function tmdivi_onboarding_page_has_timeline( $id ) {
+		$post = get_post( (int) $id );
+		if ( ! $post || empty( $post->post_content ) ) {
 			return false;
 		}
 
-		return false !== strpos( $data, 'timeline-widget-addon' );
+		return false !== strpos( $post->post_content, 'tmdivi_timeline' )
+			&& false !== strpos( $post->post_content, 'tmdivi_timeline_story' );
 	}
 }
 
-if ( ! function_exists( 'twae_onboarding_build_timeline_data' ) ) {
+if ( ! function_exists( 'tmdivi_onboarding_story_shortcode' ) ) {
 	/**
-	 * Build the Elementor element tree (section > column > Timeline widget) pre-filled
-	 * with a few sample stories so the page renders fully populated.
+	 * Build a single tmdivi_timeline_story shortcode.
 	 *
-	 * @return array
+	 * @param array $attrs Story field values.
+	 * @return string
 	 */
-	function twae_onboarding_build_timeline_data() {
-		$rid = static function () {
-			return wp_generate_password( 8, false, false );
-		};
+	function tmdivi_onboarding_story_shortcode( array $attrs ) {
+		$slug      = 'tmdivi_timeline_story';
+		$shortcode = sprintf( '[%s', $slug );
 
-		$icon = array(
-			'value'   => 'far fa-clock',
-			'library' => 'solid',
-		);
+		foreach ( $attrs as $key => $value ) {
+			if ( '' === $value ) {
+				continue;
+			}
+			$shortcode .= sprintf( ' %s="%s"', $key, $value );
+		}
+
+		return $shortcode . sprintf( '][/%s]', $slug );
+	}
+}
+
+if ( ! function_exists( 'tmdivi_onboarding_build_timeline_shortcode' ) ) {
+	/**
+	 * Build Divi section/row/column shortcodes with a pre-filled Timeline module.
+	 *
+	 * @return string
+	 */
+	function tmdivi_onboarding_build_timeline_shortcode() {
+		$td = 'timeline-module-for-divi';
 
 		$stories = array(
 			array(
-				'_id'              => $rid(),
-				'twae_date_label'  => __( 'Step 1','twae' ),
-				'twae_extra_label' => __( 'Get Started','twae' ),
-				'twae_story_title' => __( 'Add the Timeline Widget','twae' ),
-				'twae_description' => __( 'Create a new page, edit it with Elementor, then drag in the Story Timeline widget and pick your layout.','twae' ),
-				'twae_media'       => 'image',
-				'twae_image'       => array(
-					'url' => TWAE_PRO_URL . 'assets/images/amazon1.jpg',
-					'id'  => '',
+				'story_title' => __( 'Add the Timeline Module', $td ),
+				'label_date'  => __( 'Step 1', $td ),
+				'sub_label'   => __( 'Get Started', $td ),
+				'content'     => __(
+					'Create a new page, enable the Divi Builder, then add the Timeline module and pick your layout.',
+					$td
 				),
-				'twae_icon_type'   => 'icon',
-				'twae_story_icon'  => $icon,
 			),
 			array(
-				'_id'              => $rid(),
-				'twae_date_label'  => __( 'Step 2','twae' ),
-				'twae_extra_label' => __( 'Add Stories','twae' ),
-				'twae_story_title' => __( 'Add Timeline Stories','twae' ),
-				'twae_description' => __( 'Click "Add Item" for each story, then set its date, sub-label, title, description and a custom image.','twae' ),
-				'twae_media'       => 'image',
-				'twae_image'       => array(
-					'url' => TWAE_PRO_URL . 'assets/images/amazon2.jpg',
-					'id'  => '',
+				'story_title' => __( 'Add Timeline Stories', $td ),
+				'label_date'  => __( 'Step 2', $td ),
+				'sub_label'   => __( 'Add Stories', $td ),
+				'content'     => __(
+					'Click Add New Story for each story, then set its date, sub-label, title, description and a custom image.',
+					$td
 				),
-				'twae_icon_type'   => 'icon',
-				'twae_story_icon'  => $icon,
 			),
 			array(
-				'_id'              => $rid(),
-				'twae_date_label'  => __( 'Step 3','twae' ),
-				'twae_extra_label' => __( 'Customize','twae' ),
-				'twae_story_title' => __( 'Configure Timeline Settings','twae' ),
-				'twae_description' => __( 'In the Style tab choose the line color and customize the Label, Year Box and typography, then save and preview.','twae' ),
-				'twae_media'       => 'image',
-				'twae_image'       => array(
-					'url' => TWAE_PRO_URL . 'assets/images/amazon3.png',
-					'id'  => '',
+				'story_title' => __( 'Configure Timeline Settings', $td ),
+				'label_date'  => __( 'Step 3', $td ),
+				'sub_label'   => __( 'Customize', $td ),
+				'content'     => __(
+					'In the Design tab choose the line color and customize labels, year box and typography, then save and preview.',
+					$td
 				),
-				'twae_icon_type'   => 'icon',
-				'twae_story_icon'  => $icon,
 			),
 		);
 
-		$widget = array(
-			'id'         => $rid(),
-			'elType'     => 'widget',
-			'widgetType' => 'timeline-widget-addon',
-			'settings'   => array(
-				'twae_layout' => 'centered',
-				'twae_list'   => $stories,
-			),
-			'elements'   => array(),
-		);
+		$children = implode( '', array_map( 'tmdivi_onboarding_story_shortcode', $stories ) );
+		$timeline = sprintf( '[tmdivi_timeline timeline_layout="both-side"]%s[/tmdivi_timeline]', $children );
 
-		$column = array(
-			'id'       => $rid(),
-			'elType'   => 'column',
-			'settings' => array( '_column_size' => 100 ),
-			'elements' => array( $widget ),
+		return sprintf(
+			'[et_pb_section fb_built="1"][et_pb_row][et_pb_column type="4_4"]%s[/et_pb_column][/et_pb_row][/et_pb_section]',
+			$timeline
 		);
-
-		$section = array(
-			'id'       => $rid(),
-			'elType'   => 'section',
-			'settings' => array(),
-			'elements' => array( $column ),
-		);
-
-		return array( $section );
 	}
 }
 
-if ( ! function_exists( 'twae_onboarding_create_timeline_page' ) ) {
+if ( ! function_exists( 'tmdivi_onboarding_create_timeline_page' ) ) {
 	/**
-	 * Create a draft page in Elementor builder mode containing the Timeline widget.
+	 * Create a page in Divi builder mode containing the Timeline module.
 	 *
 	 * @return int|\WP_Error Page ID on success.
 	 */
-	function twae_onboarding_create_timeline_page() {
-		// wp_slash because wp_insert_post -> update_post_meta unslashes once
-		// (same pattern as includes/migration/twae-migration.php).
-		$data = wp_slash( wp_json_encode( twae_onboarding_build_timeline_data() ) );
+	function tmdivi_onboarding_create_timeline_page() {
+		$content = tmdivi_onboarding_build_timeline_shortcode();
 
-		return wp_insert_post(
+		if ( function_exists( 'et_fb_process_shortcode' ) ) {
+			$processed = et_fb_process_shortcode( $content );
+			if ( ! empty( $processed ) && is_string( $processed ) ) {
+				$content = $processed;
+			}
+		}
+
+		$page_id = wp_insert_post(
 			array(
 				'post_type'    => 'page',
-				'post_title'   => __( 'My Timeline','twae' ),
-				'post_status'  => 'draft',
-				'post_content' => '',
-				'meta_input'   => array(
-					'_elementor_edit_mode'     => 'builder',
-					'_elementor_template_type' => 'wp-page',
-					'_elementor_version'       => defined( 'ELEMENTOR_VERSION' ) ? ELEMENTOR_VERSION : '',
-					'_elementor_data'          => $data,
-				),
+				'post_title'   => __( 'My Timeline', 'timeline-module-for-divi' ),
+				'post_status'  => 'publish',
+				'post_content' => $content,
 			),
 			true
 		);
+
+		if ( is_wp_error( $page_id ) || ! $page_id ) {
+			return $page_id;
+		}
+
+		update_post_meta( $page_id, '_et_pb_use_builder', 'on' );
+		update_post_meta( $page_id, '_et_pb_built_for_post_type', 'page' );
+		update_post_meta( $page_id, '_et_pb_page_layout', 'et_no_sidebar' );
+
+		if ( defined( 'ET_BUILDER_VERSION' ) ) {
+			update_post_meta( $page_id, '_et_pb_builder_version', ET_BUILDER_VERSION );
+		}
+
+		return (int) $page_id;
 	}
 }
-

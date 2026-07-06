@@ -63,7 +63,7 @@ Unlike Cool Timeline (multi-method chooser), TWAE is a **single-method** flow:
 | `methods` | one `widget` entry | Elementor widget setup guide |
 | `edition` | `full` | Full onboarding UI (liter would strip edition-gated methods) |
 | `tier` | `free` | Pro upsell via addon cards and footer links |
-| `prefix` / `slug` | `twae` | Page slug: `twae-getting-started` |
+| `prefix` / `slug` | `twae` | Page slug: `twdivi-getting-started` |
 
 Plugin-specific demo logic is **not** a separate class file. Elementor page
 creation lives at the bottom of `onboarding-config.php`
@@ -95,7 +95,7 @@ flowchart TD
 2. **Config** — Reads telemetry and `$_GET['mode']`, builds identity + one method +
    addons + footer.
 3. **Framework** — Registers submenu, enqueues `onboarding.css` / `onboarding.js`
-   on `twae-getting-started`, localizes `twaeOnboardingData`.
+   on `twdivi-getting-started`, localizes `twaeOnboardingData`.
 4. **View** — Renders header, video, numbered steps, CTA bar, Pro addon card
    (dashboard only), and footer cards.
 5. **Create CTA** — JS calls `twae_onboarding_create_page` (not the default
@@ -108,7 +108,7 @@ Where **Getting Started** appears depends on what else is active:
 
 | Scenario | `parent_slug` | Visible under |
 |----------|---------------|---------------|
-| Cool Timeline active | `''` (empty) | Orphan page — linked from CTL dashboard / plugin links; URL `admin.php?page=twae-getting-started` |
+| Cool Timeline active | `''` (empty) | Orphan page — linked from CTL dashboard / plugin links; URL `admin.php?page=twdivi-getting-started` |
 | TWAE standalone (no CTL) | `cool-plugins-timeline-addon` | Settings → Timeline Addons (redirects to Getting Started); submenu row hidden via CSS |
 | No Timeline Addons menu at all | Fallback in `onboarding-config.php` | Elementor → Getting Started (`admin_menu` priority 25) |
 
@@ -120,8 +120,8 @@ When Cool Timeline is active, `onboarding-config.php` also sets `$title` on
 
 | Mode | URL | Behaviour |
 |------|-----|-----------|
-| `onboarding` | `admin.php?page=twae-getting-started&mode=onboarding` | First-run flow after activation; footer shows Pro upgrade card instead of review |
-| `dashboard` | `admin.php?page=twae-getting-started` | Default; Pro addon cross-sell card; footer includes "Leave a Review" |
+| `onboarding` | `admin.php?page=twdivi-getting-started&mode=onboarding` | First-run flow after activation; footer shows Pro upgrade card instead of review |
+| `dashboard` | `admin.php?page=twdivi-getting-started` | Default; Pro addon cross-sell card; footer includes "Leave a Review" |
 
 `TWAE_Onboarding_Config` branches on `$is_onboarding` for UTM params, footer
 cards, and whether the Pro addon appears in the bottom section.
@@ -157,7 +157,7 @@ All runtime identifiers use `prefix` = `twae`:
 | `ajax_action( 'track' )` | `twae_onboarding_track` |
 | `handle()` | `twae-onboarding` |
 | `js_global()` | `twaeOnboardingData` |
-| Page slug | `twae-getting-started` |
+| Page slug | `twdivi-getting-started` |
 
 ## Config keys (TWAE)
 
