@@ -3,7 +3,8 @@
  * Timeline Module for Divi — onboarding wiring.
  *
  * Single-method onboarding via the shared cp-onboarding framework. The CTA
- * creates a pre-filled Divi page (see tmdivi_onboarding_create_page below).
+ * creates a draft page with an empty Timeline module and opens the Divi Visual
+ * Builder (see tmdivi_onboarding_create_page below).
  *
  * @package TimelineModuleForDivi
  */
@@ -108,7 +109,7 @@ final class TMDIVI_Onboarding_Config {
 			'steps'         => array(
 				array(
 					'title' => __( 'Add the Timeline Module', $td ),
-					'desc'  => __( 'Create a new page and edit it with the Divi Builder, then add the Timeline module and pick the layout you want.', $td ),
+					'desc'  => __( 'Create a new page — Divi Builder opens automatically and the Timeline module is inserted for you. Pick the layout you want.', $td ),
 				),
 				array(
 					'title' => __( 'Add Timeline Stories', $td ),
@@ -123,8 +124,6 @@ final class TMDIVI_Onboarding_Config {
 				'label' => __( 'View Demo', $td ),
 				'url'   => 'https://cooltimeline.com/divi/' . $utm_params,
 			),
-			'redirect_url'  => admin_url( 'edit.php?post_type=page' ),
-			'fallback_url'  => admin_url( 'edit.php?post_type=page' ),
 			'cta'           => array(
 				'label' => __( 'Create Sample Timeline', $td ),
 			),
@@ -285,7 +284,7 @@ add_filter(
 add_filter(
 	$config->prefix() . '_onboarding_labels',
 	static function ( $labels ) {
-		$labels['loading']     = __( 'Creating Timeline…', 'timeline-module-for-divi' );
+		$labels['loading']     = __( 'Please wait…', 'timeline-module-for-divi' );
 		$labels['redirecting'] = __( 'Redirecting…', 'timeline-module-for-divi' );
 		$labels['error']       = __( 'Something went wrong. Please try again.', 'timeline-module-for-divi' );
 		return $labels;
@@ -315,25 +314,24 @@ add_action(
 			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'timeline-module-for-divi' ) ), 403 );
 		}
 
-		delete_option( $cfg->new_user_option() );
-		delete_option( 'tmdivi_sample_cta_eligible' );
+		$ver     = defined( 'ET_BUILDER_VERSION' ) ? ET_BUILDER_VERSION : '4.0.0';
+		$attr    = '_builder_version="' . $ver . '"';
+		$content = sprintf(
+			'[et_pb_section fb_built="1" %1$s][et_pb_row %1$s][et_pb_column type="4_4" %1$s][/et_pb_column][/et_pb_row][/et_pb_section]',
+			$attr
+		);
 
-		$existing = (int) get_option( 'tmdivi_onboarding_demo_page_id' );
-		if (
-			$existing
-			&& get_post( $existing )
-			&& 'trash' !== get_post_status( $existing )
-			&& tmdivi_onboarding_page_has_timeline( $existing )
-			&& ! apply_filters( 'tmdivi_onboarding_force_new_page', false )
-		) {
-			wp_send_json_success(
-				array(
-					'redirectUrl' => tmdivi_onboarding_divi_edit_url( $existing ),
-				)
-			);
-		}
+		$page_id = wp_insert_post(
+			array(
+				'post_type'    => 'page',
+				'post_status'  => 'draft',
+				'post_title'   => __( 'My Timeline', 'timeline-module-for-divi' ),
+				'post_content' => $content,
+				'post_author'  => get_current_user_id(),
+			),
+			true
+		);
 
-		$page_id = tmdivi_onboarding_create_timeline_page();
 		if ( is_wp_error( $page_id ) || ! $page_id ) {
 			wp_send_json_error(
 				array( 'message' => __( 'Could not create the page.', 'timeline-module-for-divi' ) ),
@@ -341,161 +339,42 @@ add_action(
 			);
 		}
 
-		update_option( 'tmdivi_onboarding_demo_page_id', (int) $page_id, false );
+		update_post_meta( $page_id, '_et_pb_use_builder', 'on' );
+		update_post_meta( $page_id, '_et_pb_built_for_post_type', 'page' );
+
+		$page_url = get_permalink( $page_id ) ?: get_preview_post_link( $page_id );
+		$redirect = function_exists( 'et_fb_get_vb_url' )
+			? et_fb_get_vb_url( $page_url )
+			: add_query_arg( array( 'post' => $page_id, 'action' => 'edit', 'et_fb' => '1' ), admin_url( 'post.php' ) );
+
+		if ( function_exists( 'et_fb_prepare_ssl_link' ) ) {
+			$redirect = et_fb_prepare_ssl_link( $redirect );
+		}
+
+		$redirect = add_query_arg( 'tmdivi_onboarding', '1', $redirect );
+
 		wp_send_json_success(
 			array(
-				'redirectUrl' => tmdivi_onboarding_divi_edit_url( $page_id ),
+				'redirectUrl' => esc_url_raw( $redirect ),
 			)
 		);
 	}
 );
 
-if ( ! function_exists( 'tmdivi_onboarding_divi_edit_url' ) ) {
-	/**
-	 * Build the Divi Visual Builder URL for a given post.
-	 *
-	 * @param int $id Post ID.
-	 * @return string
-	 */
-	function tmdivi_onboarding_divi_edit_url( $id ) {
-		return add_query_arg(
-			array(
-				'post'   => (int) $id,
-				'action' => 'edit',
-				'et_fb'  => '1',
-			),
-			admin_url( 'post.php' )
-		);
-	}
-}
-
-if ( ! function_exists( 'tmdivi_onboarding_page_has_timeline' ) ) {
-	/**
-	 * Whether a page still contains the Timeline module in its Divi content.
-	 *
-	 * @param int $id Post ID.
-	 * @return bool
-	 */
-	function tmdivi_onboarding_page_has_timeline( $id ) {
-		$post = get_post( (int) $id );
-		if ( ! $post || empty( $post->post_content ) ) {
-			return false;
+add_action(
+	'divi_visual_builder_assets_before_enqueue_scripts',
+	static function () {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- VB onboarding trigger.
+		if ( ! isset( $_GET['tmdivi_onboarding'] ) || '1' !== $_GET['tmdivi_onboarding'] ) {
+			return;
 		}
 
-		return false !== strpos( $post->post_content, 'tmdivi_timeline' )
-			&& false !== strpos( $post->post_content, 'tmdivi_timeline_story' );
-	}
-}
-
-if ( ! function_exists( 'tmdivi_onboarding_story_shortcode' ) ) {
-	/**
-	 * Build a single tmdivi_timeline_story shortcode.
-	 *
-	 * @param array $attrs Story field values.
-	 * @return string
-	 */
-	function tmdivi_onboarding_story_shortcode( array $attrs ) {
-		$slug      = 'tmdivi_timeline_story';
-		$shortcode = sprintf( '[%s', $slug );
-
-		foreach ( $attrs as $key => $value ) {
-			if ( '' === $value ) {
-				continue;
-			}
-			$shortcode .= sprintf( ' %s="%s"', $key, $value );
-		}
-
-		return $shortcode . sprintf( '][/%s]', $slug );
-	}
-}
-
-if ( ! function_exists( 'tmdivi_onboarding_build_timeline_shortcode' ) ) {
-	/**
-	 * Build Divi section/row/column shortcodes with a pre-filled Timeline module.
-	 *
-	 * @return string
-	 */
-	function tmdivi_onboarding_build_timeline_shortcode() {
-		$td = 'timeline-module-for-divi';
-
-		$stories = array(
-			array(
-				'story_title' => __( 'Add the Timeline Module', $td ),
-				'label_date'  => __( 'Step 1', $td ),
-				'sub_label'   => __( 'Get Started', $td ),
-				'content'     => __(
-					'Create a new page, enable the Divi Builder, then add the Timeline module and pick your layout.',
-					$td
-				),
-			),
-			array(
-				'story_title' => __( 'Add Timeline Stories', $td ),
-				'label_date'  => __( 'Step 2', $td ),
-				'sub_label'   => __( 'Add Stories', $td ),
-				'content'     => __(
-					'Click Add New Story for each story, then set its date, sub-label, title, description and a custom image.',
-					$td
-				),
-			),
-			array(
-				'story_title' => __( 'Configure Timeline Settings', $td ),
-				'label_date'  => __( 'Step 3', $td ),
-				'sub_label'   => __( 'Customize', $td ),
-				'content'     => __(
-					'In the Design tab choose the line color and customize labels, year box and typography, then save and preview.',
-					$td
-				),
-			),
-		);
-
-		$children = implode( '', array_map( 'tmdivi_onboarding_story_shortcode', $stories ) );
-		$timeline = sprintf( '[tmdivi_timeline timeline_layout="both-side"]%s[/tmdivi_timeline]', $children );
-
-		return sprintf(
-			'[et_pb_section fb_built="1"][et_pb_row][et_pb_column type="4_4"]%s[/et_pb_column][/et_pb_row][/et_pb_section]',
-			$timeline
-		);
-	}
-}
-
-if ( ! function_exists( 'tmdivi_onboarding_create_timeline_page' ) ) {
-	/**
-	 * Create a page in Divi builder mode containing the Timeline module.
-	 *
-	 * @return int|\WP_Error Page ID on success.
-	 */
-	function tmdivi_onboarding_create_timeline_page() {
-		$content = tmdivi_onboarding_build_timeline_shortcode();
-
-		if ( function_exists( 'et_fb_process_shortcode' ) ) {
-			$processed = et_fb_process_shortcode( $content );
-			if ( ! empty( $processed ) && is_string( $processed ) ) {
-				$content = $processed;
-			}
-		}
-
-		$page_id = wp_insert_post(
-			array(
-				'post_type'    => 'page',
-				'post_title'   => __( 'My Timeline', 'timeline-module-for-divi' ),
-				'post_status'  => 'publish',
-				'post_content' => $content,
-			),
+		wp_enqueue_script(
+			'tmdivi-vb-inserter',
+			( defined( 'TMDIVI_URL' ) ? TMDIVI_URL : plugin_dir_url( dirname( __DIR__ ) . '/onboarding-config.php' ) ) . 'admin/cp-onboarding/assets/vb-inserter.js',
+			array(),
+			defined( 'TMDIVI_V' ) ? TMDIVI_V : '1.0.0',
 			true
 		);
-
-		if ( is_wp_error( $page_id ) || ! $page_id ) {
-			return $page_id;
-		}
-
-		update_post_meta( $page_id, '_et_pb_use_builder', 'on' );
-		update_post_meta( $page_id, '_et_pb_built_for_post_type', 'page' );
-		update_post_meta( $page_id, '_et_pb_page_layout', 'et_no_sidebar' );
-
-		if ( defined( 'ET_BUILDER_VERSION' ) ) {
-			update_post_meta( $page_id, '_et_pb_builder_version', ET_BUILDER_VERSION );
-		}
-
-		return (int) $page_id;
 	}
-}
+);
