@@ -1,6 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 // Require php files.
+require_once TMDIVI_MODULE_DIR . '/ModulesCore/Helper.php';
 require_once TMDIVI_DIR . 'divi-5/vendor/autoload.php';
 require_once TMDIVI_DIR . 'divi-5/server/Modules/Modules.php';
 

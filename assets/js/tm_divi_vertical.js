@@ -89,10 +89,17 @@
             var timeline = $(this); 
             var lineFilling = timeline.data("line-filling");
             if (lineFilling !== undefined && lineFilling) {
-                tmdivi_scroll_callback(timeline)
-                window.addEventListener("scroll", ()=>{
-                    tmdivi_scroll_callback(timeline)
-                }); 
+                tmdivi_scroll_callback(timeline);
+                var scrollTicking = false;
+                window.addEventListener("scroll", function() {
+                    if (!scrollTicking) {
+                        scrollTicking = true;
+                        window.requestAnimationFrame(function() {
+                            tmdivi_scroll_callback(timeline);
+                            scrollTicking = false;
+                        });
+                    }
+                });
             }
         });
     });  

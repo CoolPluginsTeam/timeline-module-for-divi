@@ -143,7 +143,7 @@ const TimelineStyles = (props) => {
         selector={`${orderClass} #tmdivi-slider-container .tmdivi-story > .tmdivi-arrow`}
         attr={attrs?.story_border_settings?.advanced}
         declarationFunction={(attrs)=>{
-          let css = 'border:3px solid blue !important;';
+          let css = '';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
             if(data.styles.all !== undefined){

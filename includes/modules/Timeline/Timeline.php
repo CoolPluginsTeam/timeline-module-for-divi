@@ -8,8 +8,6 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
     // Module slug (also used as shortcode tag)
     public $slug = 'tmdivi_timeline';
 
-    public $icon_path;
-
     public static $timeline_order = 1;
 
     // Full Visual Builder support
@@ -34,7 +32,6 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         // Module Icon
         // Load customized svg icon and use it on builder as module icon. If you don't have svg icon, you can use
         // $this->icon for using etbuilder font-icon. (See CustomCta / DICM_CTA class)
-        // $this->icon_path = TMDIVI_URL . 'assets/image/Timeline-logo.svg';
 
         // Toggle settings
         $this->settings_modal_toggles = array(
@@ -517,9 +514,6 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
         $timeline_layout = sanitize_text_field($props['timeline_layout']);
         $timeline_fill_setting = sanitize_text_field($props['timeline_fill_setting']);
 
-        $instanceNum = self::$timeline_order - 2;
-        $wrapper_id = "tmdivi-wrapper-$instanceNum";    
-
     switch($timeline_layout){
         case "one-side-left":
             $timelineLayout = "tmdivi-vertical-right";
@@ -532,7 +526,7 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
     }
         // Render module content
         $output = sprintf(
-            ' <div id="%4$s" class="tmdivi-vertical tmdivi-wrapper %3$s style-1 tmdivi-bg-simple" data-line-filling="%2$s">
+            ' <div id="tmdivi-wrapper" class="tmdivi-vertical tmdivi-wrapper %3$s style-1 tmdivi-bg-simple" data-line-filling="%2$s">
             <div class="tmdivi-start"></div>
             <div class="tmdivi-line tmdivi-timeline"> %1$s
             <div class="tmdivi-inner-line" style="height:0px" data-line-fill="%2$s"></div>
@@ -541,13 +535,14 @@ class TMDIVI_Timeline extends TMDIVI_Builder_Module{
             </div>',
             et_core_sanitized_previously($this->content),
             ($timeline_fill_setting === "on")? 'true':'false',
-            esc_attr($timelineLayout),
-            $wrapper_id
+            esc_attr($timelineLayout)
         );
 
         if($props['content'] !== ""){
             return $this->_render_module_wrapper($output, $render_slug);
         }
+
+        return '';
     }
 
 }
