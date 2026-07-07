@@ -61,7 +61,7 @@ final class TMDIVI_Onboarding_Config {
 			'version'         => defined( 'TMDIVI_V' ) ? TMDIVI_V : '1.0.0',
 			'plugin_dir'      => defined( 'TMDIVI_DIR' ) ? TMDIVI_DIR : plugin_dir_path( __FILE__ ),
 			'plugin_url'      => defined( 'TMDIVI_URL' ) ? TMDIVI_URL : plugin_dir_url( __FILE__ ),
-			'parent_slug'     => 'cool-plugins-timeline-addon',
+			'parent_slug'     => 'options-general.php',
 			'edition'         => 'full',
 			'tier'            => 'free',
 			'new_user_option' => 'tmdivi_is_new_user',
@@ -102,7 +102,7 @@ final class TMDIVI_Onboarding_Config {
 			'best_for'      => __( 'Sites built with Divi', $td ),
 			'editions'      => array( 'full' ),
 			'video'         => array(
-				'id'       => 'mau6jLJZY1s',
+				'id'       => 'V9dEoN0PvFI',
 				'title'    => __( 'Create a Timeline in Divi', $td ),
 				'duration' => '',
 			),
@@ -124,12 +124,32 @@ final class TMDIVI_Onboarding_Config {
 				'label' => __( 'View Demo', $td ),
 				'url'   => 'https://cooltimeline.com/divi/' . $utm_params,
 			),
-			'cta'           => array(
-				'label' => __( 'Create Sample Timeline', $td ),
-			),
 		);
 
+		if ( $this->is_sample_cta_visible( $telemetry_data ) ) {
+			$arr_method['cta'] = array(
+				'label' => __( 'Create Sample Timeline', $td ),
+			);
+		}
+
 		return $arr_method;
+	}
+
+	/**
+	 * Whether the one-time "Create Sample Timeline" CTA should render.
+	 *
+	 * Shown only on fresh install (`tmdivi_sample_cta_eligible` set to `yes` in
+	 * activation). Hidden after the first click (telemetry or AJAX handler).
+	 *
+	 * @param int $cta_click_count Times the CTA was clicked.
+	 * @return bool
+	 */
+	private function is_sample_cta_visible( $cta_click_count ) {
+		if ( $cta_click_count > 0 ) {
+			return false;
+		}
+
+		return 'yes' === get_option( 'tmdivi_sample_cta_eligible', 'no' );
 	}
 
 	/**
@@ -174,9 +194,9 @@ final class TMDIVI_Onboarding_Config {
 			'',
 			array(
 				array(
-					'label' => __( 'How to Create Stories', $td ),
+					'label' => __( 'How to Add Timeline Module', $td ),
 					'class' => 'ctl_doc_link',
-					'url'   => 'https://cooltimeline.com/doc/create-story-timeline/' . $utm_params,
+					'url'   => 'https://cooltimeline.com/doc/add-timeline-module/' . $utm_params,
 				),
 				array(
 					'label' => __( 'FAQs', $td ),
@@ -186,7 +206,7 @@ final class TMDIVI_Onboarding_Config {
 				array(
 					'label' => __( 'View All Documentation', $td ),
 					'class' => 'ctl_doc_link',
-					'url'   => 'https://cooltimeline.com/docs/timeline-module-for-divi/' . $utm_params,
+					'url'   => 'https://cooltimeline.com/docs/timeline-module-pro-for-divi/' . $utm_params,
 				),
 			)
 		);
@@ -296,8 +316,16 @@ add_action(
 	static function () use ( $config ) {
 		check_ajax_referer( $config->option( 'track' ), 'nonce' );
 
-		if ( current_user_can( $config->capability() ) ) {
-			delete_option( $config->new_user_option() );
+		if ( ! current_user_can( $config->capability() ) ) {
+			return;
+		}
+
+		delete_option( $config->new_user_option() );
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
+		$event = isset( $_POST['event'] ) ? sanitize_key( wp_unslash( $_POST['event'] ) ) : '';
+		if ( 'cta_clicked' === $event ) {
+			update_option( 'tmdivi_sample_cta_eligible', 'no', false );
 		}
 	},
 	5
@@ -352,6 +380,9 @@ add_action(
 		}
 
 		$redirect = add_query_arg( 'tmdivi_onboarding', '1', $redirect );
+
+		update_option( 'tmdivi_sample_cta_eligible', 'no', false );
+		delete_option( $cfg->new_user_option() );
 
 		wp_send_json_success(
 			array(

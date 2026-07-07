@@ -209,7 +209,7 @@ $cpo_render_method_video = function ( $cpo_method ) {
 			<?php if ( ! empty( $cpo_method['video']['start'] ) ) : ?>data-start="<?php echo (int) $cpo_method['video']['start']; ?>"<?php endif; ?>
 			aria-label="<?php echo esc_attr( ! empty( $cpo_method['video']['title'] ) ? $cpo_method['video']['title'] : $cpo_method['title'] ); ?>">
 			<img class="cpo-video-thumb"
-				src="<?php echo esc_url( 'https://img.youtube.com/vi/' . rawurlencode( $cpo_method['video']['id'] ) . '/maxresdefault.jpg' ); ?>"
+				src="<?php echo esc_url( 'https://i.ytimg.com/vi_webp/' . rawurlencode( $cpo_method['video']['id'] ) . '/sddefault.webp' ); ?>"
 				alt="<?php echo esc_attr( $cpo_method['title'] ); ?>">
 			<span class="cpo-video-overlay">
 				<span class="cpo-play" aria-hidden="true">

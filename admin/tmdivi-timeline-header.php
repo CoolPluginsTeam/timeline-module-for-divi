@@ -65,7 +65,7 @@ add_action(
 			array(
 				'heading'       => __( 'Timeline Module for Divi', 'timeline-module-for-divi' ),
 				'icon_url'      => TMDIVI_URL . 'assets/image/Timeline-logo.svg',
-				'docs_url'      => 'https://cooltimeline.com/docs/timeline-module-for-divi/' . $utm_params,
+				'docs_url'      => 'https://cooltimeline.com/docs/timeline-module-pro-for-divi/' . $utm_params,
 				'support_url'   => 'https://coolplugins.net/support/' . $utm_params,
 				'docs_label'    => __( 'Check Docs', 'timeline-module-for-divi' ),
 				'support_label' => __( 'Get Support', 'timeline-module-for-divi' ),
