@@ -356,9 +356,6 @@ class TMDIVI_TimelineChild extends TMDIVI_Builder_Module{
         return $html;
     }
 
-    // protected function _render_module_wrapper( $output = '', $render_slug = '' ) {
-    //     return $output;
-    // } 
 }
 
 new TMDIVI_TimelineChild;

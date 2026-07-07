@@ -15,12 +15,10 @@ trait ModuleStylesTrait {
 
   public static function module_styles( $args ) {
 		$attrs        = $args['attrs'] ?? [];
-		$parent_attrs = $args['parentAttrs'] ?? [];
 		$order_class  = $args['orderClass'];
 		$elements     = $args['elements'];
 		$settings     = $args['settings'] ?? [];
 
-		$icon_selector = "{$order_class} .et-pb-icon";
 
 		Style::add(
 			[
