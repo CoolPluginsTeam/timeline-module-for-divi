@@ -12,8 +12,3 @@ addAction('divi.moduleLibrary.registerModuleLibraryStore.after', 'tmdivi', () =>
   registerModule(timelineMetadata, timeline);
   registerModule(timelineChildMetadata, timelineChild);
 });
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   registerModule(timelineMetadata, timeline);
-//   registerModule(timelineChildMetadata, timelineChild);
-// });
