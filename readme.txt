@@ -114,7 +114,7 @@ It is a **[Divi Theme](https://www.elegantthemes.com/gallery/divi/)** Addon. In 
 - With the plugin active, go to the page or post where you'd like to add a timeline.
 - Click on the **Edit with Divi Builder** button to launch the Divi Builder.
 
-#### 2. Add the Timeline Module:
+#### 2. Open Any Page or Post:
 
 - In the Divi Builder, click the **+** icon to add a new module.
 - From the list of modules, select the **Timeline** module.

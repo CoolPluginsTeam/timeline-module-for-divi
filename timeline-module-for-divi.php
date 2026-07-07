@@ -124,7 +124,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 	}
 
     public function tmdivi_pro_plugin_link($links){
-        $get_started ='<a href="options-general.php?page=tmdivi-getting-started">Getting Started</a>';
+        $get_started ='<a href="options-general.php?page=tmdivi-getting-started&mode=onboarding">Getting Started</a>';
         $get_pro_link = '<a href="https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
 		array_push( $links, $get_pro_link,$get_started );
 		return $links;

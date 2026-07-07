@@ -63,7 +63,7 @@ add_action(
 
 		cp_timeline_header_render(
 			array(
-				'heading'       => __( 'Timeline Module for Divi', 'timeline-module-for-divi' ),
+				'heading'       => __( 'Timeline Module For Divi', 'timeline-module-for-divi' ),
 				'icon_url'      => TMDIVI_URL . 'assets/image/Timeline-logo.svg',
 				'docs_url'      => 'https://cooltimeline.com/docs/timeline-module-pro-for-divi/' . $utm_params,
 				'support_url'   => 'https://coolplugins.net/support/' . $utm_params,

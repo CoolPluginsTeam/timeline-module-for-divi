@@ -1,7 +1,7 @@
 /**
  * Onboarding screen — scoped to avoid affecting other admin pages.
  */
-.wrap.cpo-onboarding-page {
+ .wrap.cpo-onboarding-page {
 	/* --cpo-primary and --cpo-primary-dark are injected inline per plugin by
 	   the framework; these are fallbacks if no inline style is present. */
 	--cpo-primary: #007c7a;
@@ -1134,4 +1134,7 @@
     background: #F9FBFB;
     border: 1px solid #e6ebeb;
     border-radius: 16px;
+}
+a.cpo-button.cpo-button-secondary.cpo-button-small {
+    width: 50%;
 }

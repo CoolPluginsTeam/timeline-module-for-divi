@@ -72,8 +72,8 @@ final class TMDIVI_Onboarding_Config {
 			),
 			'page'            => array(
 				'menu_title' => __( 'Getting Started', $td ),
-				'heading'    => __( 'Welcome to Timeline Module for Divi!', $td ),
-				'subheading' => __( 'Create beautiful timeline layouts in Divi in just a few minutes.', $td ),
+				'heading'    => __( 'Welcome to Timeline Module For Divi!', $td ),
+				'subheading' => __( 'Create Timeline Layouts In Divi. replace with Start Building Timelines inside Divi', $td ),
 				'chooser'    => '',
 			),
 		);
@@ -98,7 +98,7 @@ final class TMDIVI_Onboarding_Config {
 			'title'         => __( 'Divi Module', $td ),
 			'badge'         => __( 'Recommended', $td ),
 			'content_badge' => __( 'Best for Divi Users', $td ),
-			'description'   => __( 'Create timeline layouts in Divi.', $td ),
+			'description'   => __( 'Create Timeline Layouts In Divi.', $td ),
 			'best_for'      => __( 'Sites built with Divi', $td ),
 			'editions'      => array( 'full' ),
 			'video'         => array(
@@ -108,16 +108,20 @@ final class TMDIVI_Onboarding_Config {
 			),
 			'steps'         => array(
 				array(
-					'title' => __( 'Add the Timeline Module', $td ),
-					'desc'  => __( 'Create a new page — Divi Builder opens automatically and the Timeline module is inserted for you. Pick the layout you want.', $td ),
+					'title' => __( 'Open Any Page or Post', $td ),
+					'desc'  => __( 'Go to Pages → Add Page (or Posts → Add Post), or edit an existing page/post with Divi.', $td ),
 				),
 				array(
-					'title' => __( 'Add Timeline Stories', $td ),
-					'desc'  => __( 'Click "Add New Story" for each story, then set its date, sub-label, title, description, and a custom image.', $td ),
+					'title' => __( 'Add Timeline Module', $td ),
+					'desc'  => __( 'Click "+", and search for the "Timeline" module.', $td ),
 				),
 				array(
-					'title' => __( 'Configure Timeline Settings', $td ),
-					'desc'  => __( 'In the Design tab, choose the line color and customize labels, year box, and typography — then save and preview your page.', $td ),
+					'title' => __( 'Add Timeline Items', $td ),
+					'desc'  => __( 'Add the story title, date, description, media, and icons.', $td ),
+				),
+				array(
+					'title' => __( 'Customize the Design', $td ),
+					'desc'  => __( 'Adjust your timeline layout, colors, typography, and other settings according to your website.', $td ),
 				),
 			),
 			'secondary'     => array(
