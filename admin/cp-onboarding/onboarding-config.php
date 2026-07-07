@@ -73,7 +73,7 @@ final class TMDIVI_Onboarding_Config {
 			'page'            => array(
 				'menu_title' => __( 'Getting Started', $td ),
 				'heading'    => __( 'Welcome to Timeline Module For Divi!', $td ),
-				'subheading' => __( 'Create Timeline Layouts In Divi. replace with Start Building Timelines inside Divi', $td ),
+				'subheading' => __( 'Start Building Timelines Inside Divi', $td ),
 				'chooser'    => '',
 			),
 		);
