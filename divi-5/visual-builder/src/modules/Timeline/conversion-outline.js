@@ -86,9 +86,9 @@ export const conversionOutline = {
   },
   valueExpansionFunctionMap: {
     inline_fonts: convertInlineFont,
-    label_font: 'tmdivi_convert_d4_font_field',
-    sub_label_font: 'tmdivi_convert_d4_font_field',
-    year_label_font: 'tmdivi_convert_d4_font_field',
+    label_font: 'tmdivi_free_convert_d4_font_field',
+    sub_label_font: 'tmdivi_free_convert_d4_font_field',
+    year_label_font: 'tmdivi_free_convert_d4_font_field',
     story_padding: 'convertSpacing',
     heading_custom_padding: 'convertSpacing',
     description_custom_padding: 'convertSpacing',

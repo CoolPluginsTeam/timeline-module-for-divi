@@ -15,7 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $font_string D4 font field value.
  * @return array<string, string>
  */
-function tmdivi_parse_d4_font_string( $font_string ) {
+if ( ! function_exists( 'tmdivi_free_parse_d4_font_string' ) ) {
+function tmdivi_free_parse_d4_font_string( $font_string ) {
 	$parts = explode( '|', (string) $font_string );
 
 	$font_style = ( ! empty( $parts[2] ) && 'off' !== $parts[2] ) ? 'italic' : 'normal';
@@ -48,6 +49,7 @@ function tmdivi_parse_d4_font_string( $font_string ) {
 		'textDecorationStyle'     => isset( $parts[8] ) ? $parts[8] : '',
 	);
 }
+}
 
 /**
  * Convert D4 label font fields (label_date / sub_label / label_text) for migration.
@@ -58,13 +60,14 @@ function tmdivi_parse_d4_font_string( $font_string ) {
  * @param array $extra_params Conversion context.
  * @return array<string, string>
  */
-function tmdivi_convert_d4_font_field( $value, $extra_params = array() ) {
+if ( ! function_exists( 'tmdivi_free_convert_d4_font_field' ) ) {
+function tmdivi_free_convert_d4_font_field( $value, $extra_params = array() ) {
 	if ( empty( $value ) || ! is_string( $value ) ) {
 		return array();
 	}
 
 	$viewport = ! empty( $extra_params['viewport'] ) ? $extra_params['viewport'] : 'desktop';
-	$parsed   = tmdivi_parse_d4_font_string( $value );
+	$parsed   = tmdivi_free_parse_d4_font_string( $value );
 	$prefix   = "font.{$viewport}.value.";
 
 	$result = array(
@@ -82,11 +85,12 @@ function tmdivi_convert_d4_font_field( $value, $extra_params = array() ) {
 
 	return $result;
 }
+}
 
 add_filter(
 	'divi.moduleLibrary.conversion.valueExpansionFunctionMap',
 	function ( $map ) {
-		$map['tmdivi_convert_d4_font_field'] = 'tmdivi_convert_d4_font_field';
+		$map['tmdivi_free_convert_d4_font_field'] = 'tmdivi_free_convert_d4_font_field';
 		return $map;
 	}
 );
