@@ -461,52 +461,18 @@ add_action(
 			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'timeline-module-for-divi' ) ), 403 );
 		}
 
-		$ver     = defined( 'ET_BUILDER_VERSION' ) ? ET_BUILDER_VERSION : '4.0.0';
-		$attr    = '_builder_version="' . $ver . '"';
-		$content = sprintf(
-			'[et_pb_section fb_built="1" %1$s][et_pb_row %1$s][et_pb_column type="4_4" %1$s][/et_pb_column][/et_pb_row][/et_pb_section]',
-			$attr
-		);
-
-		$page_id = wp_insert_post(
-			array(
-				'post_type'    => 'page',
-				'post_status'  => 'draft',
-				'post_title'   => __( 'My Timeline', 'timeline-module-for-divi' ),
-				'post_content' => $content,
-				'post_author'  => get_current_user_id(),
-			),
-			true
-		);
-
-		if ( is_wp_error( $page_id ) || ! $page_id ) {
-			wp_send_json_error(
-				array( 'message' => __( 'Could not create the page.', 'timeline-module-for-divi' ) ),
-				500
-			);
+		$stored = (int) get_option( 'tmdivi_onboarding_demo_page_id', 0 );
+		if ( $stored && tmdivi_onboarding_page_has_timeline( $stored ) ) {
+			$page_id = $stored;
+		} else {
+			$page_id = tmdivi_onboarding_create_timeline_page();
 		}
 
-		update_post_meta( $page_id, '_et_pb_use_builder', 'on' );
-		update_post_meta( $page_id, '_et_pb_built_for_post_type', 'page' );
-
-		$page_url = get_permalink( $page_id ) ?: get_preview_post_link( $page_id );
-		$redirect = function_exists( 'et_fb_get_vb_url' )
-			? et_fb_get_vb_url( $page_url )
-			: add_query_arg( array( 'post' => $page_id, 'action' => 'edit', 'et_fb' => '1' ), admin_url( 'post.php' ) );
-
-		if ( function_exists( 'et_fb_prepare_ssl_link' ) ) {
-			$redirect = et_fb_prepare_ssl_link( $redirect );
+		if ( is_wp_error( $page_id ) ) {
+			wp_send_json_error( array( 'message' => __( 'Could not create the page.', 'timeline-module-for-divi' ) ), 500 );
 		}
 
-		$redirect = add_query_arg( 'tmdivi_onboarding', '1', $redirect );
-
-		
-
-		wp_send_json_success(
-			array(
-				'redirectUrl' => esc_url_raw( $redirect ),
-			)
-		);
+		wp_send_json_success( array( 'redirectUrl' => tmdivi_onboarding_divi_edit_url( $page_id ) ) );
 	}
 );
 
@@ -527,3 +493,123 @@ add_action(
 		);
 	}
 );
+
+if ( ! function_exists( 'tmdivi_onboarding_page_has_legacy_guide_stories' ) ) {
+	/**
+	 * Detect older onboarding pages that baked setup-guide copy into story fields.
+	 *
+	 * @param string $content Page post_content.
+	 * @return bool
+	 */
+	function tmdivi_onboarding_page_has_legacy_guide_stories( $content ) {
+		if ( ! is_string( $content ) || '' === $content ) {
+			return false;
+		}
+
+		$markers = array(
+			'Add the Timeline Module',
+			'Add the Timeline Widget',
+			'Configure Timeline Settings',
+			'label_date="Step 1"',
+			'label_date="Step 2"',
+			'label_date="Step 3"',
+		);
+
+		foreach ( $markers as $marker ) {
+			if ( false !== strpos( $content, $marker ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
+if ( ! function_exists( 'tmdivi_onboarding_create_timeline_page' ) ) {
+	/**
+	 * Create a draft Divi page for onboarding (empty shell; VB inserter adds the module).
+	 *
+	 * @return int|\WP_Error Post ID on success.
+	 */
+	function tmdivi_onboarding_create_timeline_page() {
+		$ver     = defined( 'ET_BUILDER_VERSION' ) ? ET_BUILDER_VERSION : '4.0.0';
+		$attr    = '_builder_version="' . $ver . '"';
+		$content = sprintf(
+			'[et_pb_section fb_built="1" %1$s][et_pb_row %1$s][et_pb_column type="4_4" %1$s][/et_pb_column][/et_pb_row][/et_pb_section]',
+			$attr
+		);
+
+		$page_id = wp_insert_post(
+			array(
+				'post_type'    => 'page',
+				'post_status'  => 'draft',
+				'post_title'   => __( 'My Timeline', 'timeline-module-for-divi' ),
+				'post_content' => $content,
+				'post_author'  => get_current_user_id(),
+			),
+			true
+		);
+
+		if ( is_wp_error( $page_id ) || ! $page_id ) {
+			return is_wp_error( $page_id )
+				? $page_id
+				: new WP_Error( 'tmdivi_onboarding_create_failed', __( 'Could not create the page.', 'timeline-module-for-divi' ) );
+		}
+
+		update_post_meta( $page_id, '_et_pb_use_builder', 'on' );
+		update_post_meta( $page_id, '_et_pb_built_for_post_type', 'page' );
+		update_option( 'tmdivi_onboarding_demo_page_id', (int) $page_id, false );
+
+		return (int) $page_id;
+	}
+}
+
+if ( ! function_exists( 'tmdivi_onboarding_divi_edit_url' ) ) {
+	/**
+	 * Build the Divi Visual Builder URL for an onboarding demo page.
+	 *
+	 * @param int $page_id Page ID.
+	 * @return string
+	 */
+	function tmdivi_onboarding_divi_edit_url( $page_id ) {
+		$page_url = get_permalink( $page_id ) ?: get_preview_post_link( $page_id );
+		$redirect = function_exists( 'et_fb_get_vb_url' )
+			? et_fb_get_vb_url( $page_url )
+			: add_query_arg( array( 'post' => $page_id, 'action' => 'edit', 'et_fb' => '1' ), admin_url( 'post.php' ) );
+
+		if ( function_exists( 'et_fb_prepare_ssl_link' ) ) {
+			$redirect = et_fb_prepare_ssl_link( $redirect );
+		}
+
+		return esc_url_raw( add_query_arg( 'tmdivi_onboarding', '1', $redirect ) );
+	}
+}
+
+if ( ! function_exists( 'tmdivi_onboarding_page_has_timeline' ) ) {
+	/**
+	 * Whether an onboarding demo page can be reused.
+	 *
+	 * @param int $page_id Page ID.
+	 * @return bool
+	 */
+	function tmdivi_onboarding_page_has_timeline( $page_id ) {
+		$post = get_post( (int) $page_id );
+		if ( ! $post || 'page' !== $post->post_type || 'trash' === $post->post_status ) {
+			return false;
+		}
+
+		if ( 'on' !== get_post_meta( $page_id, '_et_pb_use_builder', true ) ) {
+			return false;
+		}
+
+		if ( tmdivi_onboarding_page_has_legacy_guide_stories( $post->post_content ) ) {
+			return false;
+		}
+
+		if ( false !== strpos( $post->post_content, 'tmdivi_timeline' ) ) {
+			return true;
+		}
+
+		return false !== strpos( $post->post_content, 'et_pb_section' );
+	}
+}
