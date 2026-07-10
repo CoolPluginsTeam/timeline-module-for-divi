@@ -130,32 +130,14 @@ final class TMDIVI_Onboarding_Config {
 			),
 		);
 
-		if ( $this->is_sample_cta_visible( $telemetry_data ) ) {
-			$arr_method['cta'] = array(
-				'label' => __( 'Create Sample Timeline', $td ),
-			);
+		if ( empty( $telemetry_data ) ) {
+			$arr_method['cta'] = array( 'label' => __( 'Create Sample Timeline', $td ),);
 		}
 
 		return $arr_method;
 	}
 
-	/**
-	 * Whether the one-time "Create Sample Timeline" CTA should render.
-	 *
-	 * Shown only on fresh install (`tmdivi_sample_cta_eligible` set to `yes` in
-	 * activation). Hidden after the first click (telemetry or AJAX handler).
-	 *
-	 * @param int $cta_click_count Times the CTA was clicked.
-	 * @return bool
-	 */
-	private function is_sample_cta_visible( $cta_click_count ) {
-		if ( $cta_click_count > 0 ) {
-			return false;
-		}
-
-		return 'yes' === get_option( 'tmdivi_sample_cta_eligible', 'no' );
-	}
-
+	
 	/**
 	 * Cross-sell addon cards.
 	 *
@@ -320,17 +302,12 @@ add_action(
 	static function () use ( $config ) {
 		check_ajax_referer( $config->option( 'track' ), 'nonce' );
 
-		if ( ! current_user_can( $config->capability() ) ) {
+		if ( current_user_can( $config->capability() ) ) {
 			return;
 		}
 
 		delete_option( $config->new_user_option() );
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
-		$event = isset( $_POST['event'] ) ? sanitize_key( wp_unslash( $_POST['event'] ) ) : '';
-		if ( 'cta_clicked' === $event ) {
-			update_option( 'tmdivi_sample_cta_eligible', 'no', false );
-		}
 	},
 	5
 );
@@ -385,8 +362,7 @@ add_action(
 
 		$redirect = add_query_arg( 'tmdivi_onboarding', '1', $redirect );
 
-		update_option( 'tmdivi_sample_cta_eligible', 'no', false );
-		delete_option( $cfg->new_user_option() );
+		
 
 		wp_send_json_success(
 			array(

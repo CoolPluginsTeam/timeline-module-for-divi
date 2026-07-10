@@ -47,6 +47,7 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action( 'wp_enqueue_scripts', array($this,'d5_extension_example_module_enqueue_frontend_scripts') );
         add_action('send_headers',array($this,'stop_browser_cache'));
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'tmdivi_pro_plugin_link' ) );
+        add_action( 'activated_plugin', array( $this, 'tmdivi_plugin_redirection' ) );
 
 
         if ( ! $this->twae_is_cool_timeline_active() ) {
@@ -128,6 +129,26 @@ class TMDIVI_Timeline_Module_For_Divi {
         $get_pro_link = '<a href="https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
 		array_push( $links, $get_pro_link,$get_started );
 		return $links;
+    }
+
+    public function tmdivi_plugin_redirection() {
+
+        // Don't redirect if Divi is not active.
+        if ( ! self::is_theme_activate( 'Divi' ) ) {
+            delete_transient( 'tmdivi_activation_redirect' );
+            return;
+        }
+    
+        if ( ! get_transient( 'tmdivi_activation_redirect' ) ) {
+            return;
+        }
+    
+        delete_transient( 'tmdivi_activation_redirect' );
+    
+        wp_safe_redirect(
+            admin_url( 'admin.php?page=tmdivi-getting-started&mode=onboarding' )
+        );
+        exit;
     }
 
     public function stop_browser_cache(){
@@ -238,6 +259,16 @@ class TMDIVI_Timeline_Module_For_Divi {
     public static function tmdivi_activate_plugin() {
 		update_option( 'tmdivi-v', TMDIVI_V );
 		update_option( 'tmdivi-type', 'free' );
+
+        $is_new_user = ( false === get_option( 'tmdivi-installDate' ) )
+			&& ( false === get_option( 'tmdivi_initial_version' ) );
+					
+		// Only show welcome redirect for genuine first-time installs.
+		if ( $is_new_user ) {
+			update_option( 'tmdivi_is_new_user', 'yes' );
+			update_option( 'tmdivi_onboarding_method', 'default', false );
+			set_transient( 'tmdivi_activation_redirect', 1, 5 * MINUTE_IN_SECONDS );
+		}
 		update_option( 'tmdivi-installDate', gmdate( 'Y-m-d h:i:s' ) );
 		update_option( 'tmdivi-defaultPlugin', true );
 
@@ -251,14 +282,6 @@ class TMDIVI_Timeline_Module_For_Divi {
 
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
             update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
-        }
-
-        if ( ! get_option( 'tmdivi_sample_cta_eligible' ) ) {
-            add_option( 'tmdivi_sample_cta_eligible', 'yes' );
-        }
-
-        if ( ! get_option( 'tmdivi_is_new_user' ) ) {
-            add_option( 'tmdivi_is_new_user', 'yes' );
         }
 	}
 
