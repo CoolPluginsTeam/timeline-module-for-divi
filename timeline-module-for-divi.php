@@ -77,8 +77,8 @@ class TMDIVI_Timeline_Module_For_Divi {
 
 		$hook = add_submenu_page(
 			'options-general.php',
-			__( 'Timeline Addons', 'timeline-widget-addon-for-elementor' ),
-			__( 'Timeline Addons', 'timeline-widget-addon-for-elementor' ),
+			__( 'Timeline Addons', 'timeline-module-for-divi' ),
+			__( 'Timeline Addons', 'timeline-module-for-divi' ),
 			'manage_options',
 			'cool-plugins-timeline-addon',
 			'__return_null'
@@ -106,7 +106,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, array( 'twdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
+		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
 			return 'options-general.php';
 		}
 
@@ -117,7 +117,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, array( 'twdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
+		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
 			return 'cool-plugins-timeline-addon';
 		}
 

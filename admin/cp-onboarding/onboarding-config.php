@@ -28,6 +28,42 @@ final class TMDIVI_Onboarding_Config {
 	 */
 	private const TEXT_DOMAIN = 'timeline-module-for-divi';
 
+		/**
+		 * Timeline Module Pro plugin slug / basename.
+		 *
+		 * @var string
+		 */
+		private const PRO_SLUG        = 'cp-timeline-module-pro-for-divi';
+		private const PRO_PLUGIN_FILE = self::PRO_SLUG . '/' . self::PRO_SLUG . '.php';
+
+	/**
+	 * Cached Pro plugin state (active, installed, activate URL).
+	 *
+	 * @return array{active:bool,installed:bool,activate:string}
+	 */
+	private function pro_plugin_api() {
+		static $api = null;
+
+		if ( null !== $api ) {
+			return $api;
+		}
+
+		if ( ! function_exists( 'get_plugins' ) || ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$api = array(
+			'active'    => is_plugin_active( self::PRO_PLUGIN_FILE ),
+			'installed' => isset( get_plugins()[ self::PRO_PLUGIN_FILE ] ),
+			'activate'  => wp_nonce_url(
+				admin_url( 'plugins.php?action=activate&plugin=' . rawurlencode( self::PRO_PLUGIN_FILE ) ),
+				'activate-plugin_' . self::PRO_PLUGIN_FILE
+			),
+		);
+
+		return $api;
+	}
+
 	/**
 	 * Build the full config array passed to CoolPlugins\Onboarding\Config.
 	 *
@@ -137,14 +173,78 @@ final class TMDIVI_Onboarding_Config {
 		return $arr_method;
 	}
 
-	
+	/**
+	 * Plugin asset base URL.
+	 *
+	 * @return string
+	 */
+	private function plugin_url() {
+		return defined( 'TMDIVI_URL' ) ? TMDIVI_URL : plugin_dir_url( __FILE__ );
+	}
+
 	/**
 	 * Cross-sell addon cards.
 	 *
 	 * @return array
 	 */
 	private function addons() {
-		return array();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only check, no state change.
+		$is_onboarding = isset( $_GET['mode'] ) && 'onboarding' === $_GET['mode'];
+		$addons        = array();
+
+		if ( false === $is_onboarding && ! $this->pro_plugin_api()['active'] ) {
+			$pro_addon = $this->addon_pro();
+			if ( is_array( $pro_addon ) && ! empty( $pro_addon ) ) {
+				$addons[] = $pro_addon;
+			}
+		}
+
+		return $addons;
+	}
+
+	/**
+	 * Pro Timeline Module cross-sell card (optional).
+	 *
+	 * @return array
+	 */
+	private function addon_pro() {
+		$td  = self::TEXT_DOMAIN;
+		$pro = $this->pro_plugin_api();
+
+		if ( $pro['active'] ) {
+			return array();
+		}
+
+		$icon = $this->plugin_url() . 'assets/image/Timeline-logo.svg';
+
+		if ( $pro['installed'] ) {
+			return array(
+				'slug'           => self::PRO_SLUG,
+				'type'           => 'pro',
+				'group'          => 'divi-based',
+				'install_method' => 'manually',
+				'title'          => __( 'Activate Timeline Module Pro', $td ),
+				'description'    => __( 'The Pro plugin is already installed. Activate it to unlock premium layouts and features.', $td ),
+				'icon'           => $icon,
+				'label_text'     => __( 'Need advanced layouts and designs?', $td ),
+				'upgrade_label'  => __( 'Activate Plugin', $td ),
+				'upgrade_url'    => $pro['activate'],
+			);
+		}
+
+		return array(
+			'slug'           => self::PRO_SLUG,
+			'type'           => 'pro',
+			'group'          => 'divi-based',
+			'install_method' => 'manually',
+			'title'          => __( 'Timeline Module Pro for Divi', $td ),
+			'description'    => __( 'Unlock horizontal layouts, premium designs, and advanced settings.', $td ),
+			'icon'           => $icon,
+			'label_text'     => __( 'Need advanced layouts and designs?', $td ),
+			'upgrade_label'  => __( 'Buy Timeline Module Pro', $td ),
+			'upgrade_url'    => 'https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard',
+			'learn_more'     => 'https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=demo&utm_content=dashboard',
+		);
 	}
 
 	/**
@@ -155,11 +255,16 @@ final class TMDIVI_Onboarding_Config {
 	 * @return array
 	 */
 	private function footer_cards( $telemetry_data, $is_onboarding ) {
-		$td = self::TEXT_DOMAIN;
+		$td  = self::TEXT_DOMAIN;
+		$pro = $this->pro_plugin_api();
 
-		$utm_params = $is_onboarding
-			? '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=docs&utm_content=onboarding'
-			: '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard';
+		if ( false === $is_onboarding ) {
+			$utm_params  = '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=docs&utm_content=dashboard';
+			$utm_params2 = '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=dashboard';
+		} else {
+			$utm_params  = '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=docs&utm_content=onboarding';
+			$utm_params2 = '?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=onboarding';
+		}
 
 		$cards   = array();
 		$cards[] = $this->card(
@@ -196,18 +301,54 @@ final class TMDIVI_Onboarding_Config {
 				),
 			)
 		);
-		$cards[] = $this->card(
-			'<span class="dashicons dashicons-star-filled"></span>',
-			__( 'Your Feedback Matters', $td ),
-			__( 'If you\'re happy with the plugin, we\'d greatly appreciate a quick review. Your feedback helps us continue improving it.', $td ),
-			array(
+
+		if ( false === $is_onboarding ) {
+			$cards[] = $this->card(
+				'<span class="dashicons dashicons-star-filled"></span>',
+				__( 'Your Feedback Matters', $td ),
+				__( 'If you\'re happy with the plugin, we\'d greatly appreciate a quick review. Your feedback helps us continue improving it.', $td ),
 				array(
-					'label' => __( 'Leave a Review', $td ),
-					'url'   => 'https://wordpress.org/support/plugin/timeline-module-for-divi/reviews/#new-post',
-					'class' => 'cpo-button cpo-button-secondary cpo-button-small',
-				),
-			)
-		);
+					array(
+						'label' => __( 'Leave a Review', $td ),
+						'url'   => 'https://wordpress.org/support/plugin/timeline-module-for-divi/reviews/#new-post',
+						'class' => 'cpo-button cpo-button-secondary cpo-button-small',
+					),
+				)
+			);
+		} elseif ( ! $pro['active'] ) {
+			if ( $pro['installed'] ) {
+				$cards[] = $this->card(
+					'<span class="dashicons dashicons-cart">',
+					__( 'Activate Timeline Module Pro', $td ),
+					__( 'The Pro plugin is already installed. Activate it to unlock premium layouts and features.', $td ),
+					array(
+						array(
+							'label' => __( 'Activate Plugin', $td ),
+							'url'   => $pro['activate'],
+							'class' => 'cpo-button cpo-button-secondary cpo-button-small',
+						),
+					)
+				);
+			} else {
+				$cards[] = $this->card(
+					'<span class="dashicons dashicons-cart">',
+					__( 'Upgrade to Pro', $td ),
+					__( 'Unlock horizontal layouts, Advanced Settings, and more timeline designs.', $td ),
+					array(
+						array(
+							'label' => __( 'Buy Timeline Module Pro', $td ),
+							'url'   => 'https://cooltimeline.com/plugin/timeline-module-for-divi/' . $utm_params2,
+							'class' => 'cpo-button cpo-button-secondary cpo-button-small',
+						),
+						array(
+							'label' => __( 'View Live Demo', $td ),
+							'url'   => 'https://cooltimeline.com/divi/' . $utm_params,
+							'class' => 'cpo-button cpo-button-secondary cpo-button-small',
+						),
+					)
+				);
+			}
+		}
 
 		return $cards;
 	}
@@ -303,11 +444,8 @@ add_action(
 		check_ajax_referer( $config->option( 'track' ), 'nonce' );
 
 		if ( current_user_can( $config->capability() ) ) {
-			return;
+			delete_option( $config->new_user_option() );
 		}
-
-		delete_option( $config->new_user_option() );
-
 	},
 	5
 );
