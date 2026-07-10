@@ -50,10 +50,10 @@ class TMDIVI_Timeline_Module_For_Divi {
 
 
         if ( ! $this->twae_is_cool_timeline_active() ) {
-            add_action( 'admin_menu', array( $this, 'twae_register_timeline_addons_menu' ), 9 );
-            add_action( 'admin_head', array( $this, 'twae_hide_getting_started_settings_submenu_css' ) );
-            add_filter( 'parent_file', array( $this, 'twae_highlight_addons_menu' ), 999 );
-            add_filter( 'submenu_file', array( $this, 'twae_highlight_addons_submenu' ), 999 );
+            add_action( 'admin_menu', array( $this, 'tmdivi_register_timeline_addons_menu' ), 9 );
+            add_action( 'admin_head', array( $this, 'tmdivi_hide_getting_started_settings_submenu_css' ) );
+            add_filter( 'parent_file', array( $this, 'tmdivi_highlight_addons_menu' ), 999 );
+            add_filter( 'submenu_file', array( $this, 'tmdivi_highlight_addons_submenu' ), 999 );
         }
     }
 
@@ -66,42 +66,42 @@ class TMDIVI_Timeline_Module_For_Divi {
 	}
 
 
-    public function twae_register_timeline_addons_menu() {
+    public function tmdivi_register_timeline_addons_menu() {
 		global $_wp_real_parent_file;
 
 		// Nested under Settings: remap so get_admin_page_parent() (called after the
 		// parent_file filter in menu-header.php) highlights Settings, not the
 		// virtual cool-plugins-timeline-addon group slug.
-		$_wp_real_parent_file['twdivi-getting-started'] = 'options-general.php';
+		$_wp_real_parent_file['cool-plugins-timeline-addon'] = 'options-general.php';
 
 		$hook = add_submenu_page(
 			'options-general.php',
 			__( 'Timeline Addons', 'timeline-widget-addon-for-elementor' ),
 			__( 'Timeline Addons', 'timeline-widget-addon-for-elementor' ),
 			'manage_options',
-			'twdivi-getting-started',
+			'cool-plugins-timeline-addon',
 			'__return_null'
 		);
 
-		add_action( 'load-' . $hook, array( $this, 'twae_redirect_addons_menu_to_getting_started' ) );
+		add_action( 'load-' . $hook, array( $this, 'tmdivi_redirect_addons_menu_to_getting_started' ) );
 	}
 
-    public function twae_redirect_addons_menu_to_getting_started() {
-		wp_safe_redirect( admin_url( 'admin.php?page=twdivi-getting-started' ) );
+    public function tmdivi_redirect_addons_menu_to_getting_started() {
+		wp_safe_redirect( admin_url( 'admin.php?page=tmdivi-getting-started' ) );
 		exit;
 	}
 
-    public function twae_hide_getting_started_settings_submenu_css() {
-		echo '<style id="twae-hide-getting-started-settings-submenu">
+    public function tmdivi_hide_getting_started_settings_submenu_css() {
+		echo '<style id="tmdivi-hide-getting-started-settings-submenu">
 /* Hide Getting Started submenu under Settings menu only */
-#menu-settings .wp-submenu li:has(> a[href="options-general.php?page=twdivi-getting-started"]) {
+#menu-settings .wp-submenu li:has(> a[href="options-general.php?page=tmdivi-getting-started"]) {
 	display: none !important;
 }
 </style>';
 	}
 
 
-    public function twae_highlight_addons_menu( $parent_file ) {
+    public function tmdivi_highlight_addons_menu( $parent_file ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
@@ -112,7 +112,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 		return $parent_file;
 	}
 
-    public function twae_highlight_addons_submenu( $submenu_file ) {
+    public function tmdivi_highlight_addons_submenu( $submenu_file ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
@@ -124,7 +124,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 	}
 
     public function tmdivi_pro_plugin_link($links){
-        $get_started ='<a href="options-general.php?page=tmdivi-getting-started&mode=onboarding">Getting Started</a>';
+        $get_started ='<a href="admin.php?page=tmdivi-getting-started&mode=onboarding">Getting Started</a>';
         $get_pro_link = '<a href="https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
 		array_push( $links, $get_pro_link,$get_started );
 		return $links;
