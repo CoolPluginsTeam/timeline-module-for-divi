@@ -215,7 +215,7 @@ final class TMDIVI_Onboarding_Config {
 			return array();
 		}
 
-		$icon = $this->plugin_url() . 'assets/image/Timeline-logo.svg';
+		$icon = $this->plugin_url() . 'assets/image/timeline-module-pro.png';
 
 		if ( $pro['installed'] ) {
 			return array(
