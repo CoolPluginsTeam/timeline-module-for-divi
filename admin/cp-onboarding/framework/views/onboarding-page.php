@@ -382,15 +382,20 @@ else :
 						<?php endif; ?>
 
 						<div class="cpo-cta-bar">
-							<?php if ( ! empty( $cpo_method['_locked'] ) && ! empty( $cpo_method['upgrade_url'] ) ) : ?>
+						<?php
+							$cpo_method_cta = ! empty( $cpo_method['tmdivi'] ) ? $cpo_method['tmdivi'] : ( ! empty( $cpo_method['cta'] ) ? $cpo_method['cta'] : array() );
+							if ( ! empty( $cpo_method['_locked'] ) && ! empty( $cpo_method['upgrade_url'] ) ) :
+								?>
 								<a class="button button-primary cpo-button-large cpo-upgrade"
 									href="<?php echo esc_url( $cpo_method['upgrade_url'] ); ?>"
 									target="_blank" rel="noopener noreferrer">
 									<?php echo esc_html( ! empty( $cpo_method['upgrade_label'] ) ? $cpo_method['upgrade_label'] : __( 'Unlock in Pro →', 'default' ) ); ?>
 								</a>
-							<?php elseif ( ! empty( $cpo_method['cta']['label'] ) ) : ?>
+								<?php
+							elseif ( ! empty( $cpo_method_cta['label'] ) ) :
+								?>
 								<button type="button" class="cpo-button cpo-button-primary cpo-button-large cpo-create" data-method-type="<?php echo esc_attr( $cpo_method['type'] ); ?>">
-									<span class="cpo-btn-label"><?php echo esc_html( $cpo_method['cta']['label'] ); ?></span>
+								<span class="cpo-btn-label"><?php echo esc_html( $cpo_method_cta['label'] ); ?></span>
 									<span class="spinner" aria-hidden="true"></span>
 								</button>
 							<?php endif; ?>

@@ -167,7 +167,7 @@ final class TMDIVI_Onboarding_Config {
 		);
 
 		if ( empty( $telemetry_data ) ) {
-			$arr_method['cta'] = array( 'label' => __( 'Create Sample Timeline', $td ),);
+			$arr_method['tmdivi'] = array( 'label' => __( 'Create Sample Timeline', $td ),);
 		}
 
 		return $arr_method;
