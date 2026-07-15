@@ -140,7 +140,7 @@ final class TMDIVI_Onboarding_Config {
 			'video'         => array(
 				'id'       => 'V9dEoN0PvFI',
 				'title'    => __( 'Create a Timeline in Divi', $td ),
-				'duration' => '',
+				'duration' => __( '3.15', $td ),
 			),
 			'steps'         => array(
 				array(
@@ -223,11 +223,11 @@ final class TMDIVI_Onboarding_Config {
 				'type'           => 'pro',
 				'group'          => 'divi-based',
 				'install_method' => 'manually',
-				'title'          => __( 'Activate Timeline Module Pro', $td ),
+				'title'          => __( 'Timeline Module Pro For Divi', $td ),
 				'description'    => __( 'The Pro plugin is already installed. Activate it to unlock premium layouts and features.', $td ),
 				'icon'           => $icon,
 				'label_text'     => __( 'Need advanced layouts and designs?', $td ),
-				'upgrade_label'  => __( 'Activate Plugin', $td ),
+				'upgrade_label'  => __( 'Activate', $td ),
 				'upgrade_url'    => $pro['activate'],
 			);
 		}
@@ -237,7 +237,7 @@ final class TMDIVI_Onboarding_Config {
 			'type'           => 'pro',
 			'group'          => 'divi-based',
 			'install_method' => 'manually',
-			'title'          => __( 'Timeline Module Pro for Divi', $td ),
+			'title'          => __( 'Timeline Module Pro For Divi', $td ),
 			'description'    => __( 'Unlock horizontal layouts, premium designs, and advanced settings.', $td ),
 			'icon'           => $icon,
 			'label_text'     => __( 'Need advanced layouts and designs?', $td ),
@@ -268,7 +268,7 @@ final class TMDIVI_Onboarding_Config {
 
 		$cards   = array();
 		$cards[] = $this->card(
-			'<span class="dashicons dashicons-sos"></span>',
+			'<span class="dashicons dashicons-editor-help"></span>',
 			__( 'Support', $td ),
 			__( 'Need help? Our team can assist with setup and troubleshooting.', $td ),
 			array(
@@ -319,11 +319,11 @@ final class TMDIVI_Onboarding_Config {
 			if ( $pro['installed'] ) {
 				$cards[] = $this->card(
 					'<span class="dashicons dashicons-cart">',
-					__( 'Activate Timeline Module Pro', $td ),
+					__( 'Timeline Module Pro For Divi', $td ),
 					__( 'The Pro plugin is already installed. Activate it to unlock premium layouts and features.', $td ),
 					array(
 						array(
-							'label' => __( 'Activate Plugin', $td ),
+							'label' => __( 'Activate', $td ),
 							'url'   => $pro['activate'],
 							'class' => 'cpo-button cpo-button-secondary cpo-button-small',
 						),

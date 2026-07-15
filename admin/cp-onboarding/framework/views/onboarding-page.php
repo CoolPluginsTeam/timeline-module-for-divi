@@ -221,6 +221,7 @@ $cpo_render_method_video = function ( $cpo_method ) {
 				<?php if ( ! empty( $cpo_method['video']['title'] ) ) : ?>
 					<span class="cpo-video-title"><?php echo esc_html( $cpo_method['video']['title'] ); ?></span>
 				<?php endif; ?>
+				</span>
 				<?php if ( ! empty( $cpo_method['video']['duration'] ) ) : ?>
 					<span class="cpo-video-duration"><?php echo esc_html( $cpo_method['video']['duration'] ); ?></span>
 				<?php endif; ?>
@@ -402,7 +403,7 @@ else :
 
 							<?php if ( ! empty( $cpo_method['secondary']['url'] ) ) : ?>
 								<a class="cpo-button cpo-button-secondary" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $cpo_method['secondary']['url'] ); ?>">
-									<?php echo esc_html( $cpo_method['secondary']['label'] ); ?>
+								<?php echo esc_html( $cpo_method['secondary']['label'] ); ?><span class="dashicons dashicons-arrow-right-alt2 cpo-button-chevron" aria-hidden="true"></span>
 								</a>
 							<?php endif; ?>
 						</div>
@@ -468,8 +469,14 @@ else :
 						if(isset($cpo_link['class'])){
 							$cls=$cpo_link['class'];
 						}
+						$cpo_is_button = false !== strpos( $cls, 'cpo-button' );
 						?>
-						<a class="<?php echo esc_attr( $cls ); ?>" href="<?php echo esc_url( $cpo_link['url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $cpo_link['label'] ); ?></a>
+						<a class="<?php echo esc_attr( $cls ); ?>" href="<?php echo esc_url( $cpo_link['url'] ); ?>" target="_blank" rel="noopener noreferrer">
+							<?php echo esc_html( $cpo_link['label'] ); ?>
+							<?php if ( $cpo_is_button ) : ?>
+								<span class="dashicons dashicons-arrow-right-alt2 cpo-button-chevron" aria-hidden="true"></span>
+							<?php endif; ?>
+						</a>
 					<?php endforeach; ?>
 					</div>
 				<?php endif; ?>
