@@ -34,6 +34,39 @@ define('TMDIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
 
 register_activation_hook( __FILE__, array( 'TMDIVI_Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
 
+if ( ! function_exists( 'tmdivi_is_cool_timeline_active' ) ) {
+	/**
+	 * Whether Cool Timeline (free or pro) owns the shared Timeline Addons hub.
+	 *
+	 * @return bool
+	 */
+	function tmdivi_is_cool_timeline_active() {
+		if ( defined( 'CTLPV' ) || defined( 'CTL_V' ) ) {
+			return true;
+		}
+
+		if ( class_exists( 'CoolTimelinePro', false ) || class_exists( 'CoolTimeline', false ) ) {
+			return true;
+		}
+
+		if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( is_plugin_active( 'cool-timeline/cooltimeline.php' ) ) {
+			return true;
+		}
+
+		foreach ( array_keys( get_plugins() ) as $plugin_file ) {
+			if ( 'cool-timeline-pro' === dirname( $plugin_file ) && is_plugin_active( $plugin_file ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
 // Lightweight — only registers this copy as a version candidate.
 require_once TMDIVI_DIR . 'admin/cp-onboarding/loader.php';
 cpo_onboarding_register( '1.0.0', TMDIVI_DIR . 'admin/cp-onboarding' );
@@ -50,37 +83,42 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action( 'activated_plugin', array( $this, 'tmdivi_plugin_redirection' ) );
 
 
-        if ( ! $this->twae_is_cool_timeline_active() ) {
-            add_action( 'admin_menu', array( $this, 'tmdivi_register_timeline_addons_menu' ), 9 );
-            add_action( 'admin_head', array( $this, 'tmdivi_hide_getting_started_settings_submenu_css' ) );
-            add_filter( 'parent_file', array( $this, 'tmdivi_highlight_addons_menu' ), 999 );
-            add_filter( 'submenu_file', array( $this, 'tmdivi_highlight_addons_submenu' ), 999 );
-        }
+        // Always expose Settings → Timeline Addons → admin.php?page=tmdivi-getting-started.
+        // When Cool Timeline owns the shared cool-plugins-timeline-addon slug (top-level),
+        // use a Divi-only slug so we don't collide with CTL's menu.
+        add_action( 'admin_menu', array( $this, 'tmdivi_register_timeline_addons_menu' ), 9 );
+        add_action( 'admin_head', array( $this, 'tmdivi_hide_getting_started_settings_submenu_css' ) );
+        add_filter( 'parent_file', array( $this, 'tmdivi_highlight_addons_menu' ), 999 );
+        add_filter( 'submenu_file', array( $this, 'tmdivi_highlight_addons_submenu' ), 999 );
     }
 
-    private function twae_is_cool_timeline_active() {
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-
-		return is_plugin_active( 'cool-timeline/cooltimeline.php' );
+	/**
+	 * Menu slug for the Settings → Timeline Addons entry.
+	 *
+	 * @return string
+	 */
+	private function tmdivi_settings_addons_slug() {
+		return tmdivi_is_cool_timeline_active()
+			? 'tmdivi-timeline-addons'
+			: 'cool-plugins-timeline-addon';
 	}
-
 
     public function tmdivi_register_timeline_addons_menu() {
 		global $_wp_real_parent_file;
 
-		// Nested under Settings: remap so get_admin_page_parent() (called after the
-		// parent_file filter in menu-header.php) highlights Settings, not the
-		// virtual cool-plugins-timeline-addon group slug.
-		$_wp_real_parent_file['cool-plugins-timeline-addon'] = 'options-general.php';
+		$slug = $this->tmdivi_settings_addons_slug();
+
+		// Only remap the shared slug when we own it (CTL inactive).
+		if ( 'cool-plugins-timeline-addon' === $slug ) {
+			$_wp_real_parent_file['cool-plugins-timeline-addon'] = 'options-general.php';
+		}
 
 		$hook = add_submenu_page(
 			'options-general.php',
 			__( 'Timeline Addons', 'timeline-module-for-divi' ),
 			__( 'Timeline Addons', 'timeline-module-for-divi' ),
 			'manage_options',
-			'cool-plugins-timeline-addon',
+			$slug,
 			'__return_null'
 		);
 
@@ -106,7 +144,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
+		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon', 'tmdivi-timeline-addons' ), true ) ) {
 			return 'options-general.php';
 		}
 
@@ -117,8 +155,8 @@ class TMDIVI_Timeline_Module_For_Divi {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
-		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon' ), true ) ) {
-			return 'cool-plugins-timeline-addon';
+		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon', 'tmdivi-timeline-addons' ), true ) ) {
+			return $this->tmdivi_settings_addons_slug();
 		}
 
 		return $submenu_file;

@@ -97,7 +97,9 @@ final class TMDIVI_Onboarding_Config {
 			'version'         => defined( 'TMDIVI_V' ) ? TMDIVI_V : '1.0.0',
 			'plugin_dir'      => defined( 'TMDIVI_DIR' ) ? TMDIVI_DIR : plugin_dir_path( __FILE__ ),
 			'plugin_url'      => defined( 'TMDIVI_URL' ) ? TMDIVI_URL : plugin_dir_url( __FILE__ ),
-			'parent_slug'     => 'options-general.php',
+			// Orphan page → admin.php?page=tmdivi-getting-started. When CTL is
+			// inactive, Settings → Timeline Addons redirects here (main plugin).
+			'parent_slug'     => '',
 			'edition'         => 'full',
 			'tier'            => 'free',
 			'new_user_option' => 'tmdivi_is_new_user',
@@ -167,7 +169,7 @@ final class TMDIVI_Onboarding_Config {
 		);
 
 		if ( empty( $telemetry_data ) ) {
-			$arr_method['tmdivi'] = array( 'label' => __( 'Create Sample Timeline', $td ),);
+			$arr_method['cta'] = array( 'label' => __( 'Create Sample Timeline', $td ) );
 		}
 
 		return $arr_method;

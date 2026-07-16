@@ -384,7 +384,7 @@ else :
 
 						<div class="cpo-cta-bar">
 						<?php
-							$cpo_method_cta = ! empty( $cpo_method['tmdivi'] ) ? $cpo_method['tmdivi'] : ( ! empty( $cpo_method['cta'] ) ? $cpo_method['cta'] : array() );
+$cpo_method_cta = ! empty( $cpo_method['cta'] ) ? $cpo_method['cta'] : array();
 							if ( ! empty( $cpo_method['_locked'] ) && ! empty( $cpo_method['upgrade_url'] ) ) :
 								?>
 								<a class="button button-primary cpo-button-large cpo-upgrade"
