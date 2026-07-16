@@ -34,36 +34,19 @@ define('TMDIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
 
 register_activation_hook( __FILE__, array( 'TMDIVI_Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
 
-if ( ! function_exists( 'tmdivi_is_cool_timeline_active' ) ) {
+if ( ! function_exists( 'tmdivi_use_ctl_getting_started' ) ) {
 	/**
-	 * Whether Cool Timeline (free or pro) owns the shared Timeline Addons hub.
+	 * Cool Timeline Free owns the shared hub — redirect to ctl-getting-started.
+	 * Cool Timeline Pro keeps Divi Settings → Timeline Addons (tmdivi-getting-started).
 	 *
 	 * @return bool
 	 */
-	function tmdivi_is_cool_timeline_active() {
-		if ( defined( 'CTLPV' ) || defined( 'CTL_V' ) ) {
-			return true;
-		}
-
-		if ( class_exists( 'CoolTimelinePro', false ) || class_exists( 'CoolTimeline', false ) ) {
-			return true;
-		}
-
-		if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'get_plugins' ) ) {
+	function tmdivi_use_ctl_getting_started() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		if ( is_plugin_active( 'cool-timeline/cooltimeline.php' ) ) {
-			return true;
-		}
-
-		foreach ( array_keys( get_plugins() ) as $plugin_file ) {
-			if ( 'cool-timeline-pro' === dirname( $plugin_file ) && is_plugin_active( $plugin_file ) ) {
-				return true;
-			}
-		}
-
-		return false;
+		return is_plugin_active( 'cool-timeline/cooltimeline.php' );
 	}
 }
 
@@ -82,33 +65,38 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'tmdivi_pro_plugin_link' ) );
         add_action( 'activated_plugin', array( $this, 'tmdivi_plugin_redirection' ) );
 
-
-        // Always expose Settings → Timeline Addons → admin.php?page=tmdivi-getting-started.
-        // When Cool Timeline owns the shared cool-plugins-timeline-addon slug (top-level),
-        // use a Divi-only slug so we don't collide with CTL's menu.
-        add_action( 'admin_menu', array( $this, 'tmdivi_register_timeline_addons_menu' ), 9 );
-        add_action( 'admin_head', array( $this, 'tmdivi_hide_getting_started_settings_submenu_css' ) );
-        add_filter( 'parent_file', array( $this, 'tmdivi_highlight_addons_menu' ), 999 );
-        add_filter( 'submenu_file', array( $this, 'tmdivi_highlight_addons_submenu' ), 999 );
+		if ( tmdivi_use_ctl_getting_started() ) {
+			add_action( 'admin_init', array( $this, 'tmdivi_redirect_getting_started_to_ctl' ) );
+		} else {
+			add_action( 'admin_menu', array( $this, 'tmdivi_register_timeline_addons_menu' ), 9 );
+			add_action( 'admin_head', array( $this, 'tmdivi_hide_getting_started_settings_submenu_css' ) );
+			add_filter( 'parent_file', array( $this, 'tmdivi_highlight_addons_menu' ), 999 );
+			add_filter( 'submenu_file', array( $this, 'tmdivi_highlight_addons_submenu' ), 999 );
+		}
     }
 
-	/**
-	 * Menu slug for the Settings → Timeline Addons entry.
-	 *
-	 * @return string
-	 */
-	private function tmdivi_settings_addons_slug() {
-		return tmdivi_is_cool_timeline_active()
-			? 'tmdivi-timeline-addons'
-			: 'cool-plugins-timeline-addon';
+	public function tmdivi_redirect_getting_started_to_ctl() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
+		if ( empty( $_GET['page'] ) || 'tmdivi-getting-started' !== $_GET['page'] ) {
+			return;
+		}
+
+		$url = admin_url( 'admin.php?page=ctl-getting-started' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- preserve onboarding mode only.
+		if ( isset( $_GET['mode'] ) && 'onboarding' === $_GET['mode'] ) {
+			$url = add_query_arg( 'mode', 'onboarding', $url );
+		}
+
+		wp_safe_redirect( $url );
+		exit;
 	}
 
     public function tmdivi_register_timeline_addons_menu() {
 		global $_wp_real_parent_file;
 
-		$slug = $this->tmdivi_settings_addons_slug();
+		// Avoid colliding with CTL Pro's top-level cool-plugins-timeline-addon menu.
+		$slug = defined( 'CTLPV' ) ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
 
-		// Only remap the shared slug when we own it (CTL inactive).
 		if ( 'cool-plugins-timeline-addon' === $slug ) {
 			$_wp_real_parent_file['cool-plugins-timeline-addon'] = 'options-general.php';
 		}
@@ -132,13 +120,11 @@ class TMDIVI_Timeline_Module_For_Divi {
 
     public function tmdivi_hide_getting_started_settings_submenu_css() {
 		echo '<style id="tmdivi-hide-getting-started-settings-submenu">
-/* Hide Getting Started submenu under Settings menu only */
 #menu-settings .wp-submenu li:has(> a[href="options-general.php?page=tmdivi-getting-started"]) {
 	display: none !important;
 }
 </style>';
 	}
-
 
     public function tmdivi_highlight_addons_menu( $parent_file ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
@@ -156,14 +142,15 @@ class TMDIVI_Timeline_Module_For_Divi {
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon', 'tmdivi-timeline-addons' ), true ) ) {
-			return $this->tmdivi_settings_addons_slug();
+			return defined( 'CTLPV' ) ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
 		}
 
 		return $submenu_file;
 	}
 
     public function tmdivi_pro_plugin_link($links){
-        $get_started ='<a href="admin.php?page=tmdivi-getting-started&mode=onboarding">Getting Started</a>';
+		$page = tmdivi_use_ctl_getting_started() ? 'ctl-getting-started' : 'tmdivi-getting-started';
+        $get_started ='<a href="' . esc_url( 'admin.php?page=' . $page . '&mode=onboarding' ) . '">Getting Started</a>';
         $get_pro_link = '<a href="https://cooltimeline.com/plugin/timeline-module-for-divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=get_pro&utm_content=plugin_list" style="font-weight: bold; color: green;" target="_blank">Get Pro</a>';
 		array_push( $links, $get_pro_link,$get_started );
 		return $links;
@@ -182,10 +169,9 @@ class TMDIVI_Timeline_Module_For_Divi {
         }
     
         delete_transient( 'tmdivi_activation_redirect' );
-    
-        wp_safe_redirect(
-            admin_url( 'admin.php?page=tmdivi-getting-started&mode=onboarding' )
-        );
+
+		$page = tmdivi_use_ctl_getting_started() ? 'ctl-getting-started' : 'tmdivi-getting-started';
+        wp_safe_redirect( admin_url( 'admin.php?page=' . $page . '&mode=onboarding' ) );
         exit;
     }
 
