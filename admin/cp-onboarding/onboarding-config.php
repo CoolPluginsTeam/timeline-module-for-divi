@@ -142,7 +142,7 @@ final class TMDIVI_Onboarding_Config {
 			'video'         => array(
 				'id'       => 'V9dEoN0PvFI',
 				'title'    => __( 'Create a Timeline in Divi', $td ),
-				'duration' => __( '3.15', $td ),
+				'duration' => __( '3:15', $td ),
 			),
 			'steps'         => array(
 				array(
