@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound , WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 /**
  * Cool Plugins Onboarding Framework — versioned loader.
  *

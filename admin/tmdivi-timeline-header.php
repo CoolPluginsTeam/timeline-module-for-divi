@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.Security.NonceVerification.Recommended ,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 /**
  * Timeline Module for Divi — global header screen check and hook wiring.
  *

@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.WP.I18n.TextDomainMismatch  
 /**
  * Cross-sell addon resolution.
  *

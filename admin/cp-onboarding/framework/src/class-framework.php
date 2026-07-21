@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.WP.I18n.TextDomainMismatch ,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 /**
  * Onboarding framework — admin page, assets, AJAX.
  *

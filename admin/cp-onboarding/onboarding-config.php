@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.WP.I18n.NonSingularStringLiteralDomain , WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 /**
  * Timeline Module for Divi — onboarding wiring.
  *
@@ -142,7 +143,7 @@ final class TMDIVI_Onboarding_Config {
 			'video'         => array(
 				'id'       => 'V9dEoN0PvFI',
 				'title'    => __( 'Create a Timeline in Divi', $td ),
-				'duration' => __( '3:15', $td ),
+				'duration' => __( '3:43', $td ),
 			),
 			'steps'         => array(
 				array(

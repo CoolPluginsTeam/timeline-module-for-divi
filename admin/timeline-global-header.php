@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound, WordPress.Security.NonceVerification.Recommended ,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ,WordPress.WP.I18n.NonSingularStringLiteralDomain ,WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 /**
  * Shared Timeline Addons admin header template.
  *

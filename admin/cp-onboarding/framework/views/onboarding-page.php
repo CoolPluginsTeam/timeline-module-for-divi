@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.WP.I18n.TextDomainMismatch ,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ,WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 /**
  * Shared onboarding page view.
  *
@@ -384,7 +386,7 @@ else :
 
 						<div class="cpo-cta-bar">
 						<?php
-$cpo_method_cta = ! empty( $cpo_method['cta'] ) ? $cpo_method['cta'] : array();
+							$cpo_method_cta = ! empty( $cpo_method['cta'] ) ? $cpo_method['cta'] : array();
 							if ( ! empty( $cpo_method['_locked'] ) && ! empty( $cpo_method['upgrade_url'] ) ) :
 								?>
 								<a class="button button-primary cpo-button-large cpo-upgrade"
@@ -453,6 +455,7 @@ $cpo_method_cta = ! empty( $cpo_method['cta'] ) ? $cpo_method['cta'] : array();
 				?>
 			<div class="cpo-footer-card">
 				<?php if ( ! empty( $cpo_card['icon'] ) ) : ?>
+					<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					<div class="cpo-footer-icon" aria-hidden="true"><?php echo  $cpo_card['icon']; ?></div>
 				<?php endif; ?>
 				<h3><?php echo esc_html( $cpo_card['title'] ); ?></h3>

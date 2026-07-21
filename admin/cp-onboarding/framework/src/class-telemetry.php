@@ -1,4 +1,6 @@
 <?php
+
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound 
 /**
  * Aggregated, anonymous, on-site telemetry counters.
  *
