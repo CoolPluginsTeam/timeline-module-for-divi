@@ -104,7 +104,8 @@ class TMDIVI_Timeline_Module_For_Divi {
 
 	/**
 	 * Settings submenu slug for Divi's Timeline Addons entry.
-	 * Unique when CTL or TWAE also register Timeline Addons (same label, different page).
+	 * Unique when another product owns cool-plugins-timeline-addon (same label, different page).
+	 * Avoid remapping that slug under Settings — old Block Pro License belongs under Timeline Addons.
 	 *
 	 * @return string
 	 */
@@ -115,7 +116,9 @@ class TMDIVI_Timeline_Module_For_Divi {
 
 		$shared_owner = defined( 'CTL_V' ) || defined( 'CTLPV' )
 			|| is_plugin_active( 'timeline-widget-addon-for-elementor/timeline-widget-addon-for-elementor.php' )
-			|| is_plugin_active( 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-pro-for-elementor.php' );
+			|| is_plugin_active( 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-pro-for-elementor.php' )
+			|| is_plugin_active( 'timeline-block-pro-for-gutenberg/timeline-block-pro-for-gutenberg.php' )
+			|| is_plugin_active( 'timeline-builder/timeline-builder-pro.php' );
 
 		return $shared_owner ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
 	}
