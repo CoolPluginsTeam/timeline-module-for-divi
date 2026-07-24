@@ -102,13 +102,28 @@ class TMDIVI_Timeline_Module_For_Divi {
 		exit;
 	}
 
+	/**
+	 * Settings submenu slug for Divi's Timeline Addons entry.
+	 * Unique when CTL or TWAE also register Timeline Addons (same label, different page).
+	 *
+	 * @return string
+	 */
+	private function tmdivi_timeline_addons_menu_slug() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$shared_owner = defined( 'CTL_V' ) || defined( 'CTLPV' )
+			|| is_plugin_active( 'timeline-widget-addon-for-elementor/timeline-widget-addon-for-elementor.php' )
+			|| is_plugin_active( 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-for-elementor-pro.php' );
+
+		return $shared_owner ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
+	}
+
     public function tmdivi_register_timeline_addons_menu() {
 		global $_wp_real_parent_file;
 
-		// When Cool Timeline (Free/Pro) is present, use a Divi-only slug so CTL
-		// menus are not remapped under Settings via cool-plugins-timeline-addon.
-		$ctl_present = defined( 'CTL_V' ) || defined( 'CTLPV' );
-		$slug        = $ctl_present ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
+		$slug = $this->tmdivi_timeline_addons_menu_slug();
 
 		if ( 'cool-plugins-timeline-addon' === $slug ) {
 			$_wp_real_parent_file['cool-plugins-timeline-addon'] = 'options-general.php';
@@ -155,7 +170,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		if ( in_array( $page, array( 'tmdivi-getting-started', 'cool-plugins-timeline-addon', 'tmdivi-timeline-addons' ), true ) ) {
-			return ( defined( 'CTL_V' ) || defined( 'CTLPV' ) ) ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
+			return $this->tmdivi_timeline_addons_menu_slug();
 		}
 
 		return $submenu_file;
