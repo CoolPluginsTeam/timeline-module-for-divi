@@ -1150,7 +1150,7 @@
     border-radius: 16px;
 }
 a.cpo-button.cpo-button-secondary.cpo-button-small {
-    width: 60%;
+    width: 60% !important; 
 }
 .wrap.cpo-onboarding-page .cpo-button-chevron {
 	width: 14px;
