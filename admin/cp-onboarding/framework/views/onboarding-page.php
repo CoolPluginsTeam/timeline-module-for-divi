@@ -40,6 +40,15 @@ $cpo_content_allowed = array(
 	'li'     => array( 'class' => true ),
 	'a'      => array( 'href' => true, 'target' => true, 'rel' => true, 'class' => true ),
 	'button' => array( 'type' => true, 'class' => true ),
+	'svg'    => array(
+		'xmlns'       => true,
+		'viewbox'     => true,
+		'width'       => true,
+		'height'      => true,
+		'aria-hidden' => true,
+		'focusable'   => true,
+	),
+	'path'   => array( 'd' => true ),
 );
 
 // Resolve cross-sell addons once (drops condition-failing addons) and index by slug,
@@ -211,7 +220,12 @@ $cpo_render_method_video = function ( $cpo_method ) {
 			<?php if ( ! empty( $cpo_method['video']['start'] ) ) : ?>data-start="<?php echo (int) $cpo_method['video']['start']; ?>"<?php endif; ?>
 			aria-label="<?php echo esc_attr( ! empty( $cpo_method['video']['title'] ) ? $cpo_method['video']['title'] : $cpo_method['title'] ); ?>">
 			<img class="cpo-video-thumb"
-				src="<?php echo esc_url( 'https://i.ytimg.com/vi_webp/' . rawurlencode( $cpo_method['video']['id'] ) . '/sddefault.webp' ); ?>"
+				src="<?php
+				$cpo_video_thumb = ! empty( $cpo_method['video']['thumb'] )
+					? $cpo_method['video']['thumb']
+					: 'https://img.youtube.com/vi/' . rawurlencode( $cpo_method['video']['id'] ) . '/hqdefault.jpg';
+				echo esc_url( $cpo_video_thumb );
+				?>"
 				alt="<?php echo esc_attr( $cpo_method['title'] ); ?>">
 			<span class="cpo-video-overlay">
 				<span class="cpo-play" aria-hidden="true">
@@ -377,7 +391,7 @@ else :
 									<div class="cpo-step-content">
 										<strong><?php echo esc_html( $cpo_step['title'] ); ?></strong>
 										<?php if ( ! empty( $cpo_step['desc'] ) ) : ?>
-											<p><?php echo esc_html( $cpo_step['desc'] ); ?></p>
+											<p><?php echo wp_kses( $cpo_step['desc'], $cpo_content_allowed ); ?></p>
 										<?php endif; ?>
 									</div>
 								</div>

@@ -63,7 +63,7 @@ if ( ! function_exists( 'tmdivi_use_ctl_getting_started' ) ) {
 
 // Lightweight — only registers this copy as a version candidate.
 require_once TMDIVI_DIR . 'admin/cp-onboarding/loader.php';
-cpo_onboarding_register( '1.0.0', TMDIVI_DIR . 'admin/cp-onboarding' );
+cpo_onboarding_register( '1.1.4', TMDIVI_DIR . 'admin/cp-onboarding' );
 class TMDIVI_Timeline_Module_For_Divi {
 
     public function __construct() {

@@ -142,6 +142,8 @@ final class TMDIVI_Onboarding_Config {
 			'editions'      => array( 'full' ),
 			'video'         => array(
 				'id'       => 'V9dEoN0PvFI',
+				// hqdefault always exists; maxresdefault 404s for this video.
+				'thumb'    => 'https://img.youtube.com/vi/V9dEoN0PvFI/hqdefault.jpg',
 				'title'    => __( 'Create a Timeline in Divi', $td ),
 				'duration' => __( '3:43', $td ),
 			),
