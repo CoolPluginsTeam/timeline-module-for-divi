@@ -115,7 +115,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 
 		$shared_owner = defined( 'CTL_V' ) || defined( 'CTLPV' )
 			|| is_plugin_active( 'timeline-widget-addon-for-elementor/timeline-widget-addon-for-elementor.php' )
-			|| is_plugin_active( 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-for-elementor-pro.php' );
+			|| is_plugin_active( 'timeline-widget-addon-for-elementor-pro/timeline-widget-addon-pro-for-elementor.php' );
 
 		return $shared_owner ? 'tmdivi-timeline-addons' : 'cool-plugins-timeline-addon';
 	}
