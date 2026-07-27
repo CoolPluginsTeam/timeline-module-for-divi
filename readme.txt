@@ -185,6 +185,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
+= Version 1.2.4 | 08 Jul 2026 =  
+- Improved: Plugin code quality.
+
 = Version 1.2.3.1 | 08 Jun 2026 =  
 - Improved: Textual Changes.
 

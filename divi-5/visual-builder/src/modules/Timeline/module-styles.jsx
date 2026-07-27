@@ -6,6 +6,13 @@ const {
 } = window?.divi?.module;
 
 import MigrationStyles from './migrationStyles';
+import {
+  buildDateLabelCssVars,
+  buildSubLabelCssVars,
+  buildYearLabelCssVars,
+  buildStoryTitleBackgroundCssVar,
+  buildStoryDescriptionBackgroundCssVar,
+} from './label-font-styles';
 const TimelineStyles = (props) => {
   const { attrs,
     elements,
@@ -143,7 +150,7 @@ const TimelineStyles = (props) => {
         selector={`${orderClass} #tmdivi-slider-container .tmdivi-story > .tmdivi-arrow`}
         attr={attrs?.story_border_settings?.advanced}
         declarationFunction={(attrs)=>{
-          let css = 'border:3px solid blue !important;';
+          let css = '';
           const data = attrs?.attrValue
           if(data.styles !== undefined){
             if(data.styles.all !== undefined){
@@ -352,21 +359,19 @@ const TimelineStyles = (props) => {
 
       <CommonStyle
         selector={`${orderClass} .tmdivi-wrapper`}
-        attr={attrs?.content?.decoration?.bodyFont}
-        declarationFunction={(attrs)=>{
-          let data = attrs?.attrValue
+        attr={attrs?.story_background_color?.advanced ?? attrs?.timeline_layout?.advanced?.layout}
+        declarationFunction={() => {
+          const label_date = attrs?.label_date?.decoration?.font;
+          const story_title = attrs?.story_title?.decoration?.font;
+          const content = attrs?.content?.decoration?.bodyFont?.body;
+          const sub_label = attrs?.sub_label?.decoration?.font;
+          const label_text = attrs?.label_text?.decoration?.font;
 
-          const elements = document.querySelectorAll(`${orderClass} .tmdivi-wrapper .tmdivi-story .tmdivi-content .tmdivi-description`);
-          elements.forEach(el => {
-            if (data.desktop.value.color && !data.desktop.value.hasOwnProperty('style')) {
-              el.style.color = data.desktop.value.color;
-              const paragraphs = el.querySelectorAll('p');
-              paragraphs.forEach(p => {
-                p.style.color = data.desktop.value.color;
-              });
-            }
-          });
-          
+          return buildDateLabelCssVars(label_date)
+            + buildSubLabelCssVars(sub_label)
+            + buildYearLabelCssVars(label_text)
+            + buildStoryTitleBackgroundCssVar(story_title)
+            + buildStoryDescriptionBackgroundCssVar(content);
         }}
       />
 

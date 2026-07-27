@@ -26,6 +26,7 @@ along with Timeline Module For Divi. If not, see https://www.gnu.org/licenses/gp
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 
+
 define('TMDIVI_V', '1.3.0');
 define('TMDIVI_DIR', plugin_dir_path(__FILE__));
 define('TMDIVI_URL', plugin_dir_url(__FILE__));

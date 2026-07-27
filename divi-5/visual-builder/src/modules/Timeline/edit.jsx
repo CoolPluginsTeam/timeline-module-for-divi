@@ -40,7 +40,7 @@ export const TimelineEdit = (props) => {
     elements={elements}
     id={id}
     name={name}
-    moduleClassName="demo_timeline"
+    moduleClassName="tmdivi_timeline"
     stylesComponent={TimelineStyles}
   >
     {elements.styleComponents({ 
