@@ -206,8 +206,8 @@ final class Framework {
 			'action'  => $this->config->ajax_action( 'prepare' ),
 			'nonce'   => wp_create_nonce( $this->config->option( 'prepare' ) ),
 			'labels'  => array(
-				'loading'     => __( 'Please wait…', 'default' ),
-				'redirecting' => __( 'Redirecting…', 'default' ),
+				'loading'     => __( 'Please wait…', 'timeline-module-for-divi' ),
+				'redirecting' => __( 'Redirecting…', 'timeline-module-for-divi' ),
 			),
 		);
 
@@ -224,11 +224,11 @@ final class Framework {
 		$data['install'] = array(
 			'action' => $this->config->ajax_action( 'install' ),
 			'labels' => array(
-				'installing' => __( 'Installing…', 'default' ),
-				'activating' => __( 'Activating…', 'default' ),
-				'activated'  => __( 'Activated', 'default' ),
-				'setupGuide' => __( 'Check Setup Guide', 'default' ),
-				'error'      => __( 'Plugin could not be installed. Please try again.', 'default' ),
+				'installing' => __( 'Installing…', 'timeline-module-for-divi' ),
+				'activating' => __( 'Activating…', 'timeline-module-for-divi' ),
+				'activated'  => __( 'Activated', 'timeline-module-for-divi' ),
+				'setupGuide' => __( 'Check Setup Guide', 'timeline-module-for-divi' ),
+				'error'      => __( 'Plugin could not be installed. Please try again.', 'timeline-module-for-divi' ),
 			),
 		);
 
@@ -264,7 +264,7 @@ final class Framework {
 	 */
 	public function render_page() {
 		if ( ! current_user_can( $this->config->capability() ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'default' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'timeline-module-for-divi' ) );
 		}
 
 		if ( $this->telemetry ) {
@@ -316,7 +316,7 @@ final class Framework {
 		check_ajax_referer( $this->config->option( 'prepare' ), 'nonce' );
 
 		if ( ! current_user_can( $this->config->capability() ) ) {
-			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'default' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Unauthorized.', 'timeline-module-for-divi' ) ), 403 );
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
@@ -324,7 +324,7 @@ final class Framework {
 
 		$method = $this->find_method_by_type( $type );
 		if ( ! $method ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid selection.', 'default' ) ), 400 );
+			wp_send_json_error( array( 'message' => __( 'Invalid selection.', 'timeline-module-for-divi' ) ), 400 );
 		}
 
 		// Method that just redirects (no demo generation).
@@ -334,7 +334,7 @@ final class Framework {
 				: ( ! empty( $method['fallback_url'] ) ? esc_url_raw( $method['fallback_url'] ) : '' );
 
 			if ( '' === $url ) {
-				wp_send_json_error( array( 'message' => __( 'No destination configured.', 'default' ) ), 400 );
+				wp_send_json_error( array( 'message' => __( 'No destination configured.', 'timeline-module-for-divi' ) ), 400 );
 			}
 
 			wp_send_json_success(
@@ -348,10 +348,10 @@ final class Framework {
 		// Demo-generating method.
 		$demo_config = $this->config->demo();
 		if ( empty( $demo_config ) ) {
-			wp_send_json_error( array( 'message' => __( 'Demo generator is unavailable.', 'default' ) ), 500 );
+			wp_send_json_error( array( 'message' => __( 'Demo generator is unavailable.', 'timeline-module-for-divi' ) ), 500 );
 		}
 		if ( ! class_exists( __NAMESPACE__ . '\\Demo_Generator' ) ) {
-   		 wp_send_json_error( array( 'message' => __( 'Demo generator is unavailable.', 'default' ) ), 500 );
+   		 wp_send_json_error( array( 'message' => __( 'Demo generator is unavailable.', 'timeline-module-for-divi' ) ), 500 );
 		}
 		$generator = new Demo_Generator( $this->config, $demo_config );
 		$result    = $generator->generate();
@@ -393,7 +393,7 @@ final class Framework {
 	public function ajax_install() {
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			wp_send_json_error(
-				array( 'errorMessage' => __( 'Sorry, you are not allowed to install plugins on this site.', 'default' ) ),
+				array( 'errorMessage' => __( 'Sorry, you are not allowed to install plugins on this site.', 'timeline-module-for-divi' ) ),
 				403
 			);
 		}
@@ -403,11 +403,11 @@ final class Framework {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above.
 		$slug = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : '';
 		if ( '' === $slug ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'No plugin specified.', 'default' ) ), 400 );
+			wp_send_json_error( array( 'errorMessage' => __( 'No plugin specified.', 'timeline-module-for-divi' ) ), 400 );
 		}
 
 		if ( ! in_array( $slug, $this->installable_slugs(), true ) ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'This plugin cannot be installed from here.', 'default' ) ), 403 );
+			wp_send_json_error( array( 'errorMessage' => __( 'This plugin cannot be installed from here.', 'timeline-module-for-divi' ) ), 403 );
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -449,7 +449,7 @@ final class Framework {
 
 		if ( null === $result ) {
 			wp_send_json_error(
-				array( 'errorMessage' => __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'default' ) ),
+				array( 'errorMessage' => __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'timeline-module-for-divi' ) ),
 				500
 			);
 		}

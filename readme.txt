@@ -185,6 +185,13 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
+= Version 1.3.0 | 27 July 2026 =
+
+- New: Introduced a“Get Started”onboarding page for a smoother setup experience.
+- New: Added a guided sample timeline demo creation flow to help users get started quickly.
+- Removed: Removed the legacy dashboard and replaced it with the new onboarding experience.
+- Improved: Simplified the initial setup process with a quick-start demo.
+
 = Version 1.2.4 | 08 Jul 2026 =  
 - Improved: Plugin code quality.
 
@@ -259,9 +266,11 @@ Migration from Divi 4 to Divi 5 will only be supported till Divi 5 Public Alpha 
 
 == Upgrade Notice ==
 
-= Version 1.1.0 | 27 Mar 2025 =  
-- Added: Compatibility with Divi 5.  
-- Fixed: Minor bugs for improved stability.  
-- Improved: Design tweaks for better UI/UX.  
+= Version 1.3.0 | 27 July 2026 =
+
+- New: Introduced a“Get Started”onboarding page for a smoother setup experience.
+- New: Added a guided sample timeline demo creation flow to help users get started quickly.
+- Removed: Removed the legacy dashboard and replaced it with the new onboarding experience.
+- Improved: Simplified the initial setup process with a quick-start demo.
 
 

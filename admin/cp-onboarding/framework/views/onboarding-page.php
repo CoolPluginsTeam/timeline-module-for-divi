@@ -139,7 +139,7 @@ $cpo_addon_actions = function ( $cpo_addon ) {
 				target="_blank" rel="noopener noreferrer"><?php echo esc_html( $cpo_addon['label'] ); ?></a>
 		<?php endif; ?>
 		<?php if ( ! empty( $cpo_addon['learn_more'] ) ) : ?>
-			<a class="cpo-button cpo-button-secondary" href="<?php echo esc_url( $cpo_addon['learn_more'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Learn More', 'default' ); ?></a>
+			<a class="cpo-button cpo-button-secondary" href="<?php echo esc_url( $cpo_addon['learn_more'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Learn More', 'timeline-module-for-divi' ); ?></a>
 		<?php endif; ?>
 		<?php return; ?>
 	<?php endif; ?>
@@ -162,10 +162,10 @@ $cpo_addon_actions = function ( $cpo_addon ) {
 		</button>
 	<?php endif; ?>
 	<?php if ( 'activated' === $cpo_addon['state'] && ! empty( $cpo_addon['setup_url'] ) ) : ?>
-		<a class="cpo-button cpo-button-secondary cpo-setup-guide" href="<?php echo esc_url( $cpo_addon['setup_url'] ); ?>"><?php echo esc_html__( 'Check Setup Guide', 'default' ); ?></a>
+		<a class="cpo-button cpo-button-secondary cpo-setup-guide" href="<?php echo esc_url( $cpo_addon['setup_url'] ); ?>"><?php echo esc_html__( 'Check Setup Guide', 'timeline-module-for-divi' ); ?></a>
 	<?php endif; ?>
 	<?php if ( ! empty( $cpo_addon['learn_more'] ) ) : ?>
-		<a class="cpo-button cpo-button-secondary" href="<?php echo esc_url( $cpo_addon['learn_more'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Learn More', 'default' ); ?></a>
+		<a class="cpo-button cpo-button-secondary" href="<?php echo esc_url( $cpo_addon['learn_more'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'Learn More', 'timeline-module-for-divi' ); ?></a>
 	<?php endif; ?>
 	<?php
 };
@@ -322,7 +322,7 @@ else :
 								<span class="cpo-method-icon" aria-hidden="true"><?php echo $cpo_method['icon']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin SVG/dashicon markup from config. ?></span>
 							<?php endif; ?>
 							<?php if ( ! empty( $cpo_method['_locked'] ) ) : ?>
-								<span class="cpo-badge cpo-badge-pro"><?php echo esc_html__( 'Pro', 'default' ); ?></span>
+								<span class="cpo-badge cpo-badge-pro"><?php echo esc_html__( 'Pro', 'timeline-module-for-divi' ); ?></span>
 							<?php elseif ( ! empty( $cpo_method['badge'] ) ) : ?>
 								<span class="cpo-badge"><?php echo esc_html( $cpo_method['badge'] ); ?></span>
 							<?php endif; ?>
@@ -332,7 +332,7 @@ else :
 							<p class="cpo-method-desc"><?php echo esc_html( $cpo_method['description'] ); ?></p>
 						<?php endif; ?>
 						<?php if ( ! empty( $cpo_method['best_for'] ) ) : ?>
-							<p class="cpo-best-for"><strong><?php echo esc_html__( 'Best for', 'default' ); ?>:</strong> <?php echo esc_html( $cpo_method['best_for'] ); ?></p>
+							<p class="cpo-best-for"><strong><?php echo esc_html__( 'Best for', 'timeline-module-for-divi' ); ?>:</strong> <?php echo esc_html( $cpo_method['best_for'] ); ?></p>
 						<?php endif; ?>
 					</button>
 				<?php endforeach; ?>
@@ -382,7 +382,7 @@ else :
 					<div class="cpo-guide">
 						<?php if ( ! empty( $cpo_method['steps'] ) ) : ?>
 							<div class="cpo-guide-heading">
-								<h3><?php echo esc_html__( 'Quick Setup Guide', 'default' ); ?></h3>
+								<h3><?php echo esc_html__( 'Quick Setup Guide', 'timeline-module-for-divi' ); ?></h3>
 								<?php if ( ! empty( $cpo_method['time_estimate'] ) ) : ?>
 									<span class="cpo-time-badge">⏱ <?php echo esc_html( $cpo_method['time_estimate'] ); ?></span>
 								<?php endif; ?>
@@ -409,7 +409,7 @@ else :
 								<a class="button button-primary cpo-button-large cpo-upgrade"
 									href="<?php echo esc_url( $cpo_method['upgrade_url'] ); ?>"
 									target="_blank" rel="noopener noreferrer">
-									<?php echo esc_html( ! empty( $cpo_method['upgrade_label'] ) ? $cpo_method['upgrade_label'] : __( 'Unlock in Pro →', 'default' ) ); ?>
+									<?php echo esc_html( ! empty( $cpo_method['upgrade_label'] ) ? $cpo_method['upgrade_label'] : __( 'Unlock in Pro →', 'timeline-module-for-divi' ) ); ?>
 								</a>
 								<?php
 							elseif ( ! empty( $cpo_method_cta['label'] ) ) :

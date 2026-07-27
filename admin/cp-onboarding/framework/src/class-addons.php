@@ -82,7 +82,7 @@ final class Addons {
 
 			// Pro cards never install: their button is the external upgrade link.
 			$label = 'pro' === $type
-				? ( isset( $addon['upgrade_label'] ) ? $addon['upgrade_label'] : __( 'Upgrade to Pro', 'default' ) )
+				? ( isset( $addon['upgrade_label'] ) ? $addon['upgrade_label'] : __( 'Upgrade to Pro', 'timeline-module-for-divi' ) )
 				: $state['label'];
 
 			$resolved[] = array(
@@ -161,12 +161,12 @@ final class Addons {
 		}
 
 		if ( $is_active ) {
-			return array( 'state' => 'activated', 'label' => __( 'Activated', 'default' ) );
+			return array( 'state' => 'activated', 'label' => __( 'Activated', 'timeline-module-for-divi' ) );
 		}
 		if ( $installed ) {
-			return array( 'state' => 'activate', 'label' => __( 'Activate', 'default' ) );
+			return array( 'state' => 'activate', 'label' => __( 'Activate', 'timeline-module-for-divi' ) );
 		}
-		return array( 'state' => 'install', 'label' => __( 'Install Free', 'default' ) );
+		return array( 'state' => 'install', 'label' => __( 'Install Free', 'timeline-module-for-divi' ) );
 	}
 
 	/**
