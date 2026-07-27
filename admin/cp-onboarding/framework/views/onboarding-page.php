@@ -318,13 +318,16 @@ else :
 						role="radio"
 						aria-checked="<?php echo $cpo_active ? 'true' : 'false'; ?>">
 						<div class="cpo-method-top">
-							<h3><?php echo esc_html( $cpo_method['title'] ); ?></h3>
+							<?php if ( ! empty( $cpo_method['icon'] ) ) : ?>
+								<span class="cpo-method-icon" aria-hidden="true"><?php echo $cpo_method['icon']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin SVG/dashicon markup from config. ?></span>
+							<?php endif; ?>
 							<?php if ( ! empty( $cpo_method['_locked'] ) ) : ?>
 								<span class="cpo-badge cpo-badge-pro"><?php echo esc_html__( 'Pro', 'default' ); ?></span>
 							<?php elseif ( ! empty( $cpo_method['badge'] ) ) : ?>
 								<span class="cpo-badge"><?php echo esc_html( $cpo_method['badge'] ); ?></span>
 							<?php endif; ?>
 						</div>
+						<h3><?php echo esc_html( $cpo_method['title'] ); ?></h3>
 						<?php if ( ! empty( $cpo_method['description'] ) ) : ?>
 							<p class="cpo-method-desc"><?php echo esc_html( $cpo_method['description'] ); ?></p>
 						<?php endif; ?>
