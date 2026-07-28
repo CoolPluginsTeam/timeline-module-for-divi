@@ -4,30 +4,58 @@ class LineFillEffect extends Component {
     constructor(props) {
         super(props);
         this.lineRef = React.createRef();
+        this.scrollTicking = false;
         this.handleScroll = this.handleScroll.bind(this);
+        this.onScroll = this.onScroll.bind(this);
     }
-    
-    componentDidMount() {
-        if (this.props.timeline_fill_setting) {
-          setTimeout(() => {
-            this.handleScroll();
-          }, 100); 
-          window.addEventListener('scroll', this.handleScroll);
+
+    isLineFillEnabled() {
+        const setting = this.props.timeline_fill_setting;
+        return setting !== undefined && setting !== 'off' && Boolean(setting);
+    }
+
+    onScroll() {
+        if (!this.scrollTicking) {
+            this.scrollTicking = true;
+            window.requestAnimationFrame(() => {
+                this.handleScroll();
+                this.scrollTicking = false;
+            });
         }
     }
 
-    componentDidUpdate(prevProps){
-      setTimeout(() => {
-        this.handleScroll();
-      }, 100);     
-      window.addEventListener('scroll', this.handleScroll);
+    syncScrollListener() {
+        window.removeEventListener('scroll', this.onScroll);
+        if (this.isLineFillEnabled()) {
+            window.addEventListener('scroll', this.onScroll);
+        }
+    }
+    
+    componentDidMount() {
+        this.syncScrollListener();
+        window.requestAnimationFrame(() => {
+            this.handleScroll();
+        });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.timeline_fill_setting !== this.props.timeline_fill_setting) {
+            this.syncScrollListener();
+        }
+        window.requestAnimationFrame(() => {
+            this.handleScroll();
+        });
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('scroll', this.onScroll);
     }
     
     handleScroll() {
+        if (this.lineRef.current === null || this.lineRef.current === undefined) {
+            return;
+        }
+
         const tm = this.lineRef.current.closest('.tmdivi-wrapper');
 
         if(this?.props?.timeline_fill_setting === undefined || this?.props?.timeline_fill_setting === 'off'){

@@ -49,7 +49,7 @@ const TimelineItemSettingsContent = (props) => {
         {/* Story Label */}
       <GroupContainer
         id="story_label"
-        title={__('Story Lables', 'timeline-module-for-divi')}
+        title={__('Story Labels', 'timeline-module-for-divi')}
       >
         <FieldContainer
           attrName="show_label.innerContent.enable"
