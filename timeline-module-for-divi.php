@@ -32,8 +32,16 @@ define('TMDIVI_DIR', plugin_dir_path(__FILE__));
 define('TMDIVI_URL', plugin_dir_url(__FILE__));
 define('TMDIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
 define('TMDIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
+define('TMDIVI_PLUGIN_FILE', __FILE__);
+define('TMDIVI_FEEDBACK_API', 'https://feedback.coolplugins.net/');
+define('TMDIVI_CPFM_ID', 'tmdivi');
+define('TMDIVI_CPFM_CONSENT_CATEGORY', 'tmdivi');
+define('TMDIVI_CPFM_CONSENT_MASTER_OPTION', 'cpfm_opt_in_choice_tmdivi');
+define('TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION', 'tmdivi-cpfm-data-sharing');
+define('TMDIVI_CPFM_CRON_HOOK', 'tmdivi_extra_data_update');
 
 register_activation_hook( __FILE__, array( 'TMDIVI_Timeline_Module_For_Divi', 'tmdivi_activate_plugin' ) );
+register_deactivation_hook( __FILE__, array( 'TMDIVI_Timeline_Module_For_Divi', 'tmdivi_deactivate_plugin' ) );
 
 if ( ! function_exists( 'tmdivi_use_ctl_getting_started' ) ) {
 	/**
@@ -65,6 +73,10 @@ if ( ! function_exists( 'tmdivi_use_ctl_getting_started' ) ) {
 // Lightweight — only registers this copy as a version candidate.
 require_once TMDIVI_DIR . 'admin/cp-onboarding/loader.php';
 cpo_onboarding_register( '1.1.4', TMDIVI_DIR . 'admin/cp-onboarding' );
+
+require_once TMDIVI_DIR . 'admin/cpfm-feedback/class-cpfm-loader.php';
+CPFM_Loader::load();
+
 class TMDIVI_Timeline_Module_For_Divi {
 
     public function __construct() {
@@ -76,6 +88,10 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action('send_headers',array($this,'stop_browser_cache'));
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'tmdivi_pro_plugin_link' ) );
         add_action( 'activated_plugin', array( $this, 'tmdivi_plugin_redirection' ) );
+		add_action( 'init', array( $this, 'tmdivi_register_cpfm' ) );
+		add_action( 'cpfm_register_notice', array( $this, 'tmdivi_register_cpfm_feedback_notice' ) );
+		add_action( 'cpfm_after_opt_in_' . TMDIVI_CPFM_ID, array( $this, 'tmdivi_cpfm_after_opt_in' ) );
+		add_action( 'cpfm_after_opt_out_' . TMDIVI_CPFM_ID, array( $this, 'tmdivi_cpfm_after_opt_out' ) );
 
 		if ( tmdivi_use_ctl_getting_started() ) {
 			add_action( 'admin_init', array( $this, 'tmdivi_redirect_getting_started_to_ctl' ) );
@@ -86,6 +102,183 @@ class TMDIVI_Timeline_Module_For_Divi {
 			add_filter( 'submenu_file', array( $this, 'tmdivi_highlight_addons_submenu' ), 999 );
 		}
     }
+
+	public function tmdivi_register_cpfm() {
+		if ( class_exists( 'CPFM_Deactivation_Feedback' ) ) {
+			CPFM_Deactivation_Feedback::cpfm_register(
+				array(
+					'id'                     => TMDIVI_CPFM_ID,
+					'slug'                   => 'timeline-module-for-divi',
+					'plugin_name'            => __( 'Timeline Module For Divi', 'timeline-module-for-divi' ),
+					'version'                => TMDIVI_V,
+					'api'                    => TMDIVI_FEEDBACK_API,
+					'site_key'               => '56',
+					'install_date_option'    => 'tmdivi-install-date',
+					'initial_version_option' => 'tmdivi_initial_version',
+					'onboarding_data'        => 'tmdivi_onboarding_data',
+					'reasons'                => array(
+						'not_working'  => array(
+							'title'       => __( 'The plugin is not working.', 'timeline-module-for-divi' ),
+							'placeholder' => __( 'Please share your issue so we can fix it for other users.', 'timeline-module-for-divi' ),
+						),
+						'not_expected' => array(
+							'title'       => __( 'The plugin did not work as expected.', 'timeline-module-for-divi' ),
+							'placeholder' => __( 'What did you expect?', 'timeline-module-for-divi' ),
+						),
+						'found_better' => array(
+							'title'       => __( 'I found a better plugin.', 'timeline-module-for-divi' ),
+							'placeholder' => __( 'Please share which plugin.', 'timeline-module-for-divi' ),
+						),
+						'temporary'    => array(
+							'title'       => __( 'It is a temporary deactivation.', 'timeline-module-for-divi' ),
+							'placeholder' => '',
+						),
+						'other'        => array(
+							'title'       => __( 'Other reason.', 'timeline-module-for-divi' ),
+							'placeholder' => __( 'Please share the reason.', 'timeline-module-for-divi' ),
+						),
+					),
+					'i18n'                   => array(
+						'title'        => __( 'Quick Feedback', 'timeline-module-for-divi' ),
+						'intro'        => __( 'What made you deactivate %s? Your answer helps us fix it.', 'timeline-module-for-divi' ),
+						'submit'       => __( 'Submit and Deactivate', 'timeline-module-for-divi' ),
+						'skip'         => __( 'Skip and Deactivate', 'timeline-module-for-divi' ),
+						'pick_reason'  => __( 'Please choose a reason.', 'timeline-module-for-divi' ),
+						'deactivating' => __( 'Deactivating...', 'timeline-module-for-divi' ),
+						'close_label'  => __( 'Close', 'timeline-module-for-divi' ),
+						'byline'       => __( 'A plugin by %s', 'timeline-module-for-divi' ),
+						'consent'      => __( 'Submitting shares your reason plus your site URL, admin email and basic environment details. Skip and Deactivate sends nothing.', 'timeline-module-for-divi' ),
+					),
+				)
+			);
+		}
+
+		if ( class_exists( 'CPFM_Review' ) ) {
+			CPFM_Review::cpfm_register(
+				array(
+					'id'          => TMDIVI_CPFM_ID,
+					'plugin_file' => TMDIVI_PLUGIN_FILE,
+					'plugin_name' => __( 'Timeline Module For Divi', 'timeline-module-for-divi' ),
+					'review_url'  => 'https://wordpress.org/support/plugin/timeline-module-for-divi/reviews/#new-post',
+					'trigger'     => array(
+						'type'  => 'install_age',
+						'hours' => 72,
+					),
+					'own_screens' => array(
+						'plugins',
+						'admin_page_tmdivi-getting-started',
+						'toplevel_page_tmdivi-getting-started',
+						'settings_page_tmdivi-getting-started',
+						'settings_page_cool-plugins-timeline-addon',
+						'settings_page_tmdivi-timeline-addons',
+					),
+					'notice'      => array(
+						'enabled' => true,
+						'screens' => array(
+							'plugins',
+							'admin_page_tmdivi-getting-started',
+							'toplevel_page_tmdivi-getting-started',
+							'settings_page_tmdivi-getting-started',
+							'settings_page_cool-plugins-timeline-addon',
+							'settings_page_tmdivi-timeline-addons',
+						),
+					),
+					'row'         => array(
+						'enabled' => true,
+					),
+					'legacy'      => array(
+						'done_options'  => array(
+							'tmdivi-Boxes-ratingDiv' => 'yes',
+						),
+						'install_dates' => array(
+							'tmdivi-installDate',
+							'tmdivi-install-date',
+						),
+						'mirror_write'  => array(
+							'tmdivi-Boxes-ratingDiv' => 'yes',
+						),
+					),
+					'i18n'        => array(
+						'like_question' => __( 'Do you like the %s plugin?', 'timeline-module-for-divi' ),
+						'thanks_line'   => __( 'Great to hear! A quick review on WordPress.org would really help us.', 'timeline-module-for-divi' ),
+						'direct_line'   => __( 'Enjoying %s? A short review really helps.', 'timeline-module-for-divi' ),
+						'row_question'  => __( 'Do you like this plugin?', 'timeline-module-for-divi' ),
+						'yes_button'    => __( 'Yes, I like it', 'timeline-module-for-divi' ),
+						'submit_button' => __( 'Submit review', 'timeline-module-for-divi' ),
+						'dismiss_link'  => __( 'No thanks', 'timeline-module-for-divi' ),
+						'later_link'    => __( 'Ask me later', 'timeline-module-for-divi' ),
+						'no_link'       => __( 'I do not like it, dismiss', 'timeline-module-for-divi' ),
+						'close_label'   => __( 'Close', 'timeline-module-for-divi' ),
+					),
+				)
+			);
+		}
+
+		if ( class_exists( 'CPFM_Usage_Cron' ) ) {
+			CPFM_Usage_Cron::cpfm_register(
+				array(
+					'id'                      => TMDIVI_CPFM_ID,
+					'plugin_name'             => __( 'Timeline Module For Divi', 'timeline-module-for-divi' ),
+					'version'                 => TMDIVI_V,
+					'api'                     => TMDIVI_FEEDBACK_API,
+					'cron_hook'               => TMDIVI_CPFM_CRON_HOOK,
+					'consent_master_option'   => TMDIVI_CPFM_CONSENT_MASTER_OPTION,
+					'consent_override_option' => TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION,
+					'install_date_option'     => 'tmdivi-install-date',
+					'initial_version_option'  => 'tmdivi_initial_version',
+					'onboarding_data'         => 'tmdivi_onboarding_data',
+					'site_key'                => '56',
+				)
+			);
+		}
+	}
+
+	public function tmdivi_register_cpfm_feedback_notice() {
+		if ( ! class_exists( 'CPFM_Feedback_Notice' ) ) {
+			return;
+		}
+
+		CPFM_Feedback_Notice::cpfm_register_notice(
+			TMDIVI_CPFM_CONSENT_CATEGORY,
+			array(
+				'plugin_name'    => TMDIVI_CPFM_ID,
+				'title'          => __( 'Help Improve Timeline Module For Divi', 'timeline-module-for-divi' ),
+				'message'        => __( 'May we collect non-sensitive usage data to improve compatibility and plugin quality?', 'timeline-module-for-divi' ),
+				'pages'          => array(
+					'tmdivi-getting-started',
+					'cool-plugins-timeline-addon',
+					'tmdivi-timeline-addons',
+				),
+				'always_show_on' => array(
+					'tmdivi-getting-started',
+				),
+				'i18n'           => array(
+					'panel_title'         => __( 'Help Improve Plugins', 'timeline-module-for-divi' ),
+					'more_info'           => __( 'More info', 'timeline-module-for-divi' ),
+					'consent_intro'       => __( 'Opt in to receive email updates about security improvements, new features, helpful tutorials, and occasional special offers. We will collect:', 'timeline-module-for-divi' ),
+					'consent_item_site'   => __( 'Your website home URL and WordPress admin email.', 'timeline-module-for-divi' ),
+					'consent_item_compat' => __( 'To check plugin compatibility, we will collect the following: list of active plugins and themes, PHP, MySQL and WordPress versions, memory limit, whether the site is multisite, and the site language.', 'timeline-module-for-divi' ),
+					'consent_link'        => __( 'Click here', 'timeline-module-for-divi' ),
+					'yes_label'           => __( 'Yes, it is OK', 'timeline-module-for-divi' ),
+					'no_label'            => __( 'No, thanks', 'timeline-module-for-divi' ),
+				),
+			)
+		);
+	}
+
+	public function tmdivi_cpfm_after_opt_in() {
+		update_option( TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION, 'yes', false );
+
+		if ( class_exists( 'CPFM_Usage_Cron' ) ) {
+			CPFM_Usage_Cron::cpfm_schedule_event( TMDIVI_CPFM_CRON_HOOK );
+			do_action( TMDIVI_CPFM_CRON_HOOK );
+		}
+	}
+
+	public function tmdivi_cpfm_after_opt_out() {
+		update_option( TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION, 'no', false );
+		wp_clear_scheduled_hook( TMDIVI_CPFM_CRON_HOOK );
+	}
 
 	public function tmdivi_redirect_getting_started_to_ctl() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection.
@@ -239,9 +432,6 @@ class TMDIVI_Timeline_Module_For_Divi {
             // Divi theme is not activated, display admin notice
             add_action('admin_notices', array($this, 'admin_notice_missing_divi_theme'));
         }   
-        if ( is_admin() ) {
-            require_once TMDIVI_DIR . 'admin/feedback/admin-feedback-form.php';
-        }
     }
     /**
      * Initializes the extension.
@@ -339,6 +529,10 @@ class TMDIVI_Timeline_Module_For_Divi {
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
             update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
         }
+	}
+
+	public static function tmdivi_deactivate_plugin() {
+		wp_clear_scheduled_hook( TMDIVI_CPFM_CRON_HOOK );
 	}
 
 }
