@@ -27,6 +27,7 @@ along with Timeline Module For Divi. If not, see https://www.gnu.org/licenses/gp
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 
 
+
 define('TMDIVI_V', '1.3.0');
 define('TMDIVI_DIR', plugin_dir_path(__FILE__));
 define('TMDIVI_URL', plugin_dir_url(__FILE__));
@@ -35,8 +36,8 @@ define('TMDIVI_MODULE_DIR', plugin_dir_path(__FILE__) . 'includes/modules');
 define('TMDIVI_PLUGIN_FILE', __FILE__);
 define('TMDIVI_FEEDBACK_API', 'https://feedback.coolplugins.net/');
 define('TMDIVI_CPFM_ID', 'tmdivi');
-define('TMDIVI_CPFM_CONSENT_CATEGORY', 'tmdivi');
-define('TMDIVI_CPFM_CONSENT_MASTER_OPTION', 'cpfm_opt_in_choice_tmdivi');
+define('TMDIVI_CPFM_CONSENT_CATEGORY', 'cool-timeline');
+define('TMDIVI_CPFM_CONSENT_MASTER_OPTION', 'cpfm_opt_in_choice_cool-timeline');
 define('TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION', 'tmdivi-cpfm-data-sharing');
 define('TMDIVI_CPFM_CRON_HOOK', 'tmdivi_extra_data_update');
 
@@ -242,8 +243,8 @@ class TMDIVI_Timeline_Module_For_Divi {
 			TMDIVI_CPFM_CONSENT_CATEGORY,
 			array(
 				'plugin_name'    => TMDIVI_CPFM_ID,
-				'title'          => __( 'Help Improve Timeline Module For Divi', 'timeline-module-for-divi' ),
-				'message'        => __( 'May we collect non-sensitive usage data to improve compatibility and plugin quality?', 'timeline-module-for-divi' ),
+				'title'          => __( 'Timeline Plugins by Cool Plugins', 'timeline-module-for-divi' ),
+				'message'        => __( 'Help us make this plugin more compatible with your site by sharing non-sensitive site data.', 'timeline-module-for-divi' ),
 				'pages'          => array(
 					'tmdivi-getting-started',
 					'cool-plugins-timeline-addon',
