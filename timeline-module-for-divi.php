@@ -89,10 +89,13 @@ class TMDIVI_Timeline_Module_For_Divi {
         add_action('send_headers',array($this,'stop_browser_cache'));
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'tmdivi_pro_plugin_link' ) );
         add_action( 'activated_plugin', array( $this, 'tmdivi_plugin_redirection' ) );
-		add_action( 'init', array( $this, 'tmdivi_register_cpfm' ) );
+		add_action( 'init', array( $this, 'tmdivi_register_cpfm' ), 5 );
 		add_action( 'cpfm_register_notice', array( $this, 'tmdivi_register_cpfm_feedback_notice' ) );
 		add_action( 'cpfm_after_opt_in_' . TMDIVI_CPFM_ID, array( $this, 'tmdivi_cpfm_after_opt_in' ) );
 		add_action( 'cpfm_after_opt_out_' . TMDIVI_CPFM_ID, array( $this, 'tmdivi_cpfm_after_opt_out' ) );
+		// Cool Timeline's shared panel fires the ctl suffix when that plugin is active.
+		add_action( 'cpfm_after_opt_in_ctl', array( $this, 'tmdivi_cpfm_after_opt_in' ) );
+		add_action( 'cpfm_after_opt_out_ctl', array( $this, 'tmdivi_cpfm_after_opt_out' ) );
 
 		if ( tmdivi_use_ctl_getting_started() ) {
 			add_action( 'admin_init', array( $this, 'tmdivi_redirect_getting_started_to_ctl' ) );
@@ -231,6 +234,41 @@ class TMDIVI_Timeline_Module_For_Divi {
 					'site_key'                => '56',
 				)
 			);
+
+			// Family consent may already be yes (e.g. Cool Timeline opted in earlier).
+			self::tmdivi_maybe_schedule_tracking_cron();
+		}
+	}
+
+	/**
+	 * Whether usage-data sharing is allowed for this plugin.
+	 *
+	 * Per-plugin override when set; else the shared Timeline family master
+	 * (cpfm_opt_in_choice_cool-timeline), same as Cool Timeline Free.
+	 *
+	 * @return bool
+	 */
+	public static function tmdivi_has_cpfm_consent() {
+		$override = get_option( TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION );
+		if ( in_array( $override, array( 'yes', 'no' ), true ) ) {
+			return ( 'yes' === $override );
+		}
+
+		return ( 'yes' === get_option( TMDIVI_CPFM_CONSENT_MASTER_OPTION ) );
+	}
+
+	/**
+	 * Schedule the usage cron when family/plugin consent is already yes.
+	 *
+	 * @return void
+	 */
+	public static function tmdivi_maybe_schedule_tracking_cron() {
+		if ( ! class_exists( 'CPFM_Usage_Cron' ) ) {
+			return;
+		}
+
+		if ( self::tmdivi_has_cpfm_consent() ) {
+			CPFM_Usage_Cron::cpfm_schedule_event( TMDIVI_CPFM_CRON_HOOK );
 		}
 	}
 
@@ -267,16 +305,36 @@ class TMDIVI_Timeline_Module_For_Divi {
 		);
 	}
 
-	public function tmdivi_cpfm_after_opt_in() {
+	public function tmdivi_cpfm_after_opt_in( $category = '' ) {
+		if ( '' !== $category && TMDIVI_CPFM_CONSENT_CATEGORY !== $category ) {
+			return;
+		}
+
+		static $handled = false;
+		if ( $handled ) {
+			return;
+		}
+		$handled = true;
+
 		update_option( TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION, 'yes', false );
+		self::tmdivi_maybe_schedule_tracking_cron();
 
 		if ( class_exists( 'CPFM_Usage_Cron' ) ) {
-			CPFM_Usage_Cron::cpfm_schedule_event( TMDIVI_CPFM_CRON_HOOK );
 			do_action( TMDIVI_CPFM_CRON_HOOK );
 		}
 	}
 
-	public function tmdivi_cpfm_after_opt_out() {
+	public function tmdivi_cpfm_after_opt_out( $category = '' ) {
+		if ( '' !== $category && TMDIVI_CPFM_CONSENT_CATEGORY !== $category ) {
+			return;
+		}
+
+		static $handled = false;
+		if ( $handled ) {
+			return;
+		}
+		$handled = true;
+
 		update_option( TMDIVI_CPFM_CONSENT_OVERRIDE_OPTION, 'no', false );
 		wp_clear_scheduled_hook( TMDIVI_CPFM_CRON_HOOK );
 	}
@@ -530,6 +588,10 @@ class TMDIVI_Timeline_Module_For_Divi {
         if ( ! get_option( 'tmdivi-Boxes-ratingDiv' ) ) {
             update_option( 'tmdivi-Boxes-ratingDiv', 'no' );  // Update rating div
         }
+
+		if ( self::tmdivi_has_cpfm_consent() ) {
+			self::tmdivi_maybe_schedule_tracking_cron();
+		}
 	}
 
 	public static function tmdivi_deactivate_plugin() {
