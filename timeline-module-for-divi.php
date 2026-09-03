@@ -157,6 +157,14 @@ class TMDIVI_Timeline_Module_For_Divi {
 			);
 		}
 
+		// Cool Timeline rewrites this row at priority 999. Same restore as TWAE
+		// so CPFM can still find .deactivate a when Cool Timeline is active.
+		add_filter(
+			'plugin_action_links_' . plugin_basename( TMDIVI_PLUGIN_FILE ),
+			array( $this, 'tmdivi_order_plugin_action_links' ),
+			1000
+		);
+
 		if ( class_exists( 'CPFM_Review' ) ) {
 			CPFM_Review::cpfm_register(
 				array(
@@ -439,6 +447,82 @@ class TMDIVI_Timeline_Module_For_Divi {
 		array_push( $links, $get_pro_link,$get_started );
 		return $links;
     }
+
+	/**
+	 * Restore the deactivate row-action key after Cool Timeline reindexes it.
+	 *
+	 * Same as Timeline Widget Addon: Cool Timeline's addon filter runs at 999
+	 * and can drop the 'deactivate' key. CPFM binds `.deactivate a`, so the
+	 * key must be restored at 1000.
+	 *
+	 * @param array $links Plugin row action HTML.
+	 * @return array
+	 */
+	public function tmdivi_order_plugin_action_links( $links ) {
+		if ( ! is_array( $links ) ) {
+			return $links;
+		}
+
+		$deactivate = '';
+		$get_pro    = '';
+		$started    = '';
+		$rest       = array();
+
+		foreach ( $links as $key => $html ) {
+			if ( ! is_string( $html ) ) {
+				$rest[ $key ] = $html;
+				continue;
+			}
+
+			$is_deactivate = ( 'deactivate' === $key )
+				|| false !== strpos( $html, 'action=deactivate' )
+				|| false !== strpos( $html, 'id="deactivate-' );
+
+			if ( $is_deactivate && '' === $deactivate ) {
+				$deactivate = $html;
+				continue;
+			}
+
+			if ( false !== stripos( $html, 'Get Pro' ) && '' === $get_pro ) {
+				$get_pro = $html;
+				continue;
+			}
+
+			if (
+				'' === $started
+				&& (
+					false !== stripos( $html, 'Getting Started' )
+					|| false !== stripos( $html, 'tmdivi-getting-started' )
+					|| false !== stripos( $html, 'ctl-getting-started' )
+				)
+			) {
+				$started = $html;
+				continue;
+			}
+
+			$rest[ $key ] = $html;
+		}
+
+		$ordered = array();
+
+		if ( '' !== $deactivate ) {
+			$ordered['deactivate'] = $deactivate;
+		}
+
+		foreach ( $rest as $key => $html ) {
+			$ordered[ $key ] = $html;
+		}
+
+		if ( '' !== $get_pro ) {
+			$ordered['tmdivi_get_pro'] = $get_pro;
+		}
+
+		if ( '' !== $started ) {
+			$ordered['tmdivi_getting_started'] = $started;
+		}
+
+		return $ordered;
+	}
 
     public function tmdivi_plugin_redirection() {
 
