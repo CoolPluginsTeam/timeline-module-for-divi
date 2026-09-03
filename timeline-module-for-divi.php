@@ -3,7 +3,7 @@
 Plugin Name: Timeline Module For Divi
 Plugin URI:  https://cooltimeline.com/divi/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=product_site&utm_content=plugins_list
 Description: A timeline module for Divi
-Version:     1.3.0
+Version:     1.3.1
 Author:      CoolPlugins
 Author URI:  https://coolplugins.net/?utm_source=tmdivi_plugin&utm_medium=inside&utm_campaign=author_page&utm_content=plugins_list
 License:     GPL2
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
 
-define('TMDIVI_V', '1.3.0');
+define('TMDIVI_V', '1.3.1');
 define('TMDIVI_DIR', plugin_dir_path(__FILE__));
 define('TMDIVI_URL', plugin_dir_url(__FILE__));
 define('TMDIVI_MODULE_URL', plugin_dir_url(__FILE__) . 'includes/modules');
@@ -116,7 +116,7 @@ class TMDIVI_Timeline_Module_For_Divi {
 					'plugin_name'            => __( 'Timeline Module For Divi', 'timeline-module-for-divi' ),
 					'version'                => TMDIVI_V,
 					'api'                    => TMDIVI_FEEDBACK_API,
-					'site_key'               => '56',
+					'site_key'               => '561',
 					'install_date_option'    => 'tmdivi-install-date',
 					'initial_version_option' => 'tmdivi_initial_version',
 					'onboarding_data'        => 'tmdivi_onboarding_data',
