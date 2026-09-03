@@ -185,7 +185,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
-= Version 1.3.1 | 03 September 2026 =
+= Version 1.3.1 | 07 September 2026 =
 - Improved: Review notice and feedback form design for a better user experience..
 
 = Version 1.3.0 | 27 July 2026 =
@@ -268,6 +268,6 @@ Fixed: Deprecation hook error with Alpha 22.
 Migration from Divi 4 to Divi 5 will only be supported till Divi 5 Public Alpha 14. If you are planning to upgrade your site or plugins, please make sure to complete the migration process before Alpha 14. After this point, direct migration from Divi 4 will no longer be available, and this may lead to compatibility issues.
 
 == Upgrade Notice ==
-= Version 1.3.1 | 03 September 2026 =
+= Version 1.3.1 | 07 September 2026 =
 - Improved: Review notice and feedback form design for a better user experience..
 
