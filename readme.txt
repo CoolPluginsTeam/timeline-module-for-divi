@@ -185,7 +185,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
-= Version 1.3.2 | 07 September 2026 =
+= Version 1.3.2 | 08 September 2026 =
 - Improved: Review notice and feedback form design for a better user experience.
 
 = Version 1.3.1 | 07 Sept 2026 =
