@@ -165,6 +165,8 @@ final class TMDIVI_Onboarding_Config {
 					'desc'  => __( 'Adjust your timeline layout, colors, typography, and other settings according to your website.', $td ),
 				),
 			),
+			'redirect_url'  => admin_url( 'edit.php?post_type=page' ),
+			'fallback_url'  => admin_url( 'edit.php?post_type=page' ),
 			'secondary'     => array(
 				'label' => __( 'View Demo', $td ),
 				'url'   => 'https://cooltimeline.com/divi/' . $utm_params,
@@ -532,23 +534,64 @@ if ( ! function_exists( 'tmdivi_onboarding_page_has_legacy_guide_stories' ) ) {
 
 if ( ! function_exists( 'tmdivi_onboarding_create_timeline_page' ) ) {
 	/**
-	 * Create a draft Divi page for onboarding (empty shell; VB inserter adds the module).
+	 * Create a draft Divi page for onboarding (pre-populated with AI timeline if provided, or empty shell).
 	 *
+	 * @param array $ai_stories Optional list of AI-generated stories.
 	 * @return int|\WP_Error Post ID on success.
 	 */
-	function tmdivi_onboarding_create_timeline_page() {
-		$ver     = defined( 'ET_BUILDER_VERSION' ) ? ET_BUILDER_VERSION : '4.0.0';
-		$attr    = '_builder_version="' . $ver . '"';
+	function tmdivi_onboarding_create_timeline_page( $ai_stories = array() ) {
+		$ver  = defined( 'ET_BUILDER_VERSION' ) ? ET_BUILDER_VERSION : '4.0.0';
+		$attr = '_builder_version="' . $ver . '"';
+
+		$column_inner = '';
+		if ( ! empty( $ai_stories ) && is_array( $ai_stories ) ) {
+			$stories_content = '';
+			foreach ( $ai_stories as $s ) {
+				$date_lbl  = isset( $s['date'] ) ? sanitize_text_field( $s['date'] ) : '';
+				$extra_lbl = ! empty( $s['sub_label'] )
+					? sanitize_text_field( $s['sub_label'] )
+					: ( ! empty( $s['year'] ) ? sanitize_text_field( $s['year'] ) : '' );
+				$title     = isset( $s['title'] ) ? sanitize_text_field( $s['title'] ) : '';
+				$desc      = isset( $s['desc'] )
+					? wp_strip_all_tags( $s['desc'] )
+					: ( isset( $s['description'] ) ? wp_strip_all_tags( $s['description'] ) : '' );
+				$img_url   = ! empty( $s['image_url'] ) ? esc_url_raw( $s['image_url'] ) : '';
+
+				$media_attr = $img_url ? ' media="' . esc_url( $img_url ) . '" media_alt_tag="' . esc_attr( $title ) . '"' : '';
+
+				$stories_content .= sprintf(
+					'[tmdivi_timeline_story %1$s story_title="%2$s" label_date="%3$s" sub_label="%4$s"%5$s show_story_icon="off"]%6$s[/tmdivi_timeline_story]',
+					$attr,
+					esc_attr( $title ),
+					esc_attr( $date_lbl ),
+					esc_attr( $extra_lbl ),
+					$media_attr,
+					$desc
+				);
+			}
+
+			$column_inner = sprintf(
+				'[tmdivi_timeline %1$s timeline_layout="both-side"]%2$s[/tmdivi_timeline]',
+				$attr,
+				$stories_content
+			);
+		}
+
 		$content = sprintf(
-			'[et_pb_section fb_built="1" %1$s][et_pb_row %1$s][et_pb_column type="4_4" %1$s][/et_pb_column][/et_pb_row][/et_pb_section]',
-			$attr
+			'[et_pb_section fb_built="1" %1$s][et_pb_row %1$s][et_pb_column type="4_4" %1$s]%2$s[/et_pb_column][/et_pb_row][/et_pb_section]',
+			$attr,
+			$column_inner
 		);
+
+		$page_title = ! empty( $ai_stories ) && is_array( $ai_stories )
+			? __( 'AI Timeline (Divi)', 'timeline-module-for-divi' )
+			: __( 'My Timeline', 'timeline-module-for-divi' );
 
 		$page_id = wp_insert_post(
 			array(
 				'post_type'    => 'page',
 				'post_status'  => 'draft',
-				'post_title'   => __( 'My Timeline', 'timeline-module-for-divi' ),
+				'post_title'   => $page_title,
 				'post_content' => $content,
 				'post_author'  => get_current_user_id(),
 			),
