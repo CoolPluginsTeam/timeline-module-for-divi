@@ -5,7 +5,7 @@ Tags: divi timeline, timeline, horizontal timeline, history, roadmap
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 1.3.0
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,7 +86,7 @@ It is a **[Divi Theme](https://www.elegantthemes.com/gallery/divi/)** Addon. In 
 
 * **Timeline Builder**: Create a small timeline inside the Gutenberg block editor using a vertical or horizontal timeline. **[View Demo](https://cooltimeline.com/demo/timeline-builder-pro/?utm_source=tmdivi_plugin&utm_medium=readme&utm_campaign=demo&utm_content=tbp_view_demo)**
 
-**Use of 3rd Party Services:** This plugin connects to the Cool Plugins API to display information about related plugins inside the dashboard. It also offers optional usage tracking and optional feedback submission on deactivation. Data is sent only after explicit user consent. No hidden tracking is performed, and no frontend visitor or site user data is collected. For more details, please review our [Data Usage Policy](https://my.coolplugins.net/terms/usage-tracking/), [TOS](https://my.coolplugins.net/terms/), and [Privacy Policy](https://my.coolplugins.net/terms/privacy-policy/).
+**Use of 3rd Party Services:** This plugin connects to the Cool Plugins API to display information about related plugins inside the dashboard. It also offers optional usage tracking and optional feedback submission on deactivation. Data is sent only after explicit user consent. No hidden tracking is performed, and no frontend visitor or site user data is collected. For more details, please review our [Data Usage Policy](https://my.coolplugins.net/terms/usage-tracking/), [TOS](https://my.coolplugins.net/terms/), and [Privacy Policy](https://my.coolplugins.net/terms/privacy-policy/). The Timeline module also uses [Google Fonts](https://developers.google.com/fonts/docs/getting_started) to provide integrated typography options. When a font is selected for the timeline labels, the font is loaded from Google's servers (fonts.googleapis.com and fonts.gstatic.com), which receive the visitor's IP address. Please review Google's [Terms of Service](https://policies.google.com/terms) and [Privacy Policy](https://policies.google.com/privacy).
 
 == Installation ==
 
@@ -185,6 +185,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog == 
 
+= Version 1.3.2 | 08 September 2026 =
+- Improved: Review notice and feedback form design for a better user experience.
+
+= Version 1.3.1 | 07 Sept 2026 =
+- Improved: Admin marketing notice visibility checks.
+
 = Version 1.3.0 | 27 July 2026 =
 
 - New: Introduced a“Get Started”onboarding page for a smoother setup experience.
@@ -265,12 +271,6 @@ Fixed: Deprecation hook error with Alpha 22.
 Migration from Divi 4 to Divi 5 will only be supported till Divi 5 Public Alpha 14. If you are planning to upgrade your site or plugins, please make sure to complete the migration process before Alpha 14. After this point, direct migration from Divi 4 will no longer be available, and this may lead to compatibility issues.
 
 == Upgrade Notice ==
-
-= Version 1.3.0 | 27 July 2026 =
-
-- New: Introduced a“Get Started”onboarding page for a smoother setup experience.
-- New: Added a guided sample timeline demo creation flow to help users get started quickly.
-- Removed: Removed the legacy dashboard and replaced it with the new onboarding experience.
-- Improved: Simplified the initial setup process with a quick-start demo.
-
+= Version 1.3.1 | 07 September 2026 =
+- Improved: Review notice and feedback form design for a better user experience..
 
